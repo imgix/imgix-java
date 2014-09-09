@@ -93,12 +93,19 @@ public class URLHelper {
 
 	///////////// Static
 
-	//private static String buildURL(String scheme, String host, String path, String query) {
 	private static String buildURL(String scheme, String host, String path, String query) {
 		try {
 			URI a = new URI(scheme, host, path, query, "");
 			String url = a.toString();
-			return url.substring(0, url.length() - 1);
+			if (url.endsWith("#")) {
+				url = url.substring(0, url.length() - 1);
+			}
+
+			if (url.endsWith("?")) {
+				url = url.substring(0, url.length() - 1);
+			}
+
+			return url;
 		} catch (URISyntaxException e) {
 			System.out.println("ERROR ALERT START");
 			e.printStackTrace();
