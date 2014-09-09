@@ -62,6 +62,10 @@ public class URLBuilder {
 		this.useHttps = useHttps;
 	}
 
+	public void setSignKey(String signKey) {
+		this.signKey = signKey;
+	}
+
 	public String createURL(String path) {
 		return createURL(path, new TreeMap<String, String>());
 	}
