@@ -139,7 +139,9 @@ instead. For example:
             params.put("w", "100");
             params.put("h", "100");
             System.out.println(builder.createURL("bridge.png", params));
-            System.out.println(builder.createURL("flower.png", params));
+            System.out.println(builder.createURL("bridge.png", params));
+            System.out.println(builder.createURL("bridge.png", params));
+            System.out.println(builder.createURL("bridge.png", params));
         }
     }
 
