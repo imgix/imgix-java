@@ -2,13 +2,13 @@
 
 A Java client library for generating URLs with imgix. imgix is a high-performance
 distributed image processing service. More information can be found at
-[http://www.imgix.com](http://www.imgix.com).  
+[http://www.imgix.com](http://www.imgix.com).
 
 
 Dependencies
 ------------
 
-The library itself has no external dependencies. Although if you want to build from source you need ant and the JDK 1.6+.
+The library itself has no external dependencies. Although if you want to build from source (or run tests) then you need `ant` and the `JDK 1.6+`.
 
 Creating a jar
 --------------
@@ -17,7 +17,16 @@ To create a jar from source:
 
     ant jar
 
-This creates an `imgix-java.jar` in `build/jar/`
+This creates `imgix-java.jar` in `build/jar/`
+
+Running Tests
+-------------
+
+To run tests clone this project and run:
+
+    ant junit
+
+Dependencies for running tests (junit, etc) are provided (in `test/lib` and referenced in the build config).
 
 Basic Usage
 -----------
