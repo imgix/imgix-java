@@ -72,7 +72,7 @@ public class URLHelper {
 		String query = joinList(queryPairs, "&");
 
 		if (signKey != null && signKey.length() > 0) {
-			String delim = query == "" ? "" : "?";
+			String delim = query.equals("") ? "" : "?";
 			String toSign = signKey + path + delim + query;
 			String signature = MD5(toSign);
 
