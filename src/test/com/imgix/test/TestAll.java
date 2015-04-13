@@ -52,6 +52,18 @@ public class TestAll {
 	}
 
 	@Test
+	public void testHelperBuildSignedURLWithWebProxyWithNoEncoding() {
+		URLHelper uh = new URLHelper("jackttl2.imgix.net", "http://a.abcnews.com/assets/images/navigation/abc-logo.png?r=20", "http", "JHrM2ezd");
+		assertEquals(uh.getURL(), "http://jackttl2.imgix.net/http%3A%2F%2Fa.abcnews.com%2Fassets%2Fimages%2Fnavigation%2Fabc-logo.png%3Fr%3D20?s=cf82defe3436a957262d0e64c21e72f9");
+	}
+
+	@Test
+	public void testHelperBuildSignedURLWithWebProxyWithEncoding() {
+		URLHelper uh = new URLHelper("jackttl2.imgix.net", "http%3A%2F%2Fa.abcnews.com%2Fassets%2Fimages%2Fnavigation%2Fabc-logo.png%3Fr%3D20", "http", "JHrM2ezd");
+		assertEquals(uh.getURL(), "http://jackttl2.imgix.net/http%3A%2F%2Fa.abcnews.com%2Fassets%2Fimages%2Fnavigation%2Fabc-logo.png%3Fr%3D20?s=cf82defe3436a957262d0e64c21e72f9");
+	}
+
+	@Test
 	public void testUrlBuilderCycleShard() {
 		// generate a url for the number of domains in use ensure they're cycled through...
 		String[] domains = new String[] { "jackangers.imgix.net", "jackangers2.imgix.net", "jackangers3.imgix.net" };
@@ -95,6 +107,16 @@ public class TestAll {
 	public void testExtractDomain() {
 		String url = "http://jackangers.imgix.net/chester.png";
 		assertEquals(extractDomain(url), "jackangers.imgix.net");
+	}
+
+	@Test
+	public void testEncodeDecode() {
+		String url = "http://a.abcnews.com/assets/images/navigation/abc-logo.png?r=20";
+		String encodedUrl = "http%3A%2F%2Fa.abcnews.com%2Fassets%2Fimages%2Fnavigation%2Fabc-logo.png%3Fr%3D20";
+
+		assertEquals(URLHelper.encodeURIComponent(url), encodedUrl);
+		assertEquals(URLHelper.decodeURIComponent(encodedUrl), url);
+		assertEquals(URLHelper.encodeURIComponent(URLHelper.decodeURIComponent(encodedUrl)), encodedUrl);
 	}
 
 	private static String extractDomain(String url) {
