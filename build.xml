@@ -3,7 +3,7 @@
 	<property name="dir.parent" location=".." />
 	<property name="dir.root" location="." />
 	<property name="dir.lib" location="${dir.root}/lib" />
-	<property name="dir.src" location="${dir.root}/src/java" />
+	<property name="dir.src" location="/src/main/java" />
 	<property name="dir.build" location="${dir.root}/build" />
 
 	<property name="dir.resources" location="${dir.root}/resources" />
