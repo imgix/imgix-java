@@ -1,20 +1,23 @@
 package com.imgix.test;
 
-import com.imgix.URLBuilder;
-import com.imgix.URLHelper;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+
+import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
+import org.junit.rules.ExpectedException;
+import static org.junit.Assert.*;
+
+import com.imgix.URLBuilder;
+import com.imgix.URLHelper;
+
+import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import java.util.ArrayList;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @RunWith(JUnit4.class)
 public class TestAll {
