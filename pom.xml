@@ -8,15 +8,15 @@
 
 	<groupId>com.imgix</groupId>
 	<artifactId>imgix</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0-SNAPSHOT</version>
 
 	<name>Imgix Java Client</name>
 	<description>Helpers for Imgix's API</description>
 	<packaging>jar</packaging>
 	<url>https://github.com/imgix/imgix-java</url>
 	<scm>
-		<url>scm:git:ssh://github.com/imgix/imgix-java</url>
-		<developerConnection>scm:git:ssh://github.com/imgix/imgix-java</developerConnection>
+		<url>scm:git:ssh://github.com/imgix/imgix-java.git</url>
+		<developerConnection>scm:git:ssh://github.com/imgix/imgix-java.git</developerConnection>
 		<tag>imgix-1.0.0</tag>
 	</scm>
 	<licenses>
