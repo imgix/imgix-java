@@ -15,8 +15,8 @@
 	<packaging>jar</packaging>
 	<url>https://github.com/imgix/imgix-java</url>
 	<scm>
-		<url>scm:git:ssh://github.com/imgix/imgix-java.git</url>
-		<developerConnection>scm:git:ssh://github.com/imgix/imgix-java.git</developerConnection>
+		<url>scm:git:git://github.com/imgix/imgix-java.git</url>
+		<developerConnection>scm:git:git://github.com/imgix/imgix-java.git</developerConnection>
 		<tag>imgix-1.0.0</tag>
 	</scm>
 	<licenses>
