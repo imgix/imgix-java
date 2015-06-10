@@ -18,7 +18,7 @@ Creating a jar
 To create a jar from source:
 
 ```bash
-$ mvn release:prepare
+$ mvn package
 ```
 
 This creates `imgix-java.jar` in `build/jar/`
