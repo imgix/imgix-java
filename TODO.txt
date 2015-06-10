@@ -1,3 +1,0 @@
-* javadocs
-* maven central/pom support?
-* put pre-build jar in releases?
