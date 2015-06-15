@@ -96,7 +96,7 @@ public class URLBuilder {
 		}
 
 		if (this.signWithLibraryParameter) {
-			params.put("ixlib", VERSION);
+			params.put("ixlib", "java-" + VERSION);
 		}
 
 		return new URLHelper(domain, path, scheme, signKey, params).getURL();
