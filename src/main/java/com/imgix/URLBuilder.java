@@ -6,6 +6,8 @@ import java.util.zip.CRC32;
 
 public class URLBuilder {
 
+	public static final String VERSION = "1.0.0";
+
 	public enum ShardStrategy {
 		CRC,
 		CYCLE
@@ -15,10 +17,11 @@ public class URLBuilder {
 	private boolean useHttps;
 	private String signKey;
 	private ShardStrategy shardStrategy;
+	private boolean signWithLibraryParameter;
 
 	private int shardCycleNextIndex = 0;
 
-	public URLBuilder(String[] domains, boolean useHttps, String signKey, ShardStrategy shardStrategy) {
+	public URLBuilder(String[] domains, boolean useHttps, String signKey, ShardStrategy shardStrategy, boolean signWithLibraryParameter) {
 
 		if (domains == null || domains.length == 0) {
 			throw new IllegalArgumentException("At lease one domain must be passed to URLBuilder");
@@ -28,6 +31,7 @@ public class URLBuilder {
 		this.useHttps = useHttps;
 		this.signKey = signKey;
 		this.shardStrategy = shardStrategy;
+		this.signWithLibraryParameter = signWithLibraryParameter;
 	}
 
 	public URLBuilder(String domain) {
@@ -47,11 +51,15 @@ public class URLBuilder {
 	}
 
 	public URLBuilder(String[] domain, boolean useHttps, String signKey) {
-		this(domain, useHttps, signKey, ShardStrategy.CRC);
+		this(domain, useHttps, signKey, ShardStrategy.CRC, true);
 	}
 
 	public URLBuilder(String domain, boolean useHttps, String signKey) {
-		this(new String[] {domain}, useHttps, signKey, ShardStrategy.CRC);
+		this(new String[] {domain}, useHttps, signKey, ShardStrategy.CRC, true);
+	}
+
+	public URLBuilder(String domain, boolean useHttps, String signKey, ShardStrategy shardStrategy) {
+		this(new String[] {domain}, useHttps, signKey, shardStrategy, true);
 	}
 
 	public void setShardStratgy(ShardStrategy strat) {
@@ -85,6 +93,10 @@ public class URLBuilder {
 			domain = domains[shardCycleNextIndex];
 		} else {
 			domain = domains[0];
+		}
+
+		if (this.signWithLibraryParameter) {
+			params.put("ixlib", VERSION);
 		}
 
 		return new URLHelper(domain, path, scheme, signKey, params).getURL();

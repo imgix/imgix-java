@@ -64,6 +64,16 @@ public class TestAll {
 	}
 
 	@Test
+	public void testHelperBuildSignedUrlWithIxlibParam() {
+		String[] domains = new String[] { "assets.imgix.net" };
+		URLBuilder ub = new URLBuilder(domains, true, "", URLBuilder.ShardStrategy.CRC, true);
+		assertTrue(hasURLParameter(ub.createURL("/users/1.png"), "ixlib"));
+
+		ub = new URLBuilder(domains, true, "", URLBuilder.ShardStrategy.CRC, false);
+		assertFalse(hasURLParameter(ub.createURL("/users/1.png"), "ixlib"));
+	}
+
+	@Test
 	public void testUrlBuilderCycleShard() {
 		// generate a url for the number of domains in use ensure they're cycled through...
 		String[] domains = new String[] { "jackangers.imgix.net", "jackangers2.imgix.net", "jackangers3.imgix.net" };
@@ -132,4 +142,13 @@ public class TestAll {
 		return "";
 	}
 
+	private static boolean hasURLParameter(String url, String param) {
+		try {
+			URI parsed = new URI(url);
+			String query = parsed.getQuery();
+			return query != null && query.contains(param);
+		} catch (URISyntaxException e) {
+			return false;
+		}
+	}
 }
