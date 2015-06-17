@@ -64,6 +64,21 @@ public class TestAll {
 	}
 
 	@Test
+	public void testBuilderWithFullyQualifiedURL() {
+		URLBuilder ub = new URLBuilder(new String[] { "my-social-network.imgix.net" }, true, "FOO123bar", URLBuilder.ShardStrategy.CRC, false);
+		assertEquals(ub.createURL("http://avatars.com/john-smith.png"), "https://my-social-network.imgix.net/http%3A%2F%2Favatars.com%2Fjohn-smith.png?s=493a52f008c91416351f8b33d4883135");
+	}
+
+	@Test
+	public void testBuilderWithFullyQualifiedURLAndParameters() {
+		URLBuilder ub = new URLBuilder(new String[] { "my-social-network.imgix.net" }, true, "FOO123bar", URLBuilder.ShardStrategy.CRC, false);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("w", "400");
+		params.put("h", "300");
+		assertEquals(ub.createURL("http://avatars.com/john-smith.png", params), "https://my-social-network.imgix.net/http%3A%2F%2Favatars.com%2Fjohn-smith.png?h=300&w=400&s=a201fe1a3caef4944dcb40f6ce99e746");
+	}
+
+	@Test
 	public void testHelperBuildSignedUrlWithIxlibParam() {
 		String[] domains = new String[] { "assets.imgix.net" };
 		URLBuilder ub = new URLBuilder(domains, true, "", URLBuilder.ShardStrategy.CRC, true);
