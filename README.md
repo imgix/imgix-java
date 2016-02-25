@@ -21,7 +21,7 @@ To create a jar from source:
 $ mvn package
 ```
 
-This creates `imgix-java.jar` in `build/jar/`
+This creates `imgix-java-{VERSION_NUMBER}.jar` in `./target`
 
 Running Tests
 -------------

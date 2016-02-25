@@ -7,7 +7,7 @@
 	</properties>
 
 	<groupId>com.imgix</groupId>
-	<artifactId>imgix</artifactId>
+	<artifactId>imgix-java</artifactId>
 	<version>1.0.0</version>
 
 	<name>Imgix Java Client</name>
