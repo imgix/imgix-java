@@ -25,49 +25,43 @@
 			<url>http://www.opensource.org/licenses/mit-license.php</url>
 		</license>
 	</licenses>
-	<developers>
-	</developers>
 
 	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
 		<repository>
-			<id>ossrh</id>
-			<name>Nexus Release Repository</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<id>bintray-imgix-imgix-java</id>
+			<name>imgix-imgix-java</name>
+			<url>https://api.bintray.com/maven/imgix/imgix-java/[PACKAGE_NAME]/;publish=1</url>
 		</repository>
 	</distributionManagement>
 
 	<profiles>
 		<profile>
-			<id>release-sign-artifacts</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
+			<repositories>
+				<repository>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<id>bintray-imgix-imgix-java</id>
+					<name>bintray</name>
+					<url>http://dl.bintray.com/imgix/imgix-java</url>
+				</repository>
+			</repositories>
+			<pluginRepositories>
+				<pluginRepository>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<id>bintray-imgix-imgix-java</id>
+					<name>bintray-plugins</name>
+					<url>http://dl.bintray.com/imgix/imgix-java</url>
+				</pluginRepository>
+			</pluginRepositories>
+			<id>bintray</id>
 		</profile>
 	</profiles>
+	<activeProfiles>
+		<activeProfile>bintray</activeProfile>
+	</activeProfiles>
 
 	<build>
 		<plugins>
@@ -104,24 +98,13 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.5</version>
-				<extensions>true</extensions>
-				<configuration>
-					<serverId>ossrh</serverId>
-					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-					<autoReleaseAfterClose>true</autoReleaseAfterClose>
-				</configuration>
-			</plugin>
-
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.5.1</version>
 				<configuration>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<releaseProfiles>release-sign-artifacts</releaseProfiles>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+					<goals>deploy</goals>
 				</configuration>
 			</plugin>
 
@@ -142,6 +125,20 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<developers>
+		<developer>
+			<id>paulstraw</id>
+			<name>Paul Straw</name>
+			<email>paul@imgix.com</email>
+			<organization>imgix</organization>
+			<organizationUrl>https://imgix.com</organizationUrl>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>-8</timezone>
+		</developer>
+	</developers>
 
 	<dependencies>
 		<dependency>
