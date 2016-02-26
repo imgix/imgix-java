@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.xml.bind.DatatypeConverter;
+
 public class URLHelper {
 
 	private String domain;
@@ -61,13 +63,32 @@ public class URLHelper {
 		setParameter(key, "");
 	}
 
+	private String encodeBase64(String str) {
+		byte[] stringBytes = str.getBytes();
+		String b64EncodedString = DatatypeConverter.printBase64Binary(stringBytes);
+
+		b64EncodedString = b64EncodedString.replace("=", "");
+		b64EncodedString = b64EncodedString.replace('/', '_');
+		b64EncodedString = b64EncodedString.replace('+', '-');
+
+		return b64EncodedString;
+	}
+
 	public String getURL() {
 		List<String> queryPairs = new LinkedList<String>();
 
 		for (Entry<String, String> entry : parameters.entrySet()) {
-			String k = entry.getKey();
+			String k = encodeURIComponent(entry.getKey());
 			String v = entry.getValue();
-			queryPairs.add(k + "=" + encodeURIComponent(v));
+
+			String encodedValue;
+
+			if (k.endsWith("64")) {
+				encodedValue = encodeBase64(v);
+			} else {
+				encodedValue = encodeURIComponent(v);
+			}
+			queryPairs.add(k + "=" + encodedValue);
 		}
 
 		String query = joinList(queryPairs, "&");

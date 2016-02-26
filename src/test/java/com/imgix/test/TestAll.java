@@ -110,6 +110,36 @@ public class TestAll {
 	}
 
 	@Test
+	public void testParamKeysAreEscaped() {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("hello world", "interesting");
+
+		URLHelper uh = new URLHelper("demo.imgix.net", "demo.png", "https", null, params);
+
+		assertEquals("https://demo.imgix.net/demo.png?hello%20world=interesting", uh.getURL());
+	}
+
+	@Test
+	public void testParamValuesAreEscaped() {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("hello_world", "/foo\"> <script>alert(\"hacked\")</script><");
+
+		URLHelper uh = new URLHelper("demo.imgix.net", "demo.png", "https", null, params);
+
+		assertEquals("https://demo.imgix.net/demo.png?hello_world=%2Ffoo%22%3E%20%3Cscript%3Ealert(%22hacked%22)%3C%2Fscript%3E%3C", uh.getURL());
+	}
+
+	@Test
+	public void testBase64ParamVariantsAreBase64Encoded() {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("txt64", "I cannøt belîév∑ it wors! 😱");
+
+		URLHelper uh = new URLHelper("demo.imgix.net", "~text", "https", null, params);
+
+		assertEquals("https://demo.imgix.net/~text?txt64=SSBjYW5uw7h0IGJlbMOuw6l24oiRIGl0IHdvcu-jv3MhIPCfmLE", uh.getURL());
+	}
+
+	@Test
 	public void testUrlBuilderCRCShard() {
 		String[] domains = new String[] { "jackangers.imgix.net", "jackangers2.imgix.net", "jackangers3.imgix.net" };
 
