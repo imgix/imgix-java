@@ -67,7 +67,7 @@ public class URLHelper {
 		for (Entry<String, String> entry : parameters.entrySet()) {
 			String k = entry.getKey();
 			String v = entry.getValue();
-			queryPairs.add(k + "=" + encodeURIComponent(v));
+			queryPairs.add(encodeURIComponent(k) + "=" + encodeURIComponent(v));
 		}
 
 		String query = joinList(queryPairs, "&");
