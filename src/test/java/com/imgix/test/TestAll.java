@@ -130,6 +130,16 @@ public class TestAll {
 	}
 
 	@Test
+	public void testBase64ParamVariantsAreBase64Encoded() {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("txt64", "I cannøt belîév∑ it wors! 😱");
+
+		URLHelper uh = new URLHelper("demo.imgix.net", "~text", "https", null, params);
+
+		assertEquals("https://demo.imgix.net/~text?txt64=SSBjYW5uw7h0IGJlbMOuw6l24oiRIGl0IHdvcu-jv3MhIPCfmLE", uh.getURL());
+	}
+
+	@Test
 	public void testUrlBuilderCRCShard() {
 		String[] domains = new String[] { "jackangers.imgix.net", "jackangers2.imgix.net", "jackangers3.imgix.net" };
 
