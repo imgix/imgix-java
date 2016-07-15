@@ -19,7 +19,7 @@
 	<scm>
 		<url>scm:git:ssh://github.com/imgix/imgix-java</url>
 		<developerConnection>scm:git:ssh://github.com/imgix/imgix-java</developerConnection>
-		<tag>imgix-1.1.1</tag>
+		<tag>1.1.1</tag>
 	</scm>
 	<licenses>
 		<license>
