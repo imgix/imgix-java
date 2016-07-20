@@ -64,6 +64,12 @@ public class TestAll {
 	}
 
 	@Test
+	public void testBuildSignedURLWithWebProxyWithUnencodedInput() {
+		URLHelper uh = new URLHelper("imgix-library-web-proxy-test-source.imgix.net", "https://paulstraw.imgix.net/colon:test/benice.jpg", "https", "qN5VOqaLGQUFzETO");
+		assertEquals(uh.getURL(), "https://imgix-library-web-proxy-test-source.imgix.net/https%3A%2F%2Fpaulstraw.imgix.net%2Fcolon%3Atest%2Fbenice.jpg?s=175a054524d75840735855b9263be591");
+	}
+
+	@Test
 	public void testBuilderWithFullyQualifiedURL() {
 		URLBuilder ub = new URLBuilder(new String[] { "my-social-network.imgix.net" }, true, "FOO123bar", URLBuilder.ShardStrategy.CRC, false);
 		assertEquals(ub.createURL("http://avatars.com/john-smith.png"), "https://my-social-network.imgix.net/http%3A%2F%2Favatars.com%2Fjohn-smith.png?s=493a52f008c91416351f8b33d4883135");
