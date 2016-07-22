@@ -10,7 +10,7 @@
 
 	<groupId>com.imgix</groupId>
 	<artifactId>imgix-java</artifactId>
-	<version>1.1.5-SNAPSHOT</version>
+	<version>1.1.5</version>
 
 	<name>Imgix Java Client</name>
 	<description>Helpers for Imgix's API</description>
@@ -20,7 +20,7 @@
 		<url>https://github.com/imgix/imgix-java.git</url>
 		<connection>scm:git:git://github.com/imgix/imgix-java.git</connection>
 		<developerConnection>scm:git:git@github.com:imgix/imgix-java.git</developerConnection>
-		<tag>1.1.4</tag>
+		<tag>1.1.5</tag>
 	</scm>
 	<licenses>
 		<license>
