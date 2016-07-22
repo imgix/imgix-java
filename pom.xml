@@ -29,6 +29,12 @@
 		</license>
 	</licenses>
 
+	<profiles>
+		<profile>
+			<id>release</id>
+		</profile>
+	</profiles>
+
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
