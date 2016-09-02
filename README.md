@@ -18,10 +18,10 @@ Creating a jar
 To create a jar from source:
 
 ```bash
-$ mvn package
+$ gradle build
 ```
 
-This creates `imgix-java-{VERSION_NUMBER}.jar` in `./target`
+This creates `imgix-java-{VERSION_NUMBER}.jar` under `./build/libs`
 
 Running Tests
 -------------
@@ -29,7 +29,7 @@ Running Tests
 To run tests clone this project and run:
 
 ```
-$ mvn test
+$ gradle test
 ```
 
 Dependencies for running tests (junit, etc) are provided (in `test/lib` and referenced in the build config).
