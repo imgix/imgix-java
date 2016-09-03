@@ -17,11 +17,13 @@ Creating a jar
 
 To create a jar from source:
 
-```bash
-$ gradle build
+```
+gradle build
 ```
 
 This creates `imgix-java-{VERSION_NUMBER}.jar` under `./build/libs`
+
+Once a new version has been merged into master on GitHub (don't forget to update the version numbers in build.gradle first!), it can be deployed to Bintray with `gradle build && gradle bintrayUpload`. After that, the new version can be viewed via the [Bintray web interface](https://bintray.com/imgix/imgix-java/imgix-java).
 
 Running Tests
 -------------
@@ -29,7 +31,7 @@ Running Tests
 To run tests clone this project and run:
 
 ```
-$ gradle test
+gradle test
 ```
 
 Dependencies for running tests (junit, etc) are provided (in `test/lib` and referenced in the build config).
