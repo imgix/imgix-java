@@ -25,7 +25,7 @@ bintray {
   key = System.getenv('BINTRAY_KEY')
   pkg {
     userOrg = 'imgix'
-    repo = 'imgix-java'
+    repo = 'maven'
     name = 'imgix-java'
     licenses = ['BSD 2-Clause']
     vcsUrl = 'https://github.com/imgix/imgix-java.git'
