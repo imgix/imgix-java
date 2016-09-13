@@ -167,6 +167,7 @@ public class URLHelper {
 		try {
 		  result = URLEncoder.encode(s, "UTF-8")
 							 .replaceAll("\\+", "%20")
+							 .replaceAll("\\%2F", "/")
 							 .replaceAll("\\%21", "!")
 							 .replaceAll("\\%27", "'")
 							 .replaceAll("\\%28", "(")
