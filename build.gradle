@@ -32,9 +32,6 @@ bintray {
     version {
       name = '1.1.8'
     }
-    filesSpec {
-      from 'build/libs'
-      into '.'
-    }
+    configurations = ['archives']
   }
 }
