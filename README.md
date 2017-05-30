@@ -12,9 +12,9 @@ Dependencies
 
 The library itself has no external dependencies. Although if you want to build from source (or run tests) then you need `ant` and the `JDK 1.6+`.
 
-##Install Options
+## Install Options
 
-###Gradle & JCenter
+### Gradle & JCenter
 
 To add Imgix-Java to your project, include the following in your project's build.gradle:
 
@@ -34,7 +34,7 @@ buildscript {
 }
 ```
 
-###Creating a Jar
+### Creating a Jar
 
 To create a jar from source:
 
