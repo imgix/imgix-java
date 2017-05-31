@@ -6,7 +6,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group = 'com.imgix'
-version = '1.1.8'
+version = '1.1.9'
 
 description = """Imgix Java Client"""
 
@@ -30,7 +30,7 @@ bintray {
     licenses = ['BSD 2-Clause']
     vcsUrl = 'https://github.com/imgix/imgix-java.git'
     version {
-      name = '1.1.8'
+      name = '1.1.9'
     }
     configurations = ['archives']
   }
