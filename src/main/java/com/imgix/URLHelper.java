@@ -93,14 +93,14 @@ public class URLHelper {
 
 		String query = joinList(queryPairs, "&");
 
+		String decodedPath = URLHelper.decodeURIComponent(path.substring(1));
+		if (decodedPath.startsWith("http://") || decodedPath.startsWith("https://")) {
+			path = "/" + URLHelper.encodeURIComponent(decodedPath);
+		}
+
 		if (signKey != null && signKey.length() > 0) {
-			String newPath = path;
-			String restPath = path.substring(1);
-			if (URLHelper.decodeURIComponent(restPath).equals(restPath)) {
-				newPath = "/" + encodeURIComponent(newPath.substring(1));
-			}
 			String delim = query.equals("") ? "" : "?";
-			String toSign = signKey + newPath + delim + query;
+			String toSign = signKey + path + delim + query;
 			String signature = MD5(toSign);
 
 			if (query.length() > 0) {
@@ -109,7 +109,7 @@ public class URLHelper {
 				query = "s=" + signature;
 			}
 
-			return buildURL(scheme, domain, newPath, query);
+			return buildURL(scheme, domain, path, query);
 		}
 
 		return buildURL(scheme, domain, path, query);
