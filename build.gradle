@@ -15,6 +15,9 @@ targetCompatibility = 1.5
 
 repositories {
     maven { url "http://repo.maven.apache.org/maven2" }
+	jcenter {
+    	url "http://jcenter.bintray.com/"
+	}
 }
 dependencies {
     testCompile group: 'junit', name: 'junit', version:'4.12'
