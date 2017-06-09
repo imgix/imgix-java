@@ -6,4 +6,4 @@ before_install:
 language: java
 jdk:
 - oraclejdk7
-script: ./gradlew test --stackTrace
+script: ./gradlew test
