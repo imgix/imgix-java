@@ -32,23 +32,63 @@ public class TestAll {
 	}
 
 	@Test
+	public void testHelperBuildAbsolutePath() {
+		URLHelper uh = new URLHelper("securejackangers.imgix.net", "/example/chester.png", "http");
+		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/example/chester.png");
+	}
+
+	@Test
+	public void testHelperBuildRelativePath() {
+		URLHelper uh = new URLHelper("securejackangers.imgix.net", "example/chester.png", "http");
+		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/example/chester.png");
+	}
+
+	@Test
+	public void testHelperBuildNestedPath() {
+		URLHelper uh = new URLHelper("securejackangers.imgix.net", "http://www.somedomain.com/example/chester.png", "http");
+		System.out.println(uh.getURL());
+		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/http%3A%2F%2Fwww.somedomain.com%2Fexample%2Fchester.png");
+	}
+
+	@Test
+	public void testHelperBuildAbsolutePathWithParams() {
+		URLHelper uh = new URLHelper("securejackangers.imgix.net", "/example/chester.png", "http");
+		uh.setParameter("w", 500);
+		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/example/chester.png?w=500");
+	}
+
+	@Test
+	public void testHelperBuildRelativePathWithParams() {
+		URLHelper uh = new URLHelper("securejackangers.imgix.net", "example/chester.png", "http");
+		uh.setParameter("w", 500);
+		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/example/chester.png?w=500");
+	}
+
+	@Test
+	public void testHelperBuildNestedPathWithParams() {
+		URLHelper uh = new URLHelper("securejackangers.imgix.net", "http://www.somedomain.com/example/chester.png", "http");
+		uh.setParameter("w", 500);
+		System.out.println(uh.getURL());
+		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/http%3A%2F%2Fwww.somedomain.com%2Fexample%2Fchester.png?w=500");
+	}
+
+	@Test
 	public void testHelperBuildSignedURLWithHashMapParams() {
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("w", "500");
 
-		URLHelper uh = new URLHelper("securejackangers.imgix.net", "chester.png", "http", "Q61NvXIy", params);
-
-		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/chester.png?w=500&s=0ddf97bf1a266a1da6c30c6ce327f917");
+		URLHelper uh = new URLHelper("securejackangers.imgix.net", "example/chester.png", "http", "Q61NvXIy", params);
+		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/example/chester.png?w=500&s=787b9057d5c077fe168b4849737d8a90");
 	}
 
 	@Test
 	public void testHelperBuildSignedURLWithHashSetterParams() {
-		URLHelper uh = new URLHelper("securejackangers.imgix.net", "chester.png", "http", "Q61NvXIy");
+		URLHelper uh = new URLHelper("securejackangers.imgix.net", "example/chester.png", "http", "Q61NvXIy");
 
 		uh.setParameter("w", 500);
 
-		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/chester.png?w=500&s=0ddf97bf1a266a1da6c30c6ce327f917");
+		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/example/chester.png?w=500&s=787b9057d5c077fe168b4849737d8a90");
 	}
 
 	@Test

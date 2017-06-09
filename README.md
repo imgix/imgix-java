@@ -20,7 +20,7 @@ To add Imgix-Java to your project, include the following in your project's build
 
 ```
 dependencies {
-   compile "com.imgix:imgix-java:1.1.8"
+   compile "com.imgix:imgix-java:1.1.9"
 }
 ```
 
