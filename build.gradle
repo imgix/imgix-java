@@ -1,3 +1,4 @@
+gradleVersion = 2.13
 plugins {
     id "com.jfrog.bintray" version "1.7"
 }

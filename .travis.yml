@@ -7,4 +7,4 @@ language: java
 jdk:
 - oraclejdk7
 - openjdk6
-script: gradle test -Djavax.net.debug=ssl:handshake
+script: gradle test
