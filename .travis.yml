@@ -8,4 +8,4 @@ language: java
 jdk:
 - oraclejdk7
 - openjdk6
-script: ./gradlew test
+script: ./gradlew test --stackTrace
