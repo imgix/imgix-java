@@ -1,5 +1,8 @@
 sudo: required
 before_install:
+- sudo apt-get install --reinstall -qq ca-certificates
+- sudo apt-get install --reinstall -qq ca-ceritifcates-java
+- sudo /var/lib/dpkg/info/ca-certificates-java.postinst configure
 language: java
 jdk:
 - oraclejdk7
