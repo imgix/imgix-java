@@ -1,4 +1,6 @@
 sudo: required
+before_install:
+- sudo apt-get install -qq ca-certificates
 language: java
 jdk:
 - oraclejdk7
