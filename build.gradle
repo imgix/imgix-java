@@ -31,7 +31,7 @@ bintray {
     licenses = ['BSD 2-Clause']
     vcsUrl = 'https://github.com/imgix/imgix-java.git'
     version {
-      name = '1.1.9'
+      name = '1.1.10'
     }
     configurations = ['archives']
   }
