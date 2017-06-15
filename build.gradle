@@ -6,7 +6,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group = 'com.imgix'
-version = '1.1.9'
+version = '1.1.10'
 
 description = """Imgix Java Client"""
 
