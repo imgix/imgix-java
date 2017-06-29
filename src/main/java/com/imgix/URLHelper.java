@@ -93,9 +93,8 @@ public class URLHelper {
 
 		String query = joinList(queryPairs, "&");
 
-		String decodedPath = URLHelper.decodeURIComponent(path.substring(1));
-		if (decodedPath.startsWith("http://") || decodedPath.startsWith("https://")) {
-			path = "/" + URLHelper.encodeURIComponent(decodedPath);
+		if (pathNeedsEncoding(path.substring(1))) {
+			path = "/" + URLHelper.encodeURIComponent(path.substring(1));
 		}
 
 		if (signKey != null && signKey.length() > 0) {
@@ -121,6 +120,15 @@ public class URLHelper {
 	}
 
 	///////////// Static
+
+	private static boolean pathNeedsEncoding(String path) {
+		// Incoming nested paths that are already encoded do not need encoding
+		if (path.startsWith("http%3A%2F%2F") || path.startsWith("https%3A%2F%2F")) {
+			return false;
+		}
+		// Assume nested paths that start with an unencoded scheme do need encoding
+		return (path.startsWith("http://") || path.startsWith("https://"));
+	}
 
 	private static String buildURL(String scheme, String host, String path, String query) {
 		// do not use URI to build URL since it will do auto-encoding which can break our previous signing

@@ -34,7 +34,7 @@ public class TestAll {
 	@Test
 	public void testHelperBuildAbsolutePath() {
 		URLHelper uh = new URLHelper("securejackangers.imgix.net", "/example/chester.png", "http");
-		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/example/chester.png");
+		assertEquals(uh.getURL(),"http://securejackangers.imgix.net/example/chester.png");
 	}
 
 	@Test
@@ -48,6 +48,20 @@ public class TestAll {
 		URLHelper uh = new URLHelper("securejackangers.imgix.net", "http://www.somedomain.com/example/chester.png", "http");
 		System.out.println(uh.getURL());
 		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/http%3A%2F%2Fwww.somedomain.com%2Fexample%2Fchester.png");
+	}
+
+	@Test
+	public void testHelperBuildNestedPathAlreadyEncoded() {
+		URLHelper uh = new URLHelper("securejackangers.imgix.net", "http%3A%2F%2Fwww.somedomain.com%2Fexample%2Fchester.png", "http");
+		System.out.println(uh.getURL());
+		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/http%3A%2F%2Fwww.somedomain.com%2Fexample%2Fchester.png");
+	}
+
+	@Test
+	public void testHelperBuildNestedPathPartialEncoding() {
+		URLHelper uh = new URLHelper("securejackangers.imgix.net", "http://www.somedomain.com/example/chester%20resize.png", "http");
+		System.out.println(uh.getURL());
+		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/http%3A%2F%2Fwww.somedomain.com%2Fexample%2Fchester%2520resize.png");
 	}
 
 	@Test
