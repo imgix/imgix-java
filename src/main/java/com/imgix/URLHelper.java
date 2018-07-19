@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.xml.bind.DatatypeConverter;
+import java.util.Base64;
 
 public class URLHelper {
 
@@ -65,7 +65,7 @@ public class URLHelper {
 
 	private String encodeBase64(String str) {
 		byte[] stringBytes = str.getBytes();
-		String b64EncodedString = DatatypeConverter.printBase64Binary(stringBytes);
+		String b64EncodedString = new String(Base64.getEncoder().encode(stringBytes));
 
 		b64EncodedString = b64EncodedString.replace("=", "");
 		b64EncodedString = b64EncodedString.replace('/', '_');
