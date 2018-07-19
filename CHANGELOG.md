@@ -1,6 +1,9 @@
 Change Log
 ==========
 
+## Version 1.1.12 (_Jul 19, 2018_)
+ * Support Java 10
+
 ## Version 1.1.10 (_Jun 15, 2017_)
  * Adding javadoc and source jars to the build artifacts.
 
