@@ -6,11 +6,13 @@ import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.rules.ExpectedException;
+
 import static org.junit.Assert.*;
 
 import com.imgix.URLBuilder;
 import com.imgix.URLHelper;
 
+import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -203,7 +205,6 @@ public class TestAll {
 		}
 	}
 
-
 	@Test
 	public void testExtractDomain() {
 		String url = "http://jackangers.imgix.net/chester.png";
@@ -218,6 +219,81 @@ public class TestAll {
 		assertEquals(URLHelper.encodeURIComponent(url), encodedUrl);
 		assertEquals(URLHelper.decodeURIComponent(encodedUrl), url);
 		assertEquals(URLHelper.encodeURIComponent(URLHelper.decodeURIComponent(encodedUrl)), encodedUrl);
+	}
+
+	@Test
+	public void testDomainShardingConstructorDeprecated1() {
+		Class[] classes = new Class[]{
+				String[].class, boolean.class, String.class,
+				URLBuilder.ShardStrategy.class, boolean.class
+		};
+		assertTrue(hasDeprecationAnnotationConstructor(classes));
+	}
+
+	@Test
+	public void testDomainShardingConstructorDeprecated2() {
+		Class[] classes = new Class[]{
+				String[].class
+		};
+		assertTrue(hasDeprecationAnnotationConstructor(classes));
+	}
+
+	@Test
+	public void testDomainShardingConstructorDeprecated3() {
+		Class[] classes = new Class[]{
+				String[].class, boolean.class
+		};
+		assertTrue(hasDeprecationAnnotationConstructor(classes));
+	}
+
+	@Test
+	public void testDomainShardingConstructorDeprecated4() {
+		Class[] classes = new Class[]{
+				String[].class, boolean.class, String.class
+		};
+		assertTrue(hasDeprecationAnnotationConstructor(classes));
+	}
+
+	@Test
+	public void testSetShardStrategyDeprecated() {
+		assertTrue(hasDeprecationAnnotationMethod("setShardStratgy", URLBuilder.ShardStrategy.class));
+	}
+
+	private boolean hasDeprecationAnnotationConstructor(Class[] classes) {
+		Annotation[] annotations = new Annotation[0];
+
+		try {
+			annotations = URLBuilder.class.getConstructor(classes).getAnnotations();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+
+		for (Annotation annotation : annotations){
+			if(annotation.annotationType().equals(Deprecated.class)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private boolean hasDeprecationAnnotationMethod(String name, Class type) {
+		Annotation[] annotations = new Annotation[0];
+
+		try {
+			annotations = URLBuilder.class.getDeclaredMethod(name,type).getAnnotations();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+
+		for (Annotation annotation : annotations){
+			if(annotation.annotationType().equals(Deprecated.class)) {
+				return true;
+			}
+		}
+
+		return false;
+
 	}
 
 	private static String extractDomain(String url) {
