@@ -1,12 +1,10 @@
 package com.imgix.test;
 
 import org.junit.Test;
-
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.rules.ExpectedException;
-
 import static org.junit.Assert.*;
 
 import com.imgix.URLBuilder;
@@ -223,7 +221,7 @@ public class TestAll {
 
 	@Test
 	public void testDomainShardingConstructorDeprecated1() {
-		Class[] classes = new Class[]{
+		Class[] classes = new Class[] {
 				String[].class, boolean.class, String.class,
 				URLBuilder.ShardStrategy.class, boolean.class
 		};
@@ -232,7 +230,7 @@ public class TestAll {
 
 	@Test
 	public void testDomainShardingConstructorDeprecated2() {
-		Class[] classes = new Class[]{
+		Class[] classes = new Class[] {
 				String[].class
 		};
 		assertTrue(hasDeprecationAnnotationConstructor(classes));
@@ -240,7 +238,7 @@ public class TestAll {
 
 	@Test
 	public void testDomainShardingConstructorDeprecated3() {
-		Class[] classes = new Class[]{
+		Class[] classes = new Class[] {
 				String[].class, boolean.class
 		};
 		assertTrue(hasDeprecationAnnotationConstructor(classes));
@@ -248,7 +246,7 @@ public class TestAll {
 
 	@Test
 	public void testDomainShardingConstructorDeprecated4() {
-		Class[] classes = new Class[]{
+		Class[] classes = new Class[] {
 				String[].class, boolean.class, String.class
 		};
 		assertTrue(hasDeprecationAnnotationConstructor(classes));
@@ -268,7 +266,7 @@ public class TestAll {
 			e.printStackTrace();
 		}
 
-		for (Annotation annotation : annotations){
+		for (Annotation annotation : annotations) {
 			if(annotation.annotationType().equals(Deprecated.class)) {
 				return true;
 			}
@@ -286,14 +284,13 @@ public class TestAll {
 			e.printStackTrace();
 		}
 
-		for (Annotation annotation : annotations){
+		for (Annotation annotation : annotations) {
 			if(annotation.annotationType().equals(Deprecated.class)) {
 				return true;
 			}
 		}
 
 		return false;
-
 	}
 
 	private static String extractDomain(String url) {
