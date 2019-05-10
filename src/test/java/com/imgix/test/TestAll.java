@@ -258,36 +258,20 @@ public class TestAll {
 	}
 
 	private boolean hasDeprecationAnnotationConstructor(Class[] classes) {
-		Annotation[] annotations = new Annotation[0];
-
 		try {
-			annotations = URLBuilder.class.getConstructor(classes).getAnnotations();
+			return URLBuilder.class.getConstructor(classes).isAnnotationPresent(Deprecated.class);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
-		}
-
-		for (Annotation annotation : annotations) {
-			if(annotation.annotationType().equals(Deprecated.class)) {
-				return true;
-			}
 		}
 
 		return false;
 	}
 
 	private boolean hasDeprecationAnnotationMethod(String name, Class type) {
-		Annotation[] annotations = new Annotation[0];
-
 		try {
-			annotations = URLBuilder.class.getDeclaredMethod(name,type).getAnnotations();
+			return URLBuilder.class.getDeclaredMethod(name,type).isAnnotationPresent(Deprecated.class);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
-		}
-
-		for (Annotation annotation : annotations) {
-			if(annotation.annotationType().equals(Deprecated.class)) {
-				return true;
-			}
 		}
 
 		return false;
