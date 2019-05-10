@@ -21,6 +21,11 @@ public class URLBuilder {
 
 	private int shardCycleNextIndex = 0;
 
+	/**
+	 * @deprecated  As of 1.2.0, domain sharding has been deprecated
+	 * 				and will be removed in the next major version.
+	 */
+	@Deprecated
 	public URLBuilder(String[] domains, boolean useHttps, String signKey, ShardStrategy shardStrategy, boolean signWithLibraryParameter) {
 
 		if (domains == null || domains.length == 0) {
@@ -38,10 +43,20 @@ public class URLBuilder {
 		this(new String[] {domain}, false);
 	}
 
+	/**
+	 * @deprecated  As of 1.2.0, domain sharding has been deprecated
+	 * 				and will be removed in the next major version.
+	 */
+	@Deprecated
 	public URLBuilder(String[] domain) {
 		this(domain, false);
 	}
 
+	/**
+	 * @deprecated  As of 1.2.0, domain sharding has been deprecated
+	 * 				and will be removed in the next major version.
+	 */
+	@Deprecated
 	public URLBuilder(String[] domain, boolean useHttps) {
 		this(domain, useHttps, "");
 	}
@@ -50,6 +65,11 @@ public class URLBuilder {
 		this(new String[] {domain}, useHttps, "");
 	}
 
+	/**
+	 * @deprecated  As of 1.2.0, domain sharding has been deprecated
+	 * 				and will be removed in the next major version.
+	 */
+	@Deprecated
 	public URLBuilder(String[] domain, boolean useHttps, String signKey) {
 		this(domain, useHttps, signKey, ShardStrategy.CRC, true);
 	}
@@ -62,6 +82,11 @@ public class URLBuilder {
 		this(new String[] {domain}, useHttps, signKey, shardStrategy, true);
 	}
 
+	/**
+	 * @deprecated  As of 1.2.0, domain sharding has been deprecated
+	 * 				and will be removed in the next major version.
+	 */
+	@Deprecated
 	public void setShardStratgy(ShardStrategy strat) {
 		shardStrategy = strat;
 	}
