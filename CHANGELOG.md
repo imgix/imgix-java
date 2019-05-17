@@ -1,6 +1,9 @@
 Change Log
 ==========
 
+## Version 1.2.0 (_May 17, 2019_)
+ * fix: deprecate domain sharding ([#29](https://github.com/imgix/imgix-java/pull/29))
+
 ## Version 1.1.12 (_Jul 19, 2018_)
  * Support Java 10
 
