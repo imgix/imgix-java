@@ -17,7 +17,7 @@ public class URLBuilder {
 	private boolean useHttps;
 	private String signKey;
 	private ShardStrategy shardStrategy;
-	private boolean signWithLibraryParameter;
+	private boolean includeLibraryParam;
 
 	private int shardCycleNextIndex = 0;
 
@@ -26,7 +26,7 @@ public class URLBuilder {
 	 * 				and will be removed in the next major version.
 	 */
 	@Deprecated
-	public URLBuilder(String[] domains, boolean useHttps, String signKey, ShardStrategy shardStrategy, boolean signWithLibraryParameter) {
+	public URLBuilder(String[] domains, boolean useHttps, String signKey, ShardStrategy shardStrategy, boolean includeLibraryParam) {
 
 		if (domains == null || domains.length == 0) {
 			throw new IllegalArgumentException("At lease one domain must be passed to URLBuilder");
@@ -36,7 +36,7 @@ public class URLBuilder {
 		this.useHttps = useHttps;
 		this.signKey = signKey;
 		this.shardStrategy = shardStrategy;
-		this.signWithLibraryParameter = signWithLibraryParameter;
+		this.includeLibraryParam = includeLibraryParam;
 	}
 
 	public URLBuilder(String domain) {
@@ -120,7 +120,7 @@ public class URLBuilder {
 			domain = domains[0];
 		}
 
-		if (this.signWithLibraryParameter) {
+		if (this.includeLibraryParam) {
 			params.put("ixlib", "java-" + VERSION);
 		}
 
