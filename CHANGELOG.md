@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+## Version 2.0.0 (_May 17, 2019_)
+ * fix: remove deprecated domain sharding functionality  ([#31](https://github.com/imgix/imgix-java/pull/31))
+ * refactor: rename `signWithLibraryParameter` to `includeLibraryParam` ([#30](https://github.com/imgix/imgix-java/pull/30))
+
 ## Version 1.2.0 (_May 17, 2019_)
  * fix: deprecate domain sharding ([#29](https://github.com/imgix/imgix-java/pull/29))
 
