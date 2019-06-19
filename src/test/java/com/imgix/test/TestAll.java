@@ -10,11 +10,8 @@ import static org.junit.Assert.*;
 import com.imgix.URLBuilder;
 import com.imgix.URLHelper;
 
-import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -28,7 +25,7 @@ public class TestAll {
 	@Test
 	public void testURLBuilderRaisesExceptionOnNoDomains() {
 		exception.expect(IllegalArgumentException.class);
-		URLBuilder ub = new URLBuilder(new String[] {});
+		URLBuilder ub = new URLBuilder(new String ());
 	}
 
 	@Test
@@ -46,7 +43,6 @@ public class TestAll {
 	@Test
 	public void testHelperBuildNestedPath() {
 		URLHelper uh = new URLHelper("securejackangers.imgix.net", "http://www.somedomain.com/example/chester.png", "http");
-		System.out.println(uh.getURL());
 		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/http%3A%2F%2Fwww.somedomain.com%2Fexample%2Fchester.png");
 	}
 
@@ -68,7 +64,6 @@ public class TestAll {
 	public void testHelperBuildNestedPathWithParams() {
 		URLHelper uh = new URLHelper("securejackangers.imgix.net", "http://www.somedomain.com/example/chester.png", "http");
 		uh.setParameter("w", 500);
-		System.out.println(uh.getURL());
 		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/http%3A%2F%2Fwww.somedomain.com%2Fexample%2Fchester.png?w=500");
 	}
 
@@ -111,13 +106,13 @@ public class TestAll {
 
 	@Test
 	public void testBuilderWithFullyQualifiedURL() {
-		URLBuilder ub = new URLBuilder(new String[] { "my-social-network.imgix.net" }, true, "FOO123bar", URLBuilder.ShardStrategy.CRC, false);
+		URLBuilder ub = new URLBuilder("my-social-network.imgix.net", true, "FOO123bar", false);
 		assertEquals(ub.createURL("http://avatars.com/john-smith.png"), "https://my-social-network.imgix.net/http%3A%2F%2Favatars.com%2Fjohn-smith.png?s=493a52f008c91416351f8b33d4883135");
 	}
 
 	@Test
 	public void testBuilderWithFullyQualifiedURLAndParameters() {
-		URLBuilder ub = new URLBuilder(new String[] { "my-social-network.imgix.net" }, true, "FOO123bar", URLBuilder.ShardStrategy.CRC, false);
+		URLBuilder ub = new URLBuilder("my-social-network.imgix.net", true, "FOO123bar", false);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("w", "400");
 		params.put("h", "300");
@@ -127,32 +122,11 @@ public class TestAll {
 	@Test
 	public void testHelperBuildSignedUrlWithIxlibParam() {
 		String[] domains = new String[] { "assets.imgix.net" };
-		URLBuilder ub = new URLBuilder(domains, true, "", URLBuilder.ShardStrategy.CRC, true);
+		URLBuilder ub = new URLBuilder("assets.imgix.net", true, "", true);
 		assertTrue(hasURLParameter(ub.createURL("/users/1.png"), "ixlib"));
 
-		ub = new URLBuilder(domains, true, "", URLBuilder.ShardStrategy.CRC, false);
+		ub = new URLBuilder("assets.imgix.net", true, "", false);
 		assertFalse(hasURLParameter(ub.createURL("/users/1.png"), "ixlib"));
-	}
-
-	@Test
-	public void testUrlBuilderCycleShard() {
-		// generate a url for the number of domains in use ensure they're cycled through...
-		String[] domains = new String[] { "jackangers.imgix.net", "jackangers2.imgix.net", "jackangers3.imgix.net" };
-
-		URLBuilder ub = new URLBuilder(domains);
-		ub.setShardStratgy(URLBuilder.ShardStrategy.CYCLE);// uses crc by default so manually set cycle
-
-		List<String> used = new ArrayList<String>();
-		for (int i = 0; i < domains.length; i++) {
-
-			String url = ub.createURL("chester.png");
-
-			String curDomain = extractDomain(url);
-			assertFalse(used.contains(curDomain));
-
-			used.add(curDomain);
-		}
-
 	}
 
 	@Test
@@ -186,24 +160,6 @@ public class TestAll {
 	}
 
 	@Test
-	public void testUrlBuilderCRCShard() {
-		String[] domains = new String[] { "jackangers.imgix.net", "jackangers2.imgix.net", "jackangers3.imgix.net" };
-
-		URLBuilder ub = new URLBuilder(domains);
-
-		String[] paths = new String[] {"chester.png", "chester1.png", "chester2.png"};
-
-		for (String path: paths) {
-			String testDomain = extractDomain(ub.createURL(path));
-
-			// ensure we get that we keep getting the same domain...
-			for (int i = 0; i < 20; i++) {
-				assertEquals(testDomain, extractDomain(ub.createURL(path)));
-			}
-		}
-	}
-
-	@Test
 	public void testExtractDomain() {
 		String url = "http://jackangers.imgix.net/chester.png";
 		assertEquals(extractDomain(url), "jackangers.imgix.net");
@@ -217,64 +173,6 @@ public class TestAll {
 		assertEquals(URLHelper.encodeURIComponent(url), encodedUrl);
 		assertEquals(URLHelper.decodeURIComponent(encodedUrl), url);
 		assertEquals(URLHelper.encodeURIComponent(URLHelper.decodeURIComponent(encodedUrl)), encodedUrl);
-	}
-
-	@Test
-	public void testDomainShardingConstructorDeprecated1() {
-		Class[] classes = new Class[] {
-				String[].class, boolean.class, String.class,
-				URLBuilder.ShardStrategy.class, boolean.class
-		};
-		assertTrue(hasDeprecationAnnotationConstructor(classes));
-	}
-
-	@Test
-	public void testDomainShardingConstructorDeprecated2() {
-		Class[] classes = new Class[] {
-				String[].class
-		};
-		assertTrue(hasDeprecationAnnotationConstructor(classes));
-	}
-
-	@Test
-	public void testDomainShardingConstructorDeprecated3() {
-		Class[] classes = new Class[] {
-				String[].class, boolean.class
-		};
-		assertTrue(hasDeprecationAnnotationConstructor(classes));
-	}
-
-	@Test
-	public void testDomainShardingConstructorDeprecated4() {
-		Class[] classes = new Class[] {
-				String[].class, boolean.class, String.class
-		};
-		assertTrue(hasDeprecationAnnotationConstructor(classes));
-	}
-
-	@Test
-	public void testSetShardStrategyDeprecated() {
-		assertTrue(hasDeprecationAnnotationMethod("setShardStratgy", URLBuilder.ShardStrategy.class));
-	}
-
-	private boolean hasDeprecationAnnotationConstructor(Class[] classes) {
-		try {
-			return URLBuilder.class.getConstructor(classes).isAnnotationPresent(Deprecated.class);
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		}
-
-		return false;
-	}
-
-	private boolean hasDeprecationAnnotationMethod(String name, Class type) {
-		try {
-			return URLBuilder.class.getDeclaredMethod(name,type).isAnnotationPresent(Deprecated.class);
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		}
-
-		return false;
 	}
 
 	private static String extractDomain(String url) {
