@@ -10,9 +10,9 @@ public class URLBuilder {
 	private String domain;
 	private boolean useHttps;
 	private String signKey;
-	private boolean signWithLibraryParameter;
+	private boolean includeLibraryParam;
 
-	public URLBuilder(String domain, boolean useHttps, String signKey, boolean signWithLibraryParameter) {
+	public URLBuilder(String domain, boolean useHttps, String signKey, boolean includeLibraryParam) {
 
 		if (domain == null || domain.length() == 0) {
 			throw new IllegalArgumentException("At lease one domain must be passed to URLBuilder");
@@ -21,7 +21,7 @@ public class URLBuilder {
 		this.domain = domain;
 		this.useHttps = useHttps;
 		this.signKey = signKey;
-		this.signWithLibraryParameter = signWithLibraryParameter;
+		this.includeLibraryParam = includeLibraryParam;
 	}
 
 	public URLBuilder(String domain) {
@@ -52,7 +52,7 @@ public class URLBuilder {
 	public String createURL(String path, Map<String, String> params) {
 		String scheme = this.useHttps ? "https": "http";
 
-		if (this.signWithLibraryParameter) {
+		if (this.includeLibraryParam) {
 			params.put("ixlib", "java-" + VERSION);
 		}
 
