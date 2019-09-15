@@ -1,7 +1,6 @@
 package com.imgix;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -63,10 +62,10 @@ public class URLBuilder {
 	}
 
 	public String createSrcSet(String path) {
-		return createSrcSet(path, new HashMap<String, String>());
+		return createSrcSet(path, new TreeMap<String, String>());
 	}
 
-	public String createSrcSet(String path, HashMap<String, String> params) {
+	public String createSrcSet(String path, Map<String, String> params) {
 		String width = params.get("w");
 		String height = params.get("h");
 		String aspectRatio = params.get("ar");
@@ -86,7 +85,7 @@ public class URLBuilder {
 		}
 	}
 
-	private String createSrcSetPairs(String path, HashMap<String, String> params) {
+	private String createSrcSetPairs(String path, Map<String, String> params) {
 		String srcset = "";
 
 		for (Integer width: this.SRCSET_TARGET_WIDTHS) {
@@ -97,7 +96,7 @@ public class URLBuilder {
 		return srcset.substring(0,srcset.length()-2);
 	}
 
-	private String createSrcSetDPR(String path, HashMap<String, String> params) {
+	private String createSrcSetDPR(String path, Map<String, String> params) {
 		String srcset = "";
 		int[] srcsetTargetRatios = {1,2,3,4,5};
 
