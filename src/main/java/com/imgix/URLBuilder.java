@@ -89,8 +89,7 @@ public class URLBuilder {
 	private String createSrcSetPairs(String path, HashMap<String, String> params) {
 		String srcset = "";
 
-		for (Integer width: this.SRCSET_TARGET_WIDTHS
-			 ) {
+		for (Integer width: this.SRCSET_TARGET_WIDTHS) {
 			params.put("w", width.toString());
 			srcset += this.createURL(path, params) + " " + width + "w,\n";
 		}
@@ -102,8 +101,7 @@ public class URLBuilder {
 		String srcset = "";
 		int[] srcsetTargetRatios = {1,2,3,4,5};
 
-		for (int ratio: srcsetTargetRatios
-			 ) {
+		for (int ratio: srcsetTargetRatios) {
 
 			params.put("dpr", Integer.toString(ratio));
 			srcset += this.createURL(path, params) + " " + ratio + "x,\n";
