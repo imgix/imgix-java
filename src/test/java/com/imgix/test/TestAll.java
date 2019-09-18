@@ -175,6 +175,24 @@ public class TestAll {
 		assertEquals(URLHelper.encodeURIComponent(URLHelper.decodeURIComponent(encodedUrl)), encodedUrl);
 	}
 
+	@Test
+	public void testInvalidDomainAppendSlash() {
+		exception.expect(IllegalArgumentException.class);
+		URLBuilder ub = new URLBuilder("test.imgix.net/");
+	}
+
+	@Test
+	public void testInvalidDomainPrependScheme() {
+		exception.expect(IllegalArgumentException.class);
+		URLBuilder ub = new URLBuilder("https://test.imgix.net");
+	}
+
+	@Test
+	public void testInvalidDomainAppendDash() {
+		exception.expect(IllegalArgumentException.class);
+		URLBuilder ub = new URLBuilder("test.imgix.net-");
+	}
+
 	private static String extractDomain(String url) {
 		try {
 			URI parsed = new URI(url);
