@@ -93,7 +93,7 @@ public class URLBuilder {
 			srcset += this.createURL(path, params) + " " + width + "w,\n";
 		}
 
-		return srcset.substring(0,srcset.length()-2);
+		return srcset.substring(0, srcset.length() - 2);
 	}
 
 	private String createSrcSetDPR(String path, Map<String, String> params) {
@@ -101,23 +101,23 @@ public class URLBuilder {
 		int[] srcsetTargetRatios = {1,2,3,4,5};
 
 		for (int ratio: srcsetTargetRatios) {
-
 			params.put("dpr", Integer.toString(ratio));
 			srcset += this.createURL(path, params) + " " + ratio + "x,\n";
 		}
 
-		return srcset.substring(0,srcset.length()-2);
+		return srcset.substring(0, srcset.length() - 2);
 	}
 
 	private static ArrayList<Integer> targetWidths() {
 		ArrayList<Integer> resolutions = new ArrayList<Integer>();
-		int MAX_SIZE = 8192;
+		int MAX_SIZE = 8192, roundedPrev;
 		double SRCSET_INCREMENT_PERCENTAGE = 8;
 		double prev = 100;
 
-		while (prev <= MAX_SIZE) {
+		while (prev < MAX_SIZE) {
 			// ensures the added width is even
-			resolutions.add((int)(2 * Math.round(prev/2)));
+			roundedPrev = (int)(2 * Math.round(prev / 2));
+			resolutions.add(roundedPrev);
 			prev *= 1 + (SRCSET_INCREMENT_PERCENTAGE / 100) * 2;
 		}
 		resolutions.add(MAX_SIZE);
