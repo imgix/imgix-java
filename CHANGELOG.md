@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+## Version 2.1.0 (_September 19, 2019_)
+ * fix: add domain validation during URLBuilder initialization ([#33](https://github.com/imgix/imgix-java/pull/33))
+ * feat: add srcset generation method ([#32](https://github.com/imgix/imgix-java/pull/32)) 
+
 ## Version 2.0.0 (_May 17, 2019_)
  * fix: remove deprecated domain sharding functionality  ([#31](https://github.com/imgix/imgix-java/pull/31))
  * refactor: rename `signWithLibraryParameter` to `includeLibraryParam` ([#30](https://github.com/imgix/imgix-java/pull/30))
