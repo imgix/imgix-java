@@ -1,7 +1,7 @@
 ![imgix logo](https://assets.imgix.net/imgix-logo-web-2014.pdf?page=2&fm=png&w=200&h=200)
 
 [![Build Status](https://travis-ci.org/imgix/imgix-java.png?branch=master)](https://travis-ci.org/imgix/imgix-java)
-[ ![Download](https://api.bintray.com/packages/imgix/maven/imgix-java/images/download.svg?version=2.1.0) ](https://bintray.com/imgix/maven/imgix-java/2.1.0/link)
+[ ![Download](https://api.bintray.com/packages/imgix/maven/imgix-java/images/download.svg) ](https://bintray.com/imgix/maven/imgix-java/_latestVersion)
 
 A Java client library for generating URLs with imgix. imgix is a high-performance
 distributed image processing service. More information can be found at
