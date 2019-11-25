@@ -64,7 +64,11 @@ public class URLHelper {
 	}
 
 	private String encodeBase64(String str) {
-		byte[] stringBytes = str.getBytes();
+		byte[] stringBytes = new byte[0];
+		try {
+			stringBytes = str.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+		}
 		String b64EncodedString = new String(Base64.getEncoder().encode(stringBytes));
 
 		b64EncodedString = b64EncodedString.replace("=", "");
