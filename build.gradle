@@ -47,6 +47,10 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
+task testUTF32(type: Test) {
+    jvmArgs "-Dfile.encoding=UTF-32"
+}
+
 artifacts {
     archives sourcesJar
     archives javadocJar
