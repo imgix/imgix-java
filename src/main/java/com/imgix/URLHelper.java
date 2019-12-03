@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
 
-import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -64,8 +63,14 @@ public class URLHelper {
 	}
 
 	private String encodeBase64(String str) {
-		byte[] stringBytes = str.getBytes();
-		String b64EncodedString = new String(Base64.getEncoder().encode(stringBytes));
+		String b64EncodedString = null;
+
+		try {
+			byte[] stringBytes = str.getBytes("UTF-8");
+			b64EncodedString = new String(Base64.getEncoder().encode(stringBytes), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new IllegalArgumentException(e);
+		}
 
 		b64EncodedString = b64EncodedString.replace("=", "");
 		b64EncodedString = b64EncodedString.replace('/', '_');

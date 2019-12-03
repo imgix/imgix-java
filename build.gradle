@@ -14,7 +14,7 @@ sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
 repositories {
-    maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://repo.maven.apache.org/maven2" }
 }
 
 dependencies {
@@ -45,6 +45,10 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
+}
+
+task testUTF32(type: Test) {
+    jvmArgs "-Dfile.encoding=UTF-32"
 }
 
 artifacts {
