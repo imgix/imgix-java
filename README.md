@@ -4,7 +4,7 @@
 `imgix-java` is a client library for generating image URLs with [imgix](https://www.imgix.com/).
 
 [![Download](https://api.bintray.com/packages/imgix/maven/imgix-java/images/download.svg) ](https://bintray.com/imgix/maven/imgix-java/_latestVersion)
-[![Build Status](https://travis-ci.org/imgix/imgix-java.png?branch=master)](https://travis-ci.org/imgix/imgix-java)
+[![Build Status](https://travis-ci.org/imgix/imgix-java.svg?branch=master)](https://travis-ci.org/imgix/imgix-java)
 [![License](https://img.shields.io/github/license/imgix/imgix-java)](https://github.com/imgix/imgix-java/blob/master/LICENSE)
 
 ---
