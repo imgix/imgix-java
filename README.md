@@ -1,12 +1,23 @@
-![imgix logo](https://assets.imgix.net/imgix-logo-web-2014.pdf?page=2&fm=png&w=200&h=200)
+<!-- ix-docs-ignore -->
+![imgix logo](https://assets.imgix.net/sdk-imgix-logo.svg)
 
-[![Build Status](https://travis-ci.org/imgix/imgix-java.png?branch=master)](https://travis-ci.org/imgix/imgix-java)
-[ ![Download](https://api.bintray.com/packages/imgix/maven/imgix-java/images/download.svg) ](https://bintray.com/imgix/maven/imgix-java/_latestVersion)
+`imgix-java` is a client library for generating image URLs with [imgix](https://www.imgix.com/).
 
-A Java client library for generating URLs with imgix. imgix is a high-performance
-distributed image processing service. More information can be found at
-[http://www.imgix.com](http://www.imgix.com).
+[![Download](https://api.bintray.com/packages/imgix/maven/imgix-java/images/download.svg) ](https://bintray.com/imgix/maven/imgix-java/_latestVersion)
+[![Build Status](https://travis-ci.org/imgix/imgix-java.svg?branch=master)](https://travis-ci.org/imgix/imgix-java)
+[![License](https://img.shields.io/github/license/imgix/imgix-java)](https://github.com/imgix/imgix-java/blob/master/LICENSE)
 
+---
+<!-- /ix-docs-ignore -->
+
+- [Dependencies](#dependencies)
+- [Install Options](#install-options)
+    - [Gradle & JCenter](#gradle--jcenter)
+    - [Creating A Jar](#creating-a-jar)
+- [Basic Usage](#basic-usage)
+- [Signed URLs](#signed-urls)
+- [Srcset Generation](#srcset-generation)
+- [Running Tests](#running-tests)
 
 Dependencies
 ------------
@@ -46,17 +57,6 @@ gradle build
 This creates `imgix-java-{VERSION_NUMBER}.jar` under `./build/libs`
 
 Once a new version has been merged into master on GitHub (don't forget to update the version numbers in build.gradle first!), it can be deployed to Bintray with `gradle build && gradle bintrayUpload`. After that, the new version can be viewed via the [Bintray web interface](https://bintray.com/imgix/maven/imgix-java).
-
-Running Tests
--------------
-
-To run tests clone this project and run:
-
-```
-gradle test
-```
-
-Dependencies for running tests (junit, etc) are provided (in `test/lib` and referenced in the build config).
 
 Basic Usage
 -----------
@@ -180,3 +180,14 @@ https://demos.imgix.net/bridge.png?ar=3%3A2&dpr=5&fit=crop&h=200&s=dc37c1fbee505
 ```
 
 For more information to better understand `srcset`, we highly recommend [Eric Portis' "Srcset and sizes" article](https://ericportis.com/posts/2014/srcset-sizes/) which goes into depth about the subject.
+
+Running Tests
+-------------
+
+To run tests clone this project and run:
+
+```
+gradle test
+```
+
+Dependencies for running tests (junit, etc) are provided (in `test/lib` and referenced in the build config).
