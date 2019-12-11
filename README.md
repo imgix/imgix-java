@@ -16,7 +16,7 @@
     - [Creating A Jar](#creating-a-jar)
 - [Basic Usage](#basic-usage)
 - [Signed URLs](#signed-urls)
-- [Srcset Generation](#Srcset-Generation)
+- [Srcset Generation](#srcset-generation)
 - [Running Tests](#running-tests)
 
 Dependencies
