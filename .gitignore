@@ -2,3 +2,5 @@ build/
 *.iml
 .idea/
 /.gradle
+.settings/
+.project
