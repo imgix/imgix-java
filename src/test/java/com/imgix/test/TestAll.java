@@ -32,6 +32,10 @@ public class TestAll {
 	public void testURLBuilderUsesHttpsByDefault() {
 		URLBuilder ub = new URLBuilder("example.imgix.net");
 		assertEquals("https://example.imgix.net/?ixlib=java-2.1.1", ub.createURL(""));
+		// Set `useHttps` to false.
+		ub.setUseHttps(false);
+		assertNotEquals("https://example.imgix.net/?ixlib=java-2.1.1", ub.createURL(""));
+		assertEquals("http://example.imgix.net/?ixlib=java-2.1.1", ub.createURL(""));
 	}
 
 	@Test
