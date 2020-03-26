@@ -22,7 +22,7 @@ public class URLBuilder {
 		if (domain == null || domain.length() == 0) {
 			throw new IllegalArgumentException("At lease one domain must be passed to URLBuilder");
 		} else if (!domainPattern.matcher(domain).matches()) {
-			throw new IllegalArgumentException("Domain must be passed in as fully-qualified domain name and should not include a protocol or any path element, i.e. \"example.imgix.net\".");
+			throw new IllegalArgumentException("Domain must be passed in as fully-qualifies domain name and should not include a protocol or any path element, i.e. \"example.imgix.net\".");
 		}
 
 		this.domain = domain;
@@ -31,8 +31,15 @@ public class URLBuilder {
 		this.includeLibraryParam = includeLibraryParam;
 	}
 
+	/**
+	 * This single-parameter constructor, accepts a domain string and
+	 * returns a `URLBuilder` with it's `useHttps` member variable set
+	 * to `true` by default.
+	 *
+	 * @param domain - a valid domain string, e.g. `example.imgix.net`
+	 */
 	public URLBuilder(String domain) {
-		this(domain, false);
+		this(domain, true);
 	}
 
 	public URLBuilder(String domain, boolean useHttps) {
