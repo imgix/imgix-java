@@ -22,7 +22,7 @@ public class URLBuilder {
 		if (domain == null || domain.length() == 0) {
 			throw new IllegalArgumentException("At lease one domain must be passed to URLBuilder");
 		} else if (!domainPattern.matcher(domain).matches()) {
-			throw new IllegalArgumentException("Domain must be passed in as fully-qualifies domain name and should not include a protocol or any path element, i.e. \"example.imgix.net\".");
+			throw new IllegalArgumentException("Domain must be passed in as a fully-qualified domain name and should not include a protocol or any path element, i.e. \"example.imgix.net\".");
 		}
 
 		this.domain = domain;
