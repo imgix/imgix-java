@@ -29,6 +29,12 @@ public class TestAll {
 	}
 
 	@Test
+	public void testURLBuilderUsesHttpsByDefault() {
+		URLBuilder ub = new URLBuilder("example.imgix.net");
+		assertEquals("https://example.imgix.net/?ixlib=java-2.1.1", ub.createURL(""));
+	}
+
+	@Test
 	public void testHelperBuildAbsolutePath() {
 		URLHelper uh = new URLHelper("securejackangers.imgix.net", "/example/chester.png", "http");
 		assertEquals(uh.getURL(), "http://securejackangers.imgix.net/example/chester.png");
