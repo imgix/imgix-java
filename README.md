@@ -12,8 +12,8 @@
 
 - [Dependencies](#dependencies)
 - [Install Options](#install-options)
-    - [Gradle & JCenter](#gradle--jcenter)
-    - [Creating A Jar](#creating-a-jar)
+  - [Gradle & JCenter](#gradle--jcenter)
+  - [Creating a Jar](#creating-a-jar)
 - [Basic Usage](#basic-usage)
 - [Signed URLs](#signed-urls)
 - [Srcset Generation](#srcset-generation)
@@ -61,8 +61,7 @@ Once a new version has been merged into master on GitHub (don't forget to update
 Basic Usage
 -----------
 
-To begin creating imgix URLs programmatically, simply add the jar to your project's classpath and import the imgix library. The URL builder can be reused to create URLs for any
-images on the domains it is provided.
+To begin creating imgix URLs, add the jar to your project's classpath and import the imgix library. The URL builder can be reused to create URLs for any images on the domains it is provided.
 
 ```java
 import com.imgix.URLBuilder;
@@ -84,7 +83,7 @@ public class ImgixExample {
 ```
 
 
-For HTTPS support, simply use the setter `setUseHttps` on the builder
+HTTPS support is available by default. However, if you need HTTP support, call setUseHttps on the builder:
 
 ```java
 import com.imgix.URLBuilder;
@@ -94,7 +93,9 @@ import java.util.HashMap;
 public class ImgixExample {
     public static void main(String[] args) {
         URLBuilder builder = new URLBuilder("demos.imgix.net");
-        builder.setUseHttps(true); // use https
+
+        builder.setUseHttps(false); // use http
+
         Map<String, String> params = new HashMap<String, String>();
         params.put("w", "100");
         params.put("h", "100");
@@ -179,7 +180,7 @@ https://demos.imgix.net/bridge.png?ar=3%3A2&dpr=4&fit=crop&h=200&s=b51e497d9461b
 https://demos.imgix.net/bridge.png?ar=3%3A2&dpr=5&fit=crop&h=200&s=dc37c1fbee505d425ca8e3764b37f791 5x
 ```
 
-For more information to better understand `srcset`, we highly recommend [Eric Portis' "Srcset and sizes" article](https://ericportis.com/posts/2014/srcset-sizes/) which goes into depth about the subject.
+For more information to better understand `srcset`, we recommend [Eric Portis' "Srcset and sizes" article](https://ericportis.com/posts/2014/srcset-sizes/) which goes into depth about the subject.
 
 Running Tests
 -------------
