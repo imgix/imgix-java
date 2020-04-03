@@ -1,26 +1,21 @@
 Change Log
 ==========
 
-### Version 2.2.0 (_April 02, 2020_)
-
-* feat(https): use https by default ([#38](https://github.com/imgix/imgix-java/pull/38))
-* `build.gradle` updated in preparation for Gradle 7.0 (currently 6.3)
-
-### Version 2.1.1 (_December 05, 2019_)
+### Version 2.1.1 (December 05, 2019_)
 
 * fix: explicitly convert string to UTF-8 byte array ([#36](https://github.com/imgix/imgix-java/pull/36))
 
-### Version 2.1.0 (_September 19, 2019_)
+## Version 2.1.0 (_September 19, 2019_)
 
 * fix: add domain validation during URLBuilder initialization ([#33](https://github.com/imgix/imgix-java/pull/33))
 * feat: add srcset generation method ([#32](https://github.com/imgix/imgix-java/pull/32)) 
 
-### Version 2.0.0 (_May 17, 2019_)
+# Version 2.0.0 (_May 17, 2019_)
 
 * fix: remove deprecated domain sharding functionality  ([#31](https://github.com/imgix/imgix-java/pull/31))
 * refactor: rename `signWithLibraryParameter` to `includeLibraryParam` ([#30](https://github.com/imgix/imgix-java/pull/30))
 
-### Version 1.2.0 (_May 17, 2019_)
+## Version 1.2.0 (_May 17, 2019_)
 
 * fix: deprecate domain sharding ([#29](https://github.com/imgix/imgix-java/pull/29))
 
