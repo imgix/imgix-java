@@ -12,8 +12,8 @@
 
 - [Dependencies](#dependencies)
 - [Install Options](#install-options)
-    - [Gradle & JCenter](#gradle--jcenter)
-    - [Creating A Jar](#creating-a-jar)
+  - [Gradle & JCenter](#gradle--jcenter)
+  - [Creating a Jar](#creating-a-jar)
 - [Basic Usage](#basic-usage)
 - [Signed URLs](#signed-urls)
 - [Srcset Generation](#srcset-generation)
@@ -32,7 +32,7 @@ To add Imgix-Java to your project, include the following in your project's build
 
 ```
 dependencies {
-   compile "com.imgix:imgix-java:2.1.1"
+   compile "com.imgix:imgix-java:2.2.0"
 }
 ```
 

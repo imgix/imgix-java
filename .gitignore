@@ -1,6 +1,23 @@
+# Ignore bin directory
+bin/
+
+# Ignore build directory
 build/
-*.iml
-.idea/
+
+# Ignore dot classpath file
+.classpath
+
+# Ignore Gradle dot files and dot directory
 /.gradle
-.settings/
+
+# Ignore IntelliJ .idea directory
+.idea/
+
+# Ignore IntelliJ iml files
+*.iml
+
+# Ignore project dot files
 .project
+
+# Ignore vscode project setting
+.settings/
