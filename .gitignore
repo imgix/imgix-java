@@ -1,6 +1,26 @@
+# Ignore bin directory.
+bin/
+
+# Ignore build directory.
 build/
-*.iml
-.idea/
+
+# Ignore .classpath file.
+.classpath
+
+# Ignore .gradle/ directory.
 /.gradle
+
+# Ignore .iml files (IntelliJ).
+*.iml
+
+# Ignore .idea/ directory (IntelliJ).
+.idea/
+
+# Ignore .java-version file.
+.java-version
+
+# Ignore .settings/ directory (Vscode).
 .settings/
+
+# Ignore .project file.
 .project
