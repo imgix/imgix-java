@@ -1,7 +1,14 @@
 Change Log
 ==========
 
-### Version 2.1.1 (December 05, 2019_)
+### Version 2.2.0 (_April 10, 2020_)
+
+* feat(https): use https by default ([#38](https://github.com/imgix/imgix-java/pull/38))
+* docs(readme): update to reflect https by default ([#39](https://github.com/imgix/imgix-java/pull/39))
+* feat: prevent push mistakes by updating .gitignore ([#41](https://github.com/imgix/imgix-java/pull/41))
+* build: upgrade gradle usage to prep for 7.0 ([#42](https://github.com/imgix/imgix-java/pull/42))
+
+### Version 2.1.1 (_December 05, 2019_)
 
 * fix: explicitly convert string to UTF-8 byte array ([#36](https://github.com/imgix/imgix-java/pull/36))
 
