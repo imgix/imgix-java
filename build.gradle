@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.imgix'
-version = '2.1.1'
+version = '2.2.0'
 
 description = """Imgix Java Client"""
 
@@ -31,7 +31,7 @@ bintray {
     licenses = ['BSD 2-Clause']
     vcsUrl = 'https://github.com/imgix/imgix-java.git'
     version {
-      name = '2.1.1'
+      name = '2.2.0'
     }
     configurations = ['archives']
   }
