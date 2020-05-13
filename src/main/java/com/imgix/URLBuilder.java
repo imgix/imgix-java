@@ -14,7 +14,13 @@ public class URLBuilder {
     private boolean useHttps;
     private String signKey;
     private boolean includeLibraryParam;
-    private final ArrayList<Integer> SRCSET_TARGET_WIDTHS = this.targetWidths();
+
+    private static final ArrayList<Integer> SRCSET_TARGET_WIDTHS = targetWidths();
+    private static final int SRCSET_WIDTH_TOLERANCE = 8;
+    private static final int MIN_WIDTH = 100;
+    private static final int MAX_WIDTH = 8192;
+    private static final Integer[] DPR_QUALITIES = {0, 75, 50, 35, 23, 20};
+    private static final Integer[] TARGET_RATIOS = {1, 2, 3, 4, 5};
 
     public URLBuilder(String domain, boolean useHttps, String signKey, boolean includeLibraryParam) {
         Pattern domainPattern = Pattern.compile(DOMAIN_REGEX);
@@ -77,30 +83,116 @@ public class URLBuilder {
         return createSrcSet(path, new TreeMap<String, String>());
     }
 
+    /**
+     * Create a srcset given a `path` and a map of `params`.
+     *
+     * This function creates a dpr based srcset if `params`
+     * contain either:
+     * - a width "w" param, _or_
+     * - a height "h" and aspect ratio "ar" params
+     *
+     * Otherwise, a srcset of width-pairs is created.
+     *
+     * @param path - path to the image, i.e. "image/file.png"
+     * @param params - map of query parameters
+     * @return srcset attribute string
+     */
     public String createSrcSet(String path, Map<String, String> params) {
-        String width = params.get("w");
-        String height = params.get("h");
-        String aspectRatio = params.get("ar");
-
-		/* builds a DPR srcset if either:
-			   a width or
-			   a height and an aspect ratio
-		   are provided, otherwise builds a
-		   srcset of width-pairs
-		 */
-        if (!(width == null || width.isEmpty())
-                || !((height == null || height.isEmpty())
-                || (aspectRatio == null || aspectRatio.isEmpty()))) {
+        if (isDpr(params)) {
             return createSrcSetDPR(path, params);
         } else {
             return createSrcSetPairs(path, params);
         }
     }
 
+    /**
+     * Create a srcset given a `path`, map of `params`, and the
+     * `disableVariableQuality` flag.
+     *
+     * This function delegates directly to `createSrcSetDpr` to
+     * create a dpr based srcset with variable image quality output.
+     *
+     * If `disableVariableQuality` is `false` then variable output
+     * is turned _on_. If `disableVariableQuality` is `true` then
+     * variable quality output is turned _off_.
+     *
+     * @param path - path to the image, i.e. "image/file.png"
+     * @param params - map of query parameters
+     * @param disableVariableQuality - flag to toggle variable image
+     * output quality.
+     * @return srcset attribute string
+     */
+    public String createSrcSet(String path, Map<String, String> params, boolean disableVariableQuality) {
+        return createSrcSetDPR(path, params, disableVariableQuality);
+    }
+
+    /**
+     * Create a srcset given a `path`, map of `params`, and `tol`.
+     *
+     * This function provides the ability to vary `tol` while
+     * generating a srcset over the default range.
+     *
+     * @param path - path to the image, i.e. "image/file.png"
+     * @param params - map of query parameters
+     * @param tol - tolerable amount of width value variation
+     * @return srcset attribute string
+     */
+    public String createSrcSet(String path, Map<String, String> params, int tol) {
+        return createSrcSet(path, params, MIN_WIDTH, MAX_WIDTH, tol);
+    }
+
+    /**
+     * Create a srcset given a `path`, map of `params`, `begin` and
+     * `end`.
+     *
+     * This function provides the ability to create a srcset attribute
+     * over a custom range between `begin` and `end` (inclusively)
+     * while using the default srcset width tolerance.
+     *
+     * @param path - path to the image, i.e. "image/file.png"
+     * @param params - map of query parameters
+     * @param begin - beginning image width value
+     * @param end - ending image width value
+     * @return srcset attribute string
+     */
+    public String createSrcSet(String path, Map<String, String> params, int begin, int end) {
+        return createSrcSet(path, params, begin, end, SRCSET_WIDTH_TOLERANCE);
+    }
+
+    /**
+     * Create a srcset given a `path`, map of `params`, `begin`, `end`,
+     * and `tol`.
+     *
+     * This function provides the ability to create a completely custom
+     * srcset attribute. The srcset width value range will `begin` and `end`
+     * on the specified values. The specified `tol` determines the tolerable
+     * amount of width value variation.
+     *
+     * @param path - path to the image, i.e. "image/file.png"
+     * @param params - map of query parameters
+     * @param begin - beginning image width value
+     * @param end - ending image width value
+     * @param tol - tolerable amount of width value variation
+     * @return srcset attribute string
+     */
+    public String createSrcSet(String path, Map<String, String> params, int begin, int end, int tol) {
+        if (isDpr(params)) {
+            return createSrcSetDPR(path, params);
+        } else {
+            ArrayList<Integer> targets = targetWidths(begin, end, tol);
+            return createSrcSetPairs(path, params, targets);
+        }
+    }
+
     private String createSrcSetPairs(String path, Map<String, String> params) {
+        return createSrcSetPairs(path, params, SRCSET_TARGET_WIDTHS);
+    }
+
+    private String createSrcSetPairs(
+        String path, Map<String, String> params, ArrayList<Integer> targets) {
         String srcset = "";
 
-        for (Integer width: this.SRCSET_TARGET_WIDTHS) {
+        for (Integer width: targets) {
             params.put("w", width.toString());
             srcset += this.createURL(path, params) + " " + width + "w,\n";
         }
@@ -109,32 +201,101 @@ public class URLBuilder {
     }
 
     private String createSrcSetDPR(String path, Map<String, String> params) {
-        String srcset = "";
-        int[] srcsetTargetRatios = {1,2,3,4,5};
+        return createSrcSetDPR(path, params, false);
+    }
 
-        for (int ratio: srcsetTargetRatios) {
+    private String createSrcSetDPR(String path, Map<String, String> params, boolean disableVariableQuality) {
+        StringBuilder srcset = new StringBuilder();
+
+        for (int ratio: TARGET_RATIOS) {
             params.put("dpr", Integer.toString(ratio));
-            srcset += this.createURL(path, params) + " " + ratio + "x,\n";
+
+            if (!disableVariableQuality) {
+                params.put("q", DPR_QUALITIES[ratio].toString());
+            }
+            srcset.append(this.createURL(path, params)).append(" ").append(ratio).append("x,\n");
         }
 
         return srcset.substring(0, srcset.length() - 2);
     }
 
-    private static ArrayList<Integer> targetWidths() {
-        ArrayList<Integer> resolutions = new ArrayList<Integer>();
-        int MAX_SIZE = 8192, roundedPrev;
-        double SRCSET_INCREMENT_PERCENTAGE = 8;
-        double prev = 100;
+    public static ArrayList<Integer> targetWidths() {
+        return targetWidths(MIN_WIDTH, MAX_WIDTH, SRCSET_WIDTH_TOLERANCE);
+    }
 
-        while (prev < MAX_SIZE) {
-            // ensures the added width is even
-            roundedPrev = (int)(2 * Math.round(prev / 2));
-            resolutions.add(roundedPrev);
-            prev *= 1 + (SRCSET_INCREMENT_PERCENTAGE / 100) * 2;
+    /**
+     * Create an `ArrayList` of integer target widths.
+     *
+     * If `begin`, `end`, and `tol` are the default values, then the
+     * targets are not custom, in which case the default widths are
+     * returned.
+     *
+     * A target width list of length one is valid: if `begin` == `end`
+     * then the list begins where it ends.
+     *
+     * When the `while` loop terminates, `begin` is greater than `end`
+     * (where `end` <= `MAX_WIDTH`). This means that the most recently
+     * appended value may, or may not, be the `end` value. To be
+     * inclusive of the ending value, we check for this case and the
+     * value is added if necessary.
+     *
+     * @param begin - beginning image width value
+     * @param end - ending image width value
+     * @param tol - tolerable amount of width value variation
+     * @return array list of _even_ image width values
+     */
+    public static ArrayList<Integer> targetWidths(double begin, double end, double tol) {
+        if (notCustom(begin, end, tol)) {
+            return targetWidths();
         }
-        resolutions.add(MAX_SIZE);
+
+        if (begin == end) {
+            return new ArrayList<Integer>(makeEven(begin));
+        }
+
+        ArrayList<Integer> resolutions = new ArrayList<Integer>();
+        while (begin < end && begin < MAX_WIDTH) {
+            resolutions.add(makeEven(begin));
+            begin *= 1 + (tol/ 100) * 2;
+        }
+
+        int lastIndex = resolutions.size() - 1;
+        if (resolutions.get(lastIndex) < end) {
+            resolutions.add(makeEven(end));
+        }
 
         return resolutions;
+    }
+
+    private boolean isDpr(Map<String, String> params) {
+        String width = params.get("w");
+        boolean hasWidth = (width != null) && !width.isEmpty();
+
+        String height = params.get("h");
+        boolean hasHeight = (height != null) && !height.isEmpty();
+
+        String aspectRatio = params.get("ar");
+        boolean hasAspectRatio = (aspectRatio != null) && !aspectRatio.isEmpty();
+
+        // If `params` have a width param or _both_ height and aspect
+        // ratio parameters then the srcset to be constructed with
+        // these params _is dpr based_.
+        return hasWidth || (hasHeight && hasAspectRatio);
+    }
+
+    private static boolean notCustom(double begin, double end, double tol) {
+        boolean notDefaultBegin = (begin != MIN_WIDTH);
+        boolean notDefaultEnd = (end != MAX_WIDTH);
+        boolean notDefaultTol = (tol != SRCSET_WIDTH_TOLERANCE);
+
+        // If `begin`, `end`, or `tol` differ from their default
+        // values, then together they _do not_ represent a custom
+        // target widths range and this function returns true.
+        return notDefaultBegin || notDefaultEnd || notDefaultTol;
+    }
+
+    private static int makeEven(double value) {
+        return (int)(2 * Math.round(value / 2));
     }
 
     public static void main(String[] args) {
