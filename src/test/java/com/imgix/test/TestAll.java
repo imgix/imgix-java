@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 import com.imgix.URLBuilder;
 import com.imgix.URLHelper;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -158,6 +159,20 @@ public class TestAll {
 
         ub = new URLBuilder("assets.imgix.net", true, "", false);
         assertFalse(hasURLParameter(ub.createURL("/users/1.png"), "ixlib"));
+    }
+
+    @Test
+    public void testTargetWidths() {
+       ArrayList<Integer> actual = URLBuilder.targetWidths(100, 8192, 8);
+       int[] targetWidths = {
+               100, 116, 134, 156, 182, 210, 244,
+               282, 328, 380, 442, 512, 594, 688,
+               798, 926, 1074, 1246, 1446, 1678, 1946,
+               2258, 2618, 3038, 3524, 4088, 4742, 5500,
+               6380, 7400, 8192};
+       for (int i = 0; i < targetWidths.length; ++i) {
+           assertEquals(targetWidths[i], (int) actual.get(i));
+       }
     }
 
     @Test
