@@ -52,7 +52,6 @@ public class URLBuilder {
         this(domain, useHttps, "");
     }
 
-
     public URLBuilder(String domain, boolean useHttps, String signKey) {
         this(domain, useHttps, signKey, true);
     }
@@ -261,7 +260,7 @@ public class URLBuilder {
      * @param tol - tolerable amount of width value variation
      * @return array list of _even_ image width values
      */
-    public static ArrayList<Integer> targetWidths(double begin, double end, double tol) {
+    public static ArrayList<Integer> targetWidths(int begin, int end, int tol) {
         if (notCustom(begin, end, tol)) {
             return targetWidths();
         }
@@ -272,13 +271,13 @@ public class URLBuilder {
 
         ArrayList<Integer> resolutions = new ArrayList<Integer>();
         while (begin < end && begin < MAX_WIDTH) {
-            resolutions.add(makeEven(begin));
-            begin *= 1 + (tol/ 100) * 2;
+            resolutions.add(begin);
+            begin *= 1 + ((double) tol / 100) * 2;
         }
 
         int lastIndex = resolutions.size() - 1;
         if (resolutions.get(lastIndex) < end) {
-            resolutions.add(makeEven(end));
+            resolutions.add(end);
         }
 
         return resolutions;
@@ -301,14 +300,14 @@ public class URLBuilder {
     }
 
     private static boolean notCustom(double begin, double end, double tol) {
-        boolean notDefaultBegin = (begin != MIN_WIDTH);
-        boolean notDefaultEnd = (end != MAX_WIDTH);
-        boolean notDefaultTol = (tol != SRCSET_WIDTH_TOLERANCE);
+        boolean defaultBegin = (begin == MIN_WIDTH);
+        boolean defaultEnd = (end == MAX_WIDTH);
+        boolean defaultTol = (tol == SRCSET_WIDTH_TOLERANCE);
 
-        // If `begin`, `end`, or `tol` differ from their default
-        // values, then together they _do not_ represent a custom
+        // If `begin`, `end`, or `tol` differ from their
+        // default values, then together they _do not_ represent a custom
         // target widths range and this function returns true.
-        return notDefaultBegin || notDefaultEnd || notDefaultTol;
+        return defaultBegin && defaultEnd && defaultTol;
     }
 
     private static int makeEven(double value) {

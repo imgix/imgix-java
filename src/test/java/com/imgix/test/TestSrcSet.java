@@ -561,4 +561,87 @@ public class TestSrcSet {
             assert(src.contains(String.format("dpr=%s", i+1)));
         }
     }
+
+    @Test
+    public void testDisableVariableQualityOffByDefault() {
+        URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
+        HashMap<String, String>  params = new HashMap<String, String>();
+        params.put("w", "320");
+        String actualWith2Param = ub.createSrcSet("image.png", params);
+        String actualWith3Param = ub.createSrcSet("image.png", params, false);
+        String expected = "http://test.imgix.net/image.png?dpr=1&q=75&w=320 1x,\n" +
+                "http://test.imgix.net/image.png?dpr=2&q=50&w=320 2x,\n" +
+                "http://test.imgix.net/image.png?dpr=3&q=35&w=320 3x,\n" +
+                "http://test.imgix.net/image.png?dpr=4&q=23&w=320 4x,\n" +
+                "http://test.imgix.net/image.png?dpr=5&q=20&w=320 5x";
+
+        assertEquals(expected, actualWith2Param);
+        assertEquals(expected, actualWith3Param);
+    }
+
+    @Test
+    public void testDisableVariableQuality() {
+        URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
+        HashMap<String, String>  params = new HashMap<String, String>();
+        params.put("w", "320");
+        String actual = ub.createSrcSet("image.png", params, true);
+        String expected = "http://test.imgix.net/image.png?dpr=1&w=320 1x,\n" +
+                "http://test.imgix.net/image.png?dpr=2&w=320 2x,\n" +
+                "http://test.imgix.net/image.png?dpr=3&w=320 3x,\n" +
+                "http://test.imgix.net/image.png?dpr=4&w=320 4x,\n" +
+                "http://test.imgix.net/image.png?dpr=5&w=320 5x";
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testCreateSrcSetPairsBeginEnd() {
+        URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
+        HashMap<String, String>  params = new HashMap<String, String>();
+        String actual = ub.createSrcSet("image.png", params, 100, 380);
+        String expected = "http://test.imgix.net/image.png?w=100 100w,\n" +
+                "http://test.imgix.net/image.png?w=115 115w,\n" +
+                "http://test.imgix.net/image.png?w=133 133w,\n" +
+                "http://test.imgix.net/image.png?w=154 154w,\n" +
+                "http://test.imgix.net/image.png?w=178 178w,\n" +
+                "http://test.imgix.net/image.png?w=206 206w,\n" + 
+                "http://test.imgix.net/image.png?w=238 238w,\n" +
+                "http://test.imgix.net/image.png?w=276 276w,\n" +
+                "http://test.imgix.net/image.png?w=320 320w,\n" +
+                "http://test.imgix.net/image.png?w=371 371w,\n" + 
+                "http://test.imgix.net/image.png?w=380 380w";
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testCreateSrcSetPairsBeginEndTol() {
+        URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
+        HashMap<String, String>  params = new HashMap<String, String>();
+        String actual = ub.createSrcSet("image.png", params, 100, 108, 1);
+        String expected = "http://test.imgix.net/image.png?w=100 100w,\n" +
+                "http://test.imgix.net/image.png?w=102 102w,\n" +
+                "http://test.imgix.net/image.png?w=104 104w,\n" +
+                "http://test.imgix.net/image.png?w=106 106w,\n" +
+                "http://test.imgix.net/image.png?w=108 108w";
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testCreateSrcSetTol() {
+        URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
+        HashMap<String, String>  params = new HashMap<String, String>();
+        String actual = ub.createSrcSet("image.png", params, 50);
+        String expected = "http://test.imgix.net/image.png?w=100 100w,\n" +
+                "http://test.imgix.net/image.png?w=200 200w,\n" +
+                "http://test.imgix.net/image.png?w=400 400w,\n" +
+                "http://test.imgix.net/image.png?w=800 800w,\n" +
+                "http://test.imgix.net/image.png?w=1600 1600w,\n" +
+                "http://test.imgix.net/image.png?w=3200 3200w,\n" +
+                "http://test.imgix.net/image.png?w=6400 6400w,\n" +
+                "http://test.imgix.net/image.png?w=8192 8192w";
+
+        assertEquals(expected, actual);
+    }
 }
