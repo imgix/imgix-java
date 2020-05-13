@@ -220,7 +220,22 @@ public class URLBuilder {
     }
 
     public static ArrayList<Integer> targetWidths() {
-        return targetWidths(MIN_WIDTH, MAX_WIDTH, SRCSET_WIDTH_TOLERANCE);
+        // This default target widths function maintains the "ensure even"
+        // semantics.
+        double begin = MIN_WIDTH, end = MAX_WIDTH;
+
+        ArrayList<Integer> resolutions = new ArrayList<Integer>();
+        while (begin < end) {
+            resolutions.add(makeEven(begin));
+            begin *= 1 + ((double) SRCSET_WIDTH_TOLERANCE / 100) * 2;
+        }
+
+        int lastIndex = resolutions.size() - 1;
+        if (resolutions.get(lastIndex) < end) {
+            resolutions.add(makeEven(end));
+        }
+
+        return resolutions;
     }
 
     /**
