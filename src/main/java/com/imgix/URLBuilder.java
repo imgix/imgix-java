@@ -234,9 +234,11 @@ public class URLBuilder {
      * then the list begins where it ends.
      *
      * When the `while` loop terminates, `begin` is greater than `end`
-     * (where `end` <= `MAX_WIDTH`). This means that the most recently
-     * appended value may, or may not, be the `end` value. To be
-     * inclusive of the ending value, we check for this case and the
+     * (where `end` less than or equal to `MAX_WIDTH`). This means that
+     * the most recently appended value may, or may not, be the `end`
+     * value.
+     *
+     * To be inclusive of the ending value, we check for this case and the
      * value is added if necessary.
      *
      * @param begin - beginning image width value
