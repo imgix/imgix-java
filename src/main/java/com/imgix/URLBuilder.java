@@ -266,7 +266,7 @@ public class URLBuilder {
         }
 
         if (begin == end) {
-            return new ArrayList<Integer>(makeEven(begin));
+            return new ArrayList<Integer>(begin);
         }
 
         ArrayList<Integer> resolutions = new ArrayList<Integer>();
