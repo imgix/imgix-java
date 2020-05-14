@@ -1,5 +1,6 @@
 package com.imgix;
 
+import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -78,10 +79,6 @@ public class URLBuilder {
         return new URLHelper(domain, path, scheme, signKey, params).getURL();
     }
 
-    public String createSrcSet(String path) {
-        return createSrcSet(path, new TreeMap<String, String>());
-    }
-
     /**
      * Create a srcset given a `path` and a map of `params`.
      *
@@ -104,25 +101,8 @@ public class URLBuilder {
         }
     }
 
-    /**
-     * Create a srcset given a `path`, map of `params`, and the
-     * `disableVariableQuality` flag.
-     *
-     * This function delegates directly to `createSrcSetDpr` to
-     * create a dpr based srcset with variable image quality output.
-     *
-     * If `disableVariableQuality` is `false` then variable output
-     * is turned _on_. If `disableVariableQuality` is `true` then
-     * variable quality output is turned _off_.
-     *
-     * @param path - path to the image, i.e. "image/file.png"
-     * @param params - map of query parameters
-     * @param disableVariableQuality - flag to toggle variable image
-     * output quality.
-     * @return srcset attribute string
-     */
-    public String createSrcSet(String path, Map<String, String> params, boolean disableVariableQuality) {
-        return createSrcSetDPR(path, params, disableVariableQuality);
+    public String createSrcSet(String path) {
+        return createSrcSet(path, new TreeMap<String, String>());
     }
 
     /**
@@ -175,25 +155,41 @@ public class URLBuilder {
      * @return srcset attribute string
      */
     public String createSrcSet(String path, Map<String, String> params, int begin, int end, int tol) {
-        if (isDpr(params)) {
-            return createSrcSetDPR(path, params);
-        } else {
-            ArrayList<Integer> targets = targetWidths(begin, end, tol);
-            return createSrcSetPairs(path, params, targets);
-        }
+        ArrayList<Integer> targets = targetWidths(begin, end, tol);
+        return createSrcSetPairs(path, params, targets);
+    }
+
+    /**
+     * Create a srcset given a `path`, map of `params`, and the
+     * `disableVariableQuality` flag.
+     *
+     * This function delegates directly to `createSrcSetDpr` to
+     * create a dpr based srcset with variable image quality output.
+     *
+     * If `disableVariableQuality` is `false` then variable output
+     * is turned _on_. If `disableVariableQuality` is `true` then
+     * variable quality output is turned _off_.
+     *
+     * @param path - path to the image, i.e. "image/file.png"
+     * @param params - map of query parameters
+     * @param disableVariableQuality - flag to toggle variable image
+     * output quality.
+     * @return srcset attribute string
+     */
+    public String createSrcSet(String path, Map<String, String> params, boolean disableVariableQuality) {
+        return createSrcSetDPR(path, params, disableVariableQuality);
     }
 
     private String createSrcSetPairs(String path, Map<String, String> params) {
         return createSrcSetPairs(path, params, SRCSET_TARGET_WIDTHS);
     }
 
-    private String createSrcSetPairs(
-        String path, Map<String, String> params, ArrayList<Integer> targets) {
-        String srcset = "";
+    private String createSrcSetPairs(String path, Map<String, String> params, ArrayList<Integer> targets) {
+        StringBuilder srcset = new StringBuilder();
 
         for (Integer width: targets) {
             params.put("w", width.toString());
-            srcset += this.createURL(path, params) + " " + width + "w,\n";
+            srcset.append(this.createURL(path, params)).append(" ").append(width).append("w,\n");
         }
 
         return srcset.substring(0, srcset.length() - 2);
@@ -218,25 +214,6 @@ public class URLBuilder {
         return srcset.substring(0, srcset.length() - 2);
     }
 
-    public static ArrayList<Integer> targetWidths() {
-        // This default target widths function maintains the "ensure even"
-        // semantics.
-        double begin = MIN_WIDTH, end = MAX_WIDTH;
-
-        ArrayList<Integer> resolutions = new ArrayList<Integer>();
-        while (begin < end) {
-            resolutions.add(makeEven(begin));
-            begin *= 1 + ((double) SRCSET_WIDTH_TOLERANCE / 100) * 2;
-        }
-
-        int lastIndex = resolutions.size() - 1;
-        if (resolutions.get(lastIndex) < end) {
-            resolutions.add(makeEven(end));
-        }
-
-        return resolutions;
-    }
-
     /**
      * Create an `ArrayList` of integer target widths.
      *
@@ -258,26 +235,63 @@ public class URLBuilder {
      * @param begin - beginning image width value
      * @param end - ending image width value
      * @param tol - tolerable amount of width value variation
-     * @return array list of _even_ image width values
+     * @return array list of image width values
      */
     public static ArrayList<Integer> targetWidths(int begin, int end, int tol) {
+        return computeTargetWidths(begin, end, tol);
+    }
+
+    public static ArrayList<Integer> targetWidths() {
+        double begin = MIN_WIDTH, end = MAX_WIDTH;
+
+        ArrayList<Integer> resolutions = new ArrayList<Integer>();
+        while (begin < end) {
+            resolutions.add((int) Math.round(begin));
+            begin *= 1 + ((double) SRCSET_WIDTH_TOLERANCE / 100) * 2;
+        }
+
+        int lastIndex = resolutions.size() - 1;
+        if (resolutions.get(lastIndex) < end) {
+            resolutions.add((int) end);
+        }
+
+        return resolutions;
+    }
+
+    /**
+     * Create an `ArrayList` of integer target widths.
+     *
+     * This function is the implementation details of `targetWidths`.
+     * This function exists to provide a consistent interface for
+     * callers of `targetWidths`.
+     *
+     * This function implements the syntax that fulfills the semantics
+     * of `targetWidths`. Meaning, `begin`, `end`, and `tol` are
+     * to be whole integers, but computation requires `double`s. This
+     * function hides this detail from callers.
+     */
+    private static ArrayList<Integer> computeTargetWidths(double begin, double end, double tol) {
         if (notCustom(begin, end, tol)) {
             return targetWidths();
         }
 
         if (begin == end) {
-            return new ArrayList<Integer>(begin);
+            // `begin` has not been mutated; cast back to `int`.
+            return new ArrayList<Integer>((int) begin);
         }
 
         ArrayList<Integer> resolutions = new ArrayList<Integer>();
         while (begin < end && begin < MAX_WIDTH) {
-            resolutions.add(begin);
-            begin *= 1 + ((double) tol / 100) * 2;
+            // Round values so that the resulting `int` is truer
+            // to expectations (i.e. 115.99999 --> 116).
+            resolutions.add((int) Math.round(begin));
+            begin *= 1 + (tol / 100) * 2;
         }
 
         int lastIndex = resolutions.size() - 1;
         if (resolutions.get(lastIndex) < end) {
-            resolutions.add(end);
+            // `end` has not been mutated; cast back to `int`.
+            resolutions.add((int) end);
         }
 
         return resolutions;
@@ -304,18 +318,8 @@ public class URLBuilder {
         boolean defaultEnd = (end == MAX_WIDTH);
         boolean defaultTol = (tol == SRCSET_WIDTH_TOLERANCE);
 
-        // If `begin`, `end`, or `tol` differ from their
-        // default values, then together they _do not_ represent a custom
-        // target widths range and this function returns true.
+        // A list of target widths is _NOT_ custom if `begin`, `end`,
+        // and `tol` are equal to their default values.
         return defaultBegin && defaultEnd && defaultTol;
     }
-
-    private static int makeEven(double value) {
-        return (int)(2 * Math.round(value / 2));
-    }
-
-    public static void main(String[] args) {
-        System.out.println("Hello.");
-    }
-
 }

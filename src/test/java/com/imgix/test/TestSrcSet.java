@@ -71,10 +71,10 @@ public class TestSrcSet {
 
     @Test
     public void testNoParametersGeneratesCorrectWidths() {
-        int[] targetWidths = {100, 116, 134, 156, 182, 210, 244, 282,
-                328, 380, 442, 512, 594, 688, 798, 926,
-                1074, 1246, 1446, 1678, 1946, 2258, 2618,
-                3038, 3524, 4088, 4742, 5500, 6380, 7400, 8192};
+        int[] targetWidths = {100, 116, 135, 156, 181, 210, 244, 283,
+                328, 380, 441, 512, 594, 689, 799, 927,
+                1075, 1247, 1446, 1678, 1946, 2257, 2619,
+                3038, 3524, 4087, 4741, 5500, 6380, 7401, 8192};
 
         String generatedWidth;
         int index = 0;
@@ -211,10 +211,10 @@ public class TestSrcSet {
 
     @Test
     public void testHeightGeneratesCorrectWidths() {
-        int[] targetWidths = {100, 116, 134, 156, 182, 210, 244, 282,
-                328, 380, 442, 512, 594, 688, 798, 926,
-                1074, 1246, 1446, 1678, 1946, 2258, 2618,
-                3038, 3524, 4088, 4742, 5500, 6380, 7400, 8192};
+        int[] targetWidths = {100, 116, 135, 156, 181, 210, 244, 283,
+                328, 380, 441, 512, 594, 689, 799, 927,
+                1075, 1247, 1446, 1678, 1946, 2257, 2619,
+                3038, 3524, 4087, 4741, 5500, 6380, 7401, 8192};
 
         String generatedWidth;
         int index = 0;
@@ -361,10 +361,10 @@ public class TestSrcSet {
 
     @Test
     public void testAspectRatioGeneratesCorrectWidths() {
-        int[] targetWidths = {100, 116, 134, 156, 182, 210, 244, 282,
-                328, 380, 442, 512, 594, 688, 798, 926,
-                1074, 1246, 1446, 1678, 1946, 2258, 2618,
-                3038, 3524, 4088, 4742, 5500, 6380, 7400, 8192};
+        int[] targetWidths = {100, 116, 135, 156, 181, 210, 244, 283,
+                328, 380, 441, 512, 594, 689, 799, 927,
+                1075, 1247, 1446, 1678, 1946, 2257, 2619,
+                3038, 3524, 4087, 4741, 5500, 6380, 7401, 8192};
 
         String generatedWidth;
         int index = 0;
@@ -567,6 +567,8 @@ public class TestSrcSet {
         URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
         HashMap<String, String>  params = new HashMap<String, String>();
         params.put("w", "320");
+        // Ensure calling 2-param `createSrcSet` yields same results as
+        // calling 3-param `createSrcSet`.
         String actualWith2Param = ub.createSrcSet("image.png", params);
         String actualWith3Param = ub.createSrcSet("image.png", params, false);
         String expected = "http://test.imgix.net/image.png?dpr=1&q=75&w=320 1x,\n" +
@@ -600,15 +602,14 @@ public class TestSrcSet {
         HashMap<String, String>  params = new HashMap<String, String>();
         String actual = ub.createSrcSet("image.png", params, 100, 380);
         String expected = "http://test.imgix.net/image.png?w=100 100w,\n" +
-                "http://test.imgix.net/image.png?w=115 115w,\n" +
-                "http://test.imgix.net/image.png?w=133 133w,\n" +
-                "http://test.imgix.net/image.png?w=154 154w,\n" +
-                "http://test.imgix.net/image.png?w=178 178w,\n" +
-                "http://test.imgix.net/image.png?w=206 206w,\n" + 
-                "http://test.imgix.net/image.png?w=238 238w,\n" +
-                "http://test.imgix.net/image.png?w=276 276w,\n" +
-                "http://test.imgix.net/image.png?w=320 320w,\n" +
-                "http://test.imgix.net/image.png?w=371 371w,\n" + 
+                "http://test.imgix.net/image.png?w=116 116w,\n" +
+                "http://test.imgix.net/image.png?w=135 135w,\n" +
+                "http://test.imgix.net/image.png?w=156 156w,\n" +
+                "http://test.imgix.net/image.png?w=181 181w,\n" +
+                "http://test.imgix.net/image.png?w=210 210w,\n" +
+                "http://test.imgix.net/image.png?w=244 244w,\n" +
+                "http://test.imgix.net/image.png?w=283 283w,\n" +
+                "http://test.imgix.net/image.png?w=328 328w,\n" +
                 "http://test.imgix.net/image.png?w=380 380w";
 
         assertEquals(expected, actual);

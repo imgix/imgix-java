@@ -164,12 +164,10 @@ public class TestAll {
     @Test
     public void testTargetWidths() {
        ArrayList<Integer> actual = URLBuilder.targetWidths(100, 8192, 8);
-       int[] targetWidths = {
-               100, 116, 134, 156, 182, 210, 244,
-               282, 328, 380, 442, 512, 594, 688,
-               798, 926, 1074, 1246, 1446, 1678, 1946,
-               2258, 2618, 3038, 3524, 4088, 4742, 5500,
-               6380, 7400, 8192};
+       int[] targetWidths = {100, 116, 135, 156, 181, 210, 244, 283,
+               328, 380, 441, 512, 594, 689, 799, 927,
+               1075, 1247, 1446, 1678, 1946, 2257, 2619,
+               3038, 3524, 4087, 4741, 5500, 6380, 7401, 8192};
        for (int i = 0; i < targetWidths.length; ++i) {
            assertEquals(targetWidths[i], (int) actual.get(i));
        }
