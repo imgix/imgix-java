@@ -94,11 +94,8 @@ public class URLBuilder {
      * @return srcset attribute string
      */
     public String createSrcSet(String path, Map<String, String> params) {
-        if (isDpr(params)) {
-            return createSrcSetDPR(path, params);
-        } else {
-            return createSrcSetPairs(path, params);
-        }
+        return createSrcSet(path, params, MIN_WIDTH, MAX_WIDTH, SRCSET_WIDTH_TOLERANCE, false);
+
     }
 
     public String createSrcSet(String path) {
@@ -117,7 +114,7 @@ public class URLBuilder {
      * @return srcset attribute string
      */
     public String createSrcSet(String path, Map<String, String> params, int tol) {
-        return createSrcSet(path, params, MIN_WIDTH, MAX_WIDTH, tol);
+        return createSrcSet(path, params, MIN_WIDTH, MAX_WIDTH, tol, false);
     }
 
     /**
@@ -135,7 +132,7 @@ public class URLBuilder {
      * @return srcset attribute string
      */
     public String createSrcSet(String path, Map<String, String> params, int begin, int end) {
-        return createSrcSet(path, params, begin, end, SRCSET_WIDTH_TOLERANCE);
+        return createSrcSet(path, params, begin, end, SRCSET_WIDTH_TOLERANCE, false);
     }
 
     /**
@@ -155,8 +152,7 @@ public class URLBuilder {
      * @return srcset attribute string
      */
     public String createSrcSet(String path, Map<String, String> params, int begin, int end, int tol) {
-        ArrayList<Integer> targets = targetWidths(begin, end, tol);
-        return createSrcSetPairs(path, params, targets);
+        return createSrcSet(path, params, begin, end, tol, false);
     }
 
     /**
@@ -177,7 +173,16 @@ public class URLBuilder {
      * @return srcset attribute string
      */
     public String createSrcSet(String path, Map<String, String> params, boolean disableVariableQuality) {
-        return createSrcSetDPR(path, params, disableVariableQuality);
+        return createSrcSet(path, params, MIN_WIDTH, MAX_WIDTH, SRCSET_WIDTH_TOLERANCE, disableVariableQuality);
+    }
+
+    public String createSrcSet(String path, Map<String, String> params, int begin, int end, int tol, boolean disableVariableQuality) {
+        if (isDpr(params)) {
+            return createSrcSetDPR(path, params, disableVariableQuality);
+        } else {
+            ArrayList<Integer> targets = targetWidths(begin, end, tol);
+            return createSrcSetPairs(path, params, targets);
+        }
     }
 
     private String createSrcSetPairs(String path, Map<String, String> params) {
