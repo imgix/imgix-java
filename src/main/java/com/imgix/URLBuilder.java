@@ -189,14 +189,6 @@ public class URLBuilder {
         }
     }
 
-    public String createSrcSet(String path, Map<String, String> params, Integer[] targets) {
-        if (isDpr(params)) {
-            return createSrcSetDPR(path, params, targets, false);
-        } else {
-            return createSrcSetPairs(path, params, targets);
-        }
-    }
-
     private String createSrcSetPairs(String path, Map<String, String> params) {
         return createSrcSetPairs(path, params, SRCSET_TARGET_WIDTHS);
     }
@@ -217,11 +209,6 @@ public class URLBuilder {
     }
 
     private String createSrcSetDPR(String path, Map<String, String> params, boolean disableVariableQuality) {
-        return createSrcSetDPR(path, params, DPR_QUALITIES, disableVariableQuality);
-    }
-
-    private String createSrcSetDPR(String path, Map<String, String> params, Integer[] qualities, boolean disableVariableQuality) {
-        assert qualities.length == 5;
         StringBuilder srcset = new StringBuilder();
         Map<String, String> srcsetParams = new HashMap<String, String>(params);
 
@@ -231,7 +218,7 @@ public class URLBuilder {
             srcsetParams.put("dpr", Integer.toString(ratio));
 
             if (!disableVariableQuality && !has_quality) {
-                srcsetParams.put("q", qualities[ratio - 1].toString());
+                srcsetParams.put("q", DPR_QUALITIES[ratio - 1].toString());
             }
             srcset.append(this.createURL(path, srcsetParams)).append(" ").append(ratio).append("x,\n");
         }
