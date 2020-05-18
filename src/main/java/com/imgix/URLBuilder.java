@@ -1,6 +1,7 @@
 package com.imgix;
 
 import java.lang.Math;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +18,14 @@ public class URLBuilder {
     private String signKey;
     private boolean includeLibraryParam;
 
-    private static final ArrayList<Integer> SRCSET_TARGET_WIDTHS = targetWidths();
+    private static final Integer[] SRCSET_TARGET_WIDTHS = {100, 116, 135, 156, 181, 210, 244, 283,
+            328, 380, 441, 512, 594, 689, 799, 927,
+            1075, 1247, 1446, 1678, 1946, 2257, 2619,
+            3038, 3524, 4087, 4741, 5500, 6380, 7401, 8192};
     private static final int SRCSET_WIDTH_TOLERANCE = 8;
     private static final int MIN_WIDTH = 100;
     private static final int MAX_WIDTH = 8192;
-    private static final Integer[] DPR_QUALITIES = {0, 75, 50, 35, 23, 20};
+    private static final Integer[] DPR_QUALITIES = {75, 50, 35, 23, 20};
     private static final Integer[] TARGET_RATIOS = {1, 2, 3, 4, 5};
 
     public URLBuilder(String domain, boolean useHttps, String signKey, boolean includeLibraryParam) {
@@ -180,7 +184,15 @@ public class URLBuilder {
         if (isDpr(params)) {
             return createSrcSetDPR(path, params, disableVariableQuality);
         } else {
-            ArrayList<Integer> targets = targetWidths(begin, end, tol);
+            Integer[] targets = targetWidths(begin, end, tol).toArray(new Integer[0]);
+            return createSrcSetPairs(path, params, targets);
+        }
+    }
+
+    public String createSrcSet(String path, Map<String, String> params, Integer[] targets) {
+        if (isDpr(params)) {
+            return createSrcSetDPR(path, params, targets, false);
+        } else {
             return createSrcSetPairs(path, params, targets);
         }
     }
@@ -189,7 +201,7 @@ public class URLBuilder {
         return createSrcSetPairs(path, params, SRCSET_TARGET_WIDTHS);
     }
 
-    private String createSrcSetPairs(String path, Map<String, String> params, ArrayList<Integer> targets) {
+    private String createSrcSetPairs(String path, Map<String, String> params, Integer[] targets) {
         StringBuilder srcset = new StringBuilder();
 
         for (Integer width: targets) {
@@ -205,6 +217,11 @@ public class URLBuilder {
     }
 
     private String createSrcSetDPR(String path, Map<String, String> params, boolean disableVariableQuality) {
+        return createSrcSetDPR(path, params, DPR_QUALITIES, disableVariableQuality);
+    }
+
+    private String createSrcSetDPR(String path, Map<String, String> params, Integer[] qualities, boolean disableVariableQuality) {
+        assert qualities.length == 5;
         StringBuilder srcset = new StringBuilder();
         Map<String, String> srcsetParams = new HashMap<String, String>(params);
 
@@ -214,7 +231,7 @@ public class URLBuilder {
             srcsetParams.put("dpr", Integer.toString(ratio));
 
             if (!disableVariableQuality && !has_quality) {
-                srcsetParams.put("q", DPR_QUALITIES[ratio].toString());
+                srcsetParams.put("q", qualities[ratio - 1].toString());
             }
             srcset.append(this.createURL(path, srcsetParams)).append(" ").append(ratio).append("x,\n");
         }
@@ -279,9 +296,8 @@ public class URLBuilder {
      */
     private static ArrayList<Integer> computeTargetWidths(double begin, double end, double tol) {
         if (notCustom(begin, end, tol)) {
-            return targetWidths();
+            return new ArrayList<Integer>(Arrays.asList(SRCSET_TARGET_WIDTHS));
         }
-
 
         ArrayList<Integer> resolutions = new ArrayList<Integer>();
         if (begin == end) {
