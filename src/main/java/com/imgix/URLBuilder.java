@@ -266,20 +266,7 @@ public class URLBuilder {
     }
 
     public static ArrayList<Integer> targetWidths() {
-        double begin = MIN_WIDTH, end = MAX_WIDTH;
-
-        ArrayList<Integer> resolutions = new ArrayList<Integer>();
-        while (begin < end) {
-            resolutions.add((int) Math.round(begin));
-            begin *= 1 + ((double) SRCSET_WIDTH_TOLERANCE / 100) * 2;
-        }
-
-        int lastIndex = resolutions.size() - 1;
-        if (resolutions.get(lastIndex) < end) {
-            resolutions.add((int) end);
-        }
-
-        return resolutions;
+        return new ArrayList<Integer>(Arrays.asList(SRCSET_TARGET_WIDTHS));
     }
 
     /**
