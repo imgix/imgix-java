@@ -689,4 +689,19 @@ public class TestSrcSet {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void testCreateSrcSetWidthTargets() {
+        URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
+        HashMap<String, String>  params = new HashMap<String, String>();
+        String actual = ub.createSrcSet("image.png", params, new Integer[] {100, 200, 300, 400, 500, 600});
+        String expected = "http://test.imgix.net/image.png?w=100 100w,\n" +
+                "http://test.imgix.net/image.png?w=200 200w,\n" +
+                "http://test.imgix.net/image.png?w=300 300w,\n" +
+                "http://test.imgix.net/image.png?w=400 400w,\n" +
+                "http://test.imgix.net/image.png?w=500 500w,\n" +
+                "http://test.imgix.net/image.png?w=600 600w";
+
+        assertEquals(expected, actual);
+    }
 }

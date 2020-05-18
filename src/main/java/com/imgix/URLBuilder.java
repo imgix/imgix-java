@@ -22,6 +22,7 @@ public class URLBuilder {
             328, 380, 441, 512, 594, 689, 799, 927,
             1075, 1247, 1446, 1678, 1946, 2257, 2619,
             3038, 3524, 4087, 4741, 5500, 6380, 7401, 8192};
+    private static final ArrayList<Integer> sss = new ArrayList<Integer>();
     private static final int SRCSET_WIDTH_TOLERANCE = 8;
     private static final int MIN_WIDTH = 100;
     private static final int MAX_WIDTH = 8192;
@@ -187,6 +188,11 @@ public class URLBuilder {
             Integer[] targets = targetWidths(begin, end, tol).toArray(new Integer[0]);
             return createSrcSetPairs(path, params, targets);
         }
+    }
+
+
+    public String createSrcSet(String path, HashMap<String, String> params, Integer[] targets) {
+        return createSrcSetPairs(path, params, targets);
     }
 
     private String createSrcSetPairs(String path, Map<String, String> params) {
