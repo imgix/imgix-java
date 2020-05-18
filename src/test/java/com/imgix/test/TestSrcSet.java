@@ -631,23 +631,6 @@ public class TestSrcSet {
     }
 
     @Test
-    public void testCreateSrcSetQualities() {
-        URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
-        HashMap<String, String>  params = new HashMap<String, String>();
-        params.put("h", "100");
-        params.put("ar", "4:3");
-
-        String actual = ub.createSrcSet("image.png", params, new Integer[] {1024, 512, 128, 64, 32});
-        String expected = "http://test.imgix.net/image.png?ar=4%3A3&dpr=1&h=100&q=1024 1x,\n" +
-                "http://test.imgix.net/image.png?ar=4%3A3&dpr=2&h=100&q=512 2x,\n" +
-                "http://test.imgix.net/image.png?ar=4%3A3&dpr=3&h=100&q=128 3x,\n" +
-                "http://test.imgix.net/image.png?ar=4%3A3&dpr=4&h=100&q=64 4x,\n" +
-                "http://test.imgix.net/image.png?ar=4%3A3&dpr=5&h=100&q=32 5x";
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
     public void testCreateSrcSetPairsBeginEnd() {
         URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
         HashMap<String, String>  params = new HashMap<String, String>();
@@ -703,21 +686,6 @@ public class TestSrcSet {
         HashMap<String, String>  params = new HashMap<String, String>();
         String actual = ub.createSrcSet("image.png", params, 640, 640);
         String expected = "http://test.imgix.net/image.png?w=640 640w";
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testCreateSrcSetWidthTargets() {
-        URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
-        HashMap<String, String>  params = new HashMap<String, String>();
-        String actual = ub.createSrcSet("image.png", params, new Integer[] {100, 200, 300, 400, 500, 600});
-        String expected = "http://test.imgix.net/image.png?w=100 100w,\n" +
-                "http://test.imgix.net/image.png?w=200 200w,\n" +
-                "http://test.imgix.net/image.png?w=300 300w,\n" +
-                "http://test.imgix.net/image.png?w=400 400w,\n" +
-                "http://test.imgix.net/image.png?w=500 500w,\n" +
-                "http://test.imgix.net/image.png?w=600 600w";
 
         assertEquals(expected, actual);
     }
