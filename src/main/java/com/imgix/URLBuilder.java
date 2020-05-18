@@ -2,6 +2,7 @@ package com.imgix;
 
 import java.lang.Math;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
@@ -95,7 +96,6 @@ public class URLBuilder {
      */
     public String createSrcSet(String path, Map<String, String> params) {
         return createSrcSet(path, params, MIN_WIDTH, MAX_WIDTH, SRCSET_WIDTH_TOLERANCE, false);
-
     }
 
     public String createSrcSet(String path) {
@@ -206,16 +206,18 @@ public class URLBuilder {
 
     private String createSrcSetDPR(String path, Map<String, String> params, boolean disableVariableQuality) {
         StringBuilder srcset = new StringBuilder();
+        Map<String, String> srcsetParams = new HashMap<String, String>(params);
+
+        boolean has_quality = params.get("q") != null;
 
         for (int ratio: TARGET_RATIOS) {
-            params.put("dpr", Integer.toString(ratio));
+            srcsetParams.put("dpr", Integer.toString(ratio));
 
-            if (!disableVariableQuality) {
-                params.put("q", DPR_QUALITIES[ratio].toString());
+            if (!disableVariableQuality && !has_quality) {
+                srcsetParams.put("q", DPR_QUALITIES[ratio].toString());
             }
-            srcset.append(this.createURL(path, params)).append(" ").append(ratio).append("x,\n");
+            srcset.append(this.createURL(path, srcsetParams)).append(" ").append(ratio).append("x,\n");
         }
-
         return srcset.substring(0, srcset.length() - 2);
     }
 
@@ -280,12 +282,14 @@ public class URLBuilder {
             return targetWidths();
         }
 
-        if (begin == end) {
-            // `begin` has not been mutated; cast back to `int`.
-            return new ArrayList<Integer>((int) begin);
-        }
 
         ArrayList<Integer> resolutions = new ArrayList<Integer>();
+        if (begin == end) {
+            // `begin` has not been mutated; cast back to `int`.
+            resolutions.add((int) begin);
+            return resolutions;
+        }
+
         while (begin < end && begin < MAX_WIDTH) {
             // Round values so that the resulting `int` is truer
             // to expectations (i.e. 115.99999 --> 116).
