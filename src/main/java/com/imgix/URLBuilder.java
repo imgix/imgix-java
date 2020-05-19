@@ -164,9 +164,6 @@ public class URLBuilder {
      * Create a srcset given a `path`, map of `params`, and the
      * `disableVariableQuality` flag.
      *
-     * This function delegates directly to `createSrcSetDpr` to
-     * create a dpr based srcset with variable image quality output.
-     *
      * If `disableVariableQuality` is `false` then variable output
      * is turned _on_. If `disableVariableQuality` is `true` then
      * variable quality output is turned _off_.
