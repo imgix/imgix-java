@@ -188,18 +188,18 @@ public class URLBuilder {
     }
 
 
-    public String createSrcSet(String path, HashMap<String, String> params, Integer[] targets) {
-        return createSrcSetPairs(path, params, targets);
+    public String createSrcSet(String path, HashMap<String, String> params, Integer[] widths) {
+        return createSrcSetPairs(path, params, widths);
     }
 
     private String createSrcSetPairs(String path, Map<String, String> params) {
         return createSrcSetPairs(path, params, SRCSET_TARGET_WIDTHS);
     }
 
-    private String createSrcSetPairs(String path, Map<String, String> params, Integer[] targets) {
+    private String createSrcSetPairs(String path, Map<String, String> params, Integer[] widths) {
         StringBuilder srcset = new StringBuilder();
 
-        for (Integer width: targets) {
+        for (Integer width: widths) {
             params.put("w", width.toString());
             srcset.append(this.createURL(path, params)).append(" ").append(width).append("w,\n");
         }
