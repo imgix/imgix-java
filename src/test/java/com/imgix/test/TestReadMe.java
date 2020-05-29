@@ -15,7 +15,7 @@ public class TestReadMe {
     public void testReadMeWidthTolerance() {
         URLBuilder ub = new URLBuilder("demo.imgix.net", true, "", false);
         HashMap<String, String>  params = new HashMap<String, String>();
-        String actual = ub.createSrcSet("image.jpg", params, 100, 384, 20);
+        String actual = ub.createSrcSet("image.jpg", params, 100, 384, 0.20);
         String expected = "https://demo.imgix.net/image.jpg?w=100 100w,\n" +
             "https://demo.imgix.net/image.jpg?w=140 140w,\n" +
             "https://demo.imgix.net/image.jpg?w=196 196w,\n" +
