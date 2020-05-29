@@ -653,7 +653,7 @@ public class TestSrcSet {
     public void testCreateSrcSetPairsBeginEndTol() {
         URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
         HashMap<String, String>  params = new HashMap<String, String>();
-        String actual = ub.createSrcSet("image.png", params, 100, 108, 1);
+        String actual = ub.createSrcSet("image.png", params, 100, 108, 0.01);
         String expected = "http://test.imgix.net/image.png?w=100 100w,\n" +
                 "http://test.imgix.net/image.png?w=102 102w,\n" +
                 "http://test.imgix.net/image.png?w=104 104w,\n" +
@@ -667,7 +667,7 @@ public class TestSrcSet {
     public void testCreateSrcSetTol() {
         URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
         HashMap<String, String>  params = new HashMap<String, String>();
-        String actual = ub.createSrcSet("image.png", params, 50);
+        String actual = ub.createSrcSet("image.png", params, 0.50);
         String expected = "http://test.imgix.net/image.png?w=100 100w,\n" +
                 "http://test.imgix.net/image.png?w=200 200w,\n" +
                 "http://test.imgix.net/image.png?w=400 400w,\n" +
