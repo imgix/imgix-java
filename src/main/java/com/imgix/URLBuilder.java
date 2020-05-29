@@ -149,6 +149,9 @@ public class URLBuilder {
      * on the specified values. The specified `tol` determines the tolerable
      * amount of width value variation.
      *
+     * If any value `begin`, `end`, or `tol` is invalid, then an empty
+     * srcset attribute string will be returned.
+     *
      * @param path - path to the image, i.e. "image/file.png"
      * @param params - map of query parameters
      * @param begin - beginning image width value
@@ -198,6 +201,12 @@ public class URLBuilder {
 
     private String createSrcSetPairs(String path, Map<String, String> params, Integer[] widths) {
         StringBuilder srcset = new StringBuilder();
+
+        // If the array of widths is not valid, return an empty string
+        // to indicate an error has occurred.
+        if (!Validate.isValidWidths(widths)) {
+            return "";
+        }
 
         for (Integer width: widths) {
             params.put("w", width.toString());
@@ -270,8 +279,17 @@ public class URLBuilder {
      * of `targetWidths`. Meaning, `begin`, `end`, and `tol` are
      * to be whole integers, but computation requires `double`s. This
      * function hides this detail from callers.
+     *
+     * The inputs are lightly validated. If neither `tol` nor `begin`
+     * _and_ `end` are valid, return an empty list to indicate the
+     * error state (without throwing an exception).
      */
     private static ArrayList<Integer> computeTargetWidths(double begin, double end, double tol) {
+        boolean hasInvalidRange = !Validate.isValidTolerance(tol) || !Validate.isValidWidthRange(begin, end);
+        if (hasInvalidRange) {
+            return new ArrayList<Integer>();
+        }
+
         if (notCustom(begin, end, tol)) {
             return new ArrayList<Integer>(Arrays.asList(SRCSET_TARGET_WIDTHS));
         }

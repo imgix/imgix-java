@@ -704,4 +704,38 @@ public class TestSrcSet {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void testCreateSrcSetInvalidTol() {
+        // Test a negative, invalid, width `tol` results in an empty
+        // srcset string.
+        URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
+        HashMap<String, String>  params = new HashMap<String, String>();
+        String actual = ub.createSrcSet("image.png", params, -0.01);
+        String expected = "";
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testCreateSrcSetInvalidBegin() {
+        // Test invalid `begin == 0` results in an empty srcset string.
+        URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
+        HashMap<String, String>  params = new HashMap<String, String>();
+        String actual = ub.createSrcSet("image.png", params, 0, 100);
+        String expected = "";
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testCreateSrcSetInvalidBeginAndEnd() {
+        // Test invalid `begin > end` results in an empty srcset string.
+        URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
+        HashMap<String, String>  params = new HashMap<String, String>();
+        String actual = ub.createSrcSet("image.png", params, 101, 100);
+        String expected = "";
+
+        assertEquals(expected, actual);
+    }
 }
