@@ -163,7 +163,7 @@ public class TestAll {
 
     @Test
     public void testTargetWidths() {
-       ArrayList<Integer> actual = URLBuilder.targetWidths(100, 8192, 8);
+       ArrayList<Integer> actual = URLBuilder.targetWidths(100, 8192, 0.08);
        int[] targetWidths = {100, 116, 135, 156, 181, 210, 244, 283,
                328, 380, 441, 512, 594, 689, 799, 927,
                1075, 1247, 1446, 1678, 1946, 2257, 2619,

@@ -23,7 +23,7 @@ public class URLBuilder {
             1075, 1247, 1446, 1678, 1946, 2257, 2619,
             3038, 3524, 4087, 4741, 5500, 6380, 7401, 8192};
 
-    private static final int SRCSET_WIDTH_TOLERANCE = 8;
+    private static final double SRCSET_WIDTH_TOLERANCE = 0.08;
     private static final int MIN_WIDTH = 100;
     private static final int MAX_WIDTH = 8192;
     private static final Integer[] DPR_QUALITIES = {75, 50, 35, 23, 20};
@@ -118,7 +118,7 @@ public class URLBuilder {
      * @param tol - tolerable amount of width value variation
      * @return srcset attribute string
      */
-    public String createSrcSet(String path, Map<String, String> params, int tol) {
+    public String createSrcSet(String path, Map<String, String> params, double tol) {
         return createSrcSet(path, params, MIN_WIDTH, MAX_WIDTH, tol, false);
     }
 
@@ -153,10 +153,10 @@ public class URLBuilder {
      * @param params - map of query parameters
      * @param begin - beginning image width value
      * @param end - ending image width value
-     * @param tol - tolerable amount of width value variation
+     * @param tol - tolerable amount of width value variation, from 0.01 to 1.0
      * @return srcset attribute string
      */
-    public String createSrcSet(String path, Map<String, String> params, int begin, int end, int tol) {
+    public String createSrcSet(String path, Map<String, String> params, int begin, int end, double tol) {
         return createSrcSet(path, params, begin, end, tol, false);
     }
 
@@ -178,7 +178,7 @@ public class URLBuilder {
         return createSrcSet(path, params, MIN_WIDTH, MAX_WIDTH, SRCSET_WIDTH_TOLERANCE, disableVariableQuality);
     }
 
-    public String createSrcSet(String path, Map<String, String> params, int begin, int end, int tol, boolean disableVariableQuality) {
+    public String createSrcSet(String path, Map<String, String> params, int begin, int end, double tol, boolean disableVariableQuality) {
         if (isDpr(params)) {
             return createSrcSetDPR(path, params, disableVariableQuality);
         } else {
@@ -248,10 +248,10 @@ public class URLBuilder {
      *
      * @param begin - beginning image width value
      * @param end - ending image width value
-     * @param tol - tolerable amount of width value variation
+     * @param tol - tolerable amount of width value variation, from 0.01 to 1.0
      * @return array list of image width values
      */
-    public static ArrayList<Integer> targetWidths(int begin, int end, int tol) {
+    public static ArrayList<Integer> targetWidths(int begin, int end, double tol) {
         return computeTargetWidths(begin, end, tol);
     }
 
@@ -287,7 +287,7 @@ public class URLBuilder {
             // Round values so that the resulting `int` is truer
             // to expectations (i.e. 115.99999 --> 116).
             resolutions.add((int) Math.round(begin));
-            begin *= 1 + (tol / 100) * 2;
+            begin *= 1 + tol * 2;
         }
 
         int lastIndex = resolutions.size() - 1;
