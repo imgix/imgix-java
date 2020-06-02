@@ -10,6 +10,11 @@
 ---
 <!-- /ix-docs-ignore -->
 
+- [Installation](#installation)
+  - [Dependencies](#dependencies)
+  - [Install Options](#install-options)
+    - [Gradle & JCenter](#gradle--jcenter)
+    - [Creating a Jar](#creating-a-jar)
 - [Usage](#usage)
 - [Signed URLs](#signed-urls)
 - [Srcset Generation](#srcset-generation)
@@ -19,12 +24,47 @@
     - [Custom Widths](#custom-widths)
     - [Width Ranges](#width-ranges)
     - [Width Tolerance](#width-tolerance)
-- [Installation](#installation)
-  - [Dependencies](#dependencies)
-  - [Install Options](#install-options)
-    - [Gradle & JCenter](#gradle--jcenter)
-    - [Creating a Jar](#creating-a-jar)
 - [Running Tests](#running-tests)
+
+## Installation
+
+### Dependencies
+
+The library itself has no external dependencies. Although if you want to build from source (or run tests) then you need `ant` and the `JDK 1.6+`.
+
+### Install Options
+
+#### Gradle & JCenter
+
+To add Imgix-Java to your project, include the following in your project's build.gradle:
+
+```
+dependencies {
+   compile "com.imgix:imgix-java:2.2.0"
+}
+```
+
+And if this is your first external JCenter dependency you'll need to add, again to your project level build.gradle, the following:
+
+```
+buildscript {
+   repositories {
+      jcenter()
+   }
+}
+```
+
+#### Creating a Jar
+
+To create a jar from source:
+
+```
+gradle build
+```
+
+This creates `imgix-java-{VERSION_NUMBER}.jar` under `./build/libs`
+
+Once a new version has been merged into master on GitHub (don't forget to update the version numbers in build.gradle first!), it can be deployed to Bintray with `gradle build && gradle bintrayUpload`. After that, the new version can be viewed via the [Bintray web interface](https://bintray.com/imgix/maven/imgix-java).
 
 ## Usage
 
@@ -244,46 +284,6 @@ https://demo.imgix.net/image.jpg?w=196 196w,
 https://demo.imgix.net/image.jpg?w=274 274w,
 https://demo.imgix.net/image.jpg?w=384 384w
 ```
-
-## Installation 
-
-### Dependencies
-
-The library itself has no external dependencies. Although if you want to build from source (or run tests) then you need `ant` and the `JDK 1.6+`.
-
-### Install Options
-
-#### Gradle & JCenter
-
-To add Imgix-Java to your project, include the following in your project's build.gradle:
-
-```
-dependencies {
-   compile "com.imgix:imgix-java:2.2.0"
-}
-```
-
-And if this is your first external JCenter dependency you'll need to add, again to your project level build.gradle, the following:
-
-```
-buildscript {
-   repositories {
-      jcenter()
-   }
-}
-```
-
-#### Creating a Jar
-
-To create a jar from source:
-
-```
-gradle build
-```
-
-This creates `imgix-java-{VERSION_NUMBER}.jar` under `./build/libs`
-
-Once a new version has been merged into master on GitHub (don't forget to update the version numbers in build.gradle first!), it can be deployed to Bintray with `gradle build && gradle bintrayUpload`. After that, the new version can be viewed via the [Bintray web interface](https://bintray.com/imgix/maven/imgix-java).
 
 ## Running Tests
 
