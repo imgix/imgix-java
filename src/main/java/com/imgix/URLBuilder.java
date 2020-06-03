@@ -197,6 +197,9 @@ public class URLBuilder {
     }
 
     private String createSrcSetPairs(String path, Map<String, String> params, Integer[] widths) {
+        // Validate
+        Validator.validateWidths(widths);
+
         StringBuilder srcset = new StringBuilder();
 
         for (Integer width: widths) {
@@ -252,6 +255,7 @@ public class URLBuilder {
      * @return array list of image width values
      */
     public static ArrayList<Integer> targetWidths(int begin, int end, double tol) {
+        Validator.validateMinMaxTol(begin, end, tol);
         return computeTargetWidths(begin, end, tol);
     }
 
