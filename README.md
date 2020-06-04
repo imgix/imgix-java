@@ -275,7 +275,7 @@ HashMap<String, String>  params = new HashMap<String, String>();
 String srcset = ub.createSrcSet("image.png", params, 100, 384, 0.20);
 ```
 
-In this case, the width `tol`erance is set to 0.20 percent, which will be reflected in the difference between subsequent widths in a srcset pair:
+In this case, the width `tol`erance is set to 20 percent, which will be reflected in the difference between subsequent widths in a srcset pair:
 
 ```html
 https://demo.imgix.net/image.jpg?w=100 100w,
