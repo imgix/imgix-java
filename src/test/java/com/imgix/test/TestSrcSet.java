@@ -704,4 +704,25 @@ public class TestSrcSet {
 
         assertEquals(expected, actual);
     }
+
+    @Test(expected = RuntimeException.class)
+    public void testCreateSrcSetInvalidWidths() {
+        URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
+        HashMap<String, String>  params = new HashMap<String, String>();
+        ub.createSrcSet("image.png", params, new Integer[] {100, 200, 300, 400, 500, -600});
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testCreateSrcSetInvalidRange() {
+        URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
+        HashMap<String, String>  params = new HashMap<String, String>();
+        ub.createSrcSet("image.png", params, 100, 99);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testCreateSrcSetInvalidTol() {
+        URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
+        HashMap<String, String>  params = new HashMap<String, String>();
+        ub.createSrcSet("image.png", params, 0.001);
+    }
 }
