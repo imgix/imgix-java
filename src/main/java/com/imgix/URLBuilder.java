@@ -197,7 +197,6 @@ public class URLBuilder {
     }
 
     private String createSrcSetPairs(String path, Map<String, String> params, Integer[] widths) {
-        // Validate
         Validator.validateWidths(widths);
 
         StringBuilder srcset = new StringBuilder();

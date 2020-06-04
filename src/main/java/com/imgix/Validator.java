@@ -57,7 +57,7 @@ public class Validator {
      * @throws RuntimeException If `tol` is less than `ONE_PERCENT`.
      */
     public static void validateTolerance(double tol) throws RuntimeException {
-        String msg = "`tol`erance value must be greater than," +
+        String msg = "`tol`erance value must be greater than, " +
             "or equal to one percent, ie. >= 0.01";
 
         if (tol < ONE_PERCENT) {
