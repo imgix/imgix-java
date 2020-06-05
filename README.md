@@ -267,12 +267,12 @@ For example, setting this value to 0.1 means that an image will not render more 
 
 A lower tolerance means images will render closer to their native size (thereby increasing perceived image quality), but a large srcset list will be generated and consequently users may experience lower rates of cache-hit for pre-rendered images on your site.
 
-By default, srcset width `tol`erance is set to 8 percent, which we consider to be the ideal rate for maximizing cache hits without sacrificing visual quality. Users can specify their own width tolerance by providing a positive scalar value as width `tol`erance:
+By default, srcset width `tol`erance is set to `0.08` (8 percent), which we consider to be the ideal rate for maximizing cache hits without sacrificing visual quality. Users can specify their own width tolerance by providing a positive scalar value as width `tol`erance:
 
 ```java
 URLBuilder ub = new URLBuilder("test.imgix.net", false, "", false);
 HashMap<String, String>  params = new HashMap<String, String>();
-String srcset = ub.createSrcSet("image.png", params, 100, 384, 20);
+String srcset = ub.createSrcSet("image.png", params, 100, 384, 0.20);
 ```
 
 In this case, the width `tol`erance is set to 20 percent, which will be reflected in the difference between subsequent widths in a srcset pair:
