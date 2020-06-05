@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+### Version 2.3.0 (_June 05, 2020_)
+* feat: custom srcsets ([#44](https://github.com/imgix/imgix-java/pull/44))
+* fix: convert tol to float ([#49](https://github.com/imgix/imgix-java/pull/49))
+* feat: throw when validator detects invalid input ([#52](https://github.com/imgix/imgix-java/pull/52))
+
 ### Version 2.2.0 (_April 10, 2020_)
 
 * feat(https): use https by default ([#38](https://github.com/imgix/imgix-java/pull/38))
