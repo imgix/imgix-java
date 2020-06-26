@@ -4,8 +4,8 @@
 `imgix-java` is a client library for generating image URLs with [imgix](https://www.imgix.com/).
 
 [![Download](https://api.bintray.com/packages/imgix/maven/imgix-java/images/download.svg) ](https://bintray.com/imgix/maven/imgix-java/_latestVersion)
-[![Build Status](https://travis-ci.org/imgix/imgix-java.svg?branch=master)](https://travis-ci.org/imgix/imgix-java)
-[![License](https://img.shields.io/github/license/imgix/imgix-java)](https://github.com/imgix/imgix-java/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/imgix/imgix-java.svg?branch=main)](https://travis-ci.org/imgix/imgix-java)
+[![License](https://img.shields.io/github/license/imgix/imgix-java)](https://github.com/imgix/imgix-java/blob/main/LICENSE)
 
 ---
 <!-- /ix-docs-ignore -->
@@ -64,7 +64,7 @@ gradle build
 
 This creates `imgix-java-{VERSION_NUMBER}.jar` under `./build/libs`
 
-Once a new version has been merged into master on GitHub (don't forget to update the version numbers in build.gradle first!), it can be deployed to Bintray with `gradle build && gradle bintrayUpload`. After that, the new version can be viewed via the [Bintray web interface](https://bintray.com/imgix/maven/imgix-java).
+Once a new version has been merged into main on GitHub (don't forget to update the version numbers in build.gradle first!), it can be deployed to Bintray with `gradle build && gradle bintrayUpload`. After that, the new version can be viewed via the [Bintray web interface](https://bintray.com/imgix/maven/imgix-java).
 
 ## Usage
 
