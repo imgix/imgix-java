@@ -6,25 +6,26 @@
 [![Download](https://api.bintray.com/packages/imgix/maven/imgix-java/images/download.svg) ](https://bintray.com/imgix/maven/imgix-java/_latestVersion)
 [![Build Status](https://travis-ci.com/imgix/imgix-java.svg?branch=main)](https://travis-ci.com/imgix/imgix-java)
 [![License](https://img.shields.io/github/license/imgix/imgix-java)](https://github.com/imgix/imgix-java/blob/main/LICENSE)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fimgix%2Fimgix-java.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fimgix%2Fimgix-java?ref=badge_shield)
 
 ---
 <!-- /ix-docs-ignore -->
 
 - [Installation](#installation)
-  - [Dependencies](#dependencies)
-  - [Install Options](#install-options)
-    - [Gradle & JCenter](#gradle--jcenter)
-    - [Creating a Jar](#creating-a-jar)
+    * [Dependencies](#dependencies)
+    * [Install Options](#install-options)
+        + [Gradle & JCenter](#gradle--jcenter)
+        + [Creating a Jar](#creating-a-jar)
 - [Usage](#usage)
 - [Signed URLs](#signed-urls)
 - [Srcset Generation](#srcset-generation)
-  - [Fixed-Width Images](#fixed-width-images)
-      - [Variable Quality](#variable-quality)
-  - [Fluid-Width Images](#fluid-width-images)
-    - [Custom Widths](#custom-widths)
-    - [Width Ranges](#width-ranges)
-    - [Width Tolerance](#width-tolerance)
+    * [Fixed-Width Images](#fixed-width-images)
+    * [Fluid-Width Images](#fluid-width-images)
+        + [Custom Widths](#custom-widths)
+        + [Width Ranges](#width-ranges)
+        + [Width Tolerance](#width-tolerance)
 - [Running Tests](#running-tests)
+- [License](#license)
 
 ## Installation
 
@@ -294,3 +295,6 @@ gradle test
 ```
 
 Dependencies for running tests (junit, etc) are provided (in `test/lib` and referenced in the build config).
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fimgix%2Fimgix-java.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fimgix%2Fimgix-java?ref=badge_large)
