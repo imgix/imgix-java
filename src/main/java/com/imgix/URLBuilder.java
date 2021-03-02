@@ -312,10 +312,10 @@ public class URLBuilder {
         String aspectRatio = params.get("ar");
         boolean hasAspectRatio = (aspectRatio != null) && !aspectRatio.isEmpty();
 
-        // If `params` have a width param or _both_ height and aspect
-        // ratio parameters then the srcset to be constructed with
-        // these params _is dpr based_.
-        return hasWidth || (hasHeight && hasAspectRatio);
+        // If `params` have a width param or height parameters
+        // then the srcset to be constructed with these params
+        // _is dpr based_.
+        return hasWidth || hasHeight;
     }
 
     private static boolean notCustom(double begin, double end, double tol) {

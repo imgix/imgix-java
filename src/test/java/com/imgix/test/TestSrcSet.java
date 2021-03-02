@@ -13,6 +13,8 @@ import com.imgix.URLBuilder;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
+
+
 @RunWith(JUnit4.class)
 public class TestSrcSet {
 
@@ -22,12 +24,13 @@ public class TestSrcSet {
     private static String[] srcsetHeightSplit;
     private static String[] srcsetAspectRatioSplit;
     private static String[] srcsetWidthAndHeightSplit;
+    private static String srcsetHeight;
     private static String[] srcsetWidthAndAspectRatioSplit;
     private static String[] srcsetHeightAndAspectRatioSplit;
 
     @BeforeClass
     public static void buildAllSrcSets() {
-        String srcset, srcsetWidth, srcsetHeight, srcsetAspectRatio, srcsetWidthAndHeight, srcsetWidthAndAspectRatio, srcsetHeightAndAspectRatio;
+        String srcset, srcsetWidth, srcsetAspectRatio, srcsetWidthAndHeight, srcsetWidthAndAspectRatio, srcsetHeightAndAspectRatio;
 
         URLBuilder ub = new URLBuilder("test.imgix.net", true, "MYT0KEN" , false);
         params = new HashMap<String, String>();
@@ -210,22 +213,32 @@ public class TestSrcSet {
     }
 
     @Test
-    public void testHeightGeneratesCorrectWidths() {
-        int[] targetWidths = {100, 116, 135, 156, 181, 210, 244, 283,
-                328, 380, 441, 512, 594, 689, 799, 927,
-                1075, 1247, 1446, 1678, 1946, 2257, 2619,
-                3038, 3524, 4087, 4741, 5500, 6380, 7401, 8192};
+    public void testGivenHeightSRCSETGeneratePairs() {
+        assertEquals(srcsetHeightSplit.length, 5);
+    }
 
-        String generatedWidth;
-        int index = 0;
-        int widthInt;
+    @Test
 
-        for (String src: srcsetHeightSplit) {
-            generatedWidth = src.split(" ")[1];
-            widthInt = Integer.parseInt(generatedWidth.substring(0,generatedWidth.length()-1));
-            assertEquals(targetWidths[index], widthInt);
-            index++;
+    public void testHeightBasedSrcsetHasDprValues() {
+        String[] split_srcset = srcsetHeightSplit;
+        String[] descriptors =  new String[srcsetHeightSplit.length];
+
+        // extract descriptors
+        for (int i = 0; i < split_srcset.length; i++) {
+            String val =  split_srcset[i];
+            String empty_str="";
+            String space=" ";
+            String comma=",";
+            // Split on space
+            String[] split_url = val.split(space);
+            if (split_url.length == 2) {
+                // #Remember to remove the commas.
+                String sub_str = split_url[1];
+                descriptors[i] = sub_str.replace(comma, empty_str);
+            }
         }
+
+        assertEquals(Arrays.toString(descriptors), "[1x, 2x, 3x, 4x, 5x]");
     }
 
     @Test
@@ -240,40 +253,8 @@ public class TestSrcSet {
 
     @Test
     public void testHeightReturnsExpectedNumberOfPairs() {
-        int expectedPairs = 31;
+        int expectedPairs = 5;
         assertEquals(expectedPairs, srcsetHeightSplit.length);
-    }
-
-    @Test
-    public void testHeightDoesNotExceedBounds() {
-        String minWidth = srcsetHeightSplit[0].split(" ")[1];
-        String maxWidth = srcsetHeightSplit[srcsetHeightSplit.length-1].split(" ")[1];
-
-        int minWidthInt = Integer.parseInt(minWidth.substring(0,minWidth.length()-1));
-        int maxWidthInt = Integer.parseInt(maxWidth.substring(0,maxWidth.length()-1));
-
-        assert(minWidthInt >= 100);
-        assert(maxWidthInt <= 8192);
-    }
-
-    // a 17% testing threshold is used to account for rounding
-    @Test
-    public void testHeightDoesNotIncreaseMoreThan17Percent() {
-        final double INCREMENT_ALLOWED = .17;
-        String width;
-        int widthInt, prev;
-
-        // convert and store first width (typically: 100)
-        width = srcsetHeightSplit[0].split(" ")[1];
-        prev = Integer.parseInt(width.substring(0,width.length()-1));
-
-        for (String src : srcsetHeightSplit) {
-            width = src.split(" ")[1];
-            widthInt = Integer.parseInt(width.substring(0,width.length()-1));
-
-            assert((widthInt / prev) < (1 + INCREMENT_ALLOWED));
-            prev = widthInt;
-        }
     }
 
     @Test

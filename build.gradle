@@ -10,8 +10,8 @@ version = '2.3.0'
 
 description = """Imgix Java Client"""
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
+sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
@@ -38,11 +38,14 @@ bintray {
   }
 }
 
+
+// `classifier = 'sources'` is a deprecated feature--removed!
 task sourcesJar(type: Jar, dependsOn: classes) {
     archiveClassifier.set("sources")
     from sourceSets.main.allSource
 }
 
+// `classifier = 'javadoc'` is a deprecated feature--removed!
 task javadocJar(type: Jar, dependsOn: javadoc) {
     archiveClassifier.set("javadoc")
     from javadoc.destinationDir
