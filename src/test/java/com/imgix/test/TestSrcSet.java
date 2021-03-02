@@ -218,27 +218,16 @@ public class TestSrcSet {
     }
 
     @Test
-
     public void testHeightBasedSrcsetHasDprValues() {
-        String[] split_srcset = srcsetHeightSplit;
-        String[] descriptors =  new String[srcsetHeightSplit.length];
+        String generatedRatio;
+        int expectedRatio = 1;
+        assert(srcsetHeightSplit.length == 5);
 
-        // extract descriptors
-        for (int i = 0; i < split_srcset.length; i++) {
-            String val =  split_srcset[i];
-            String empty_str="";
-            String space=" ";
-            String comma=",";
-            // Split on space
-            String[] split_url = val.split(space);
-            if (split_url.length == 2) {
-                // #Remember to remove the commas.
-                String sub_str = split_url[1];
-                descriptors[i] = sub_str.replace(comma, empty_str);
-            }
+        for (String src: srcsetHeightSplit) {
+            generatedRatio = src.split(" ")[1];
+            assertEquals(expectedRatio + "x", generatedRatio);
+            expectedRatio++;
         }
-
-        assertEquals(Arrays.toString(descriptors), "[1x, 2x, 3x, 4x, 5x]");
     }
 
     @Test
