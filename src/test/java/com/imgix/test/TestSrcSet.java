@@ -236,7 +236,7 @@ public class TestSrcSet {
 
         for (String src: srcsetHeightSplit) {
             url = src.split(" ")[0];
-            assert(url.contains("h="));
+            assert(url.contains("h=300"));
         }
     }
 
