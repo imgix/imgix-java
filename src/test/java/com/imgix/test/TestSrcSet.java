@@ -24,13 +24,12 @@ public class TestSrcSet {
     private static String[] srcsetHeightSplit;
     private static String[] srcsetAspectRatioSplit;
     private static String[] srcsetWidthAndHeightSplit;
-    private static String srcsetHeight;
     private static String[] srcsetWidthAndAspectRatioSplit;
     private static String[] srcsetHeightAndAspectRatioSplit;
 
     @BeforeClass
     public static void buildAllSrcSets() {
-        String srcset, srcsetWidth, srcsetAspectRatio, srcsetWidthAndHeight, srcsetWidthAndAspectRatio, srcsetHeightAndAspectRatio;
+        String srcset, srcsetWidth, srcsetHeight, srcsetAspectRatio, srcsetWidthAndHeight, srcsetWidthAndAspectRatio, srcsetHeightAndAspectRatio;
 
         URLBuilder ub = new URLBuilder("test.imgix.net", true, "MYT0KEN" , false);
         params = new HashMap<String, String>();
