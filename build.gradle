@@ -10,8 +10,8 @@ version = '2.3.0'
 
 description = """Imgix Java Client"""
 
-sourceCompatibility = 11
-targetCompatibility = 11
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
