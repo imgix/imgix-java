@@ -217,6 +217,16 @@ public class TestSrcSet {
     }
 
     @Test
+    public void testHeightIncludesDPRParam() {
+        String src;
+
+        for (int i = 0; i < srcsetHeightSplit.length; i++) {
+            src = srcsetHeightSplit[i].split(" ")[0];
+            assert(src.contains(String.format("dpr=%s", i+1)));
+        }
+    }
+
+    @Test
     public void testHeightBasedSrcsetHasDprValues() {
         String generatedRatio;
         int expectedRatio = 1;
