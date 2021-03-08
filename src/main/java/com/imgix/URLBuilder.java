@@ -90,8 +90,7 @@ public class URLBuilder {
      *
      * This function creates a dpr based srcset if `params`
      * contain either:
-     * - a width "w" param, _or_
-     * - a height "h" and aspect ratio "ar" params
+     * - a width "w" param _or_ a height "h" param.
      *
      * Otherwise, a srcset of width-pairs is created.
      *
