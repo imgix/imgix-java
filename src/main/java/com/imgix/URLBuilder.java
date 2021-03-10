@@ -90,8 +90,7 @@ public class URLBuilder {
      *
      * This function creates a dpr based srcset if `params`
      * contain either:
-     * - a width "w" param, _or_
-     * - a height "h" and aspect ratio "ar" params
+     * - a width "w" param _or_ a height "h" param.
      *
      * Otherwise, a srcset of width-pairs is created.
      *
@@ -312,10 +311,10 @@ public class URLBuilder {
         String aspectRatio = params.get("ar");
         boolean hasAspectRatio = (aspectRatio != null) && !aspectRatio.isEmpty();
 
-        // If `params` have a width param or _both_ height and aspect
-        // ratio parameters then the srcset to be constructed with
-        // these params _is dpr based_.
-        return hasWidth || (hasHeight && hasAspectRatio);
+        // If `params` have a width param or height parameters
+        // then the srcset to be constructed with these params
+        // _is dpr based_.
+        return hasWidth || hasHeight;
     }
 
     private static boolean notCustom(double begin, double end, double tol) {

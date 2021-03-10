@@ -13,6 +13,8 @@ import com.imgix.URLBuilder;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
+
+
 @RunWith(JUnit4.class)
 public class TestSrcSet {
 
@@ -210,21 +212,30 @@ public class TestSrcSet {
     }
 
     @Test
-    public void testHeightGeneratesCorrectWidths() {
-        int[] targetWidths = {100, 116, 135, 156, 181, 210, 244, 283,
-                328, 380, 441, 512, 594, 689, 799, 927,
-                1075, 1247, 1446, 1678, 1946, 2257, 2619,
-                3038, 3524, 4087, 4741, 5500, 6380, 7401, 8192};
+    public void testGivenHeightSRCSETGeneratePairs() {
+        assertEquals(srcsetHeightSplit.length, 5);
+    }
 
-        String generatedWidth;
-        int index = 0;
-        int widthInt;
+    @Test
+    public void testHeightIncludesDPRParam() {
+        String src;
+
+        for (int i = 0; i < srcsetHeightSplit.length; i++) {
+            src = srcsetHeightSplit[i].split(" ")[0];
+            assert(src.contains(String.format("dpr=%s", i+1)));
+        }
+    }
+
+    @Test
+    public void testHeightBasedSrcsetHasDprValues() {
+        String generatedRatio;
+        int expectedRatio = 1;
+        assert(srcsetHeightSplit.length == 5);
 
         for (String src: srcsetHeightSplit) {
-            generatedWidth = src.split(" ")[1];
-            widthInt = Integer.parseInt(generatedWidth.substring(0,generatedWidth.length()-1));
-            assertEquals(targetWidths[index], widthInt);
-            index++;
+            generatedRatio = src.split(" ")[1];
+            assertEquals(expectedRatio + "x", generatedRatio);
+            expectedRatio++;
         }
     }
 
@@ -234,46 +245,14 @@ public class TestSrcSet {
 
         for (String src: srcsetHeightSplit) {
             url = src.split(" ")[0];
-            assert(url.contains("h="));
+            assert(url.contains("h=300"));
         }
     }
 
     @Test
     public void testHeightReturnsExpectedNumberOfPairs() {
-        int expectedPairs = 31;
+        int expectedPairs = 5;
         assertEquals(expectedPairs, srcsetHeightSplit.length);
-    }
-
-    @Test
-    public void testHeightDoesNotExceedBounds() {
-        String minWidth = srcsetHeightSplit[0].split(" ")[1];
-        String maxWidth = srcsetHeightSplit[srcsetHeightSplit.length-1].split(" ")[1];
-
-        int minWidthInt = Integer.parseInt(minWidth.substring(0,minWidth.length()-1));
-        int maxWidthInt = Integer.parseInt(maxWidth.substring(0,maxWidth.length()-1));
-
-        assert(minWidthInt >= 100);
-        assert(maxWidthInt <= 8192);
-    }
-
-    // a 17% testing threshold is used to account for rounding
-    @Test
-    public void testHeightDoesNotIncreaseMoreThan17Percent() {
-        final double INCREMENT_ALLOWED = .17;
-        String width;
-        int widthInt, prev;
-
-        // convert and store first width (typically: 100)
-        width = srcsetHeightSplit[0].split(" ")[1];
-        prev = Integer.parseInt(width.substring(0,width.length()-1));
-
-        for (String src : srcsetHeightSplit) {
-            width = src.split(" ")[1];
-            widthInt = Integer.parseInt(width.substring(0,width.length()-1));
-
-            assert((widthInt / prev) < (1 + INCREMENT_ALLOWED));
-            prev = widthInt;
-        }
     }
 
     @Test

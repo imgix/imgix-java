@@ -38,11 +38,14 @@ bintray {
   }
 }
 
+
+// `classifier = 'sources'` is a deprecated feature--removed!
 task sourcesJar(type: Jar, dependsOn: classes) {
     archiveClassifier.set("sources")
     from sourceSets.main.allSource
 }
 
+// `classifier = 'javadoc'` is a deprecated feature--removed!
 task javadocJar(type: Jar, dependsOn: javadoc) {
     archiveClassifier.set("javadoc")
     from javadoc.destinationDir
