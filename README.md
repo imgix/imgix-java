@@ -154,9 +154,9 @@ https://demos.imgix.net/bridge.png?w=8192&s=152551ce4ec155f7a03f60f762a1ca33 819
 
 ### Fixed-Width Images
 
-In cases where enough information is provided about an image's dimensions, `createSrcSet()` will instead build a `srcset` that will allow for an image to be served at different resolutions. The parameters taken into consideration when determining if an image is fixed-width are `w` (width), `h` (height), and `ar` (aspect ratio).
+In cases where enough information is provided about an image's dimensions, `createSrcSet()` will instead build a `srcset` that will allow for an image to be served at different resolutions. The parameters taken into consideration when determining if an image is fixed-width are `w` (width) and `h` (height).
 
-By invoking `createSrcSet()` with either a width **or** the height and aspect ratio (along with `fit=crop`, typically) provided, a different `srcset` will be generated for a fixed-size image instead.
+By invoking `createSrcSet()` with either a width **or** height provided, a different `srcset` will be generated for a fixed-size image instead.
 
 ```java
 URLBuilder ub = new URLBuilder("demos.imgix.net", true, "my-token", false);
