@@ -3,12 +3,11 @@ plugins {
     id 'maven'
     id 'maven-publish'
     id 'signing'
-
 }
 
-group = 'com.imgix'
+group = 'com.imgix' // sonatype groupId
 version = '2.3.0'
-archivesBaseName = "Imgix Java Client"
+archivesBaseName = "imgix-java"
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -57,16 +56,16 @@ uploadArchives {
         mavenDeployer {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 authentication(userName: ossrhUsername, password: ossrhPassword)
             }
 
-            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
                 authentication(userName: ossrhUsername, password: ossrhPassword)
             }
 
             pom.project {
-                name 'Imgix Java Client'
+                name 'imgix-java'
                 packaging 'jar'
                 // optionally artifactId can be defined here
                 description 'imgix-java is a client library for generating image URLs with imgix.'
