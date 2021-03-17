@@ -1,97 +1,89 @@
 plugins {
-    id 'java'
-    id 'maven'
-    id 'maven-publish'
-    id 'signing'
+  id 'java'
+  id 'maven-publish'
+  id 'signing'
+  id("io.github.gradle-nexus.publish-plugin") version "1.0.0"
 }
 
 group = 'com.imgix' // sonatype groupId
-version = '2.3.0'
-archivesBaseName = "imgix-java"
+version = '2.3.0' // add SNAPSHOT if deploying to staging
 
 sourceCompatibility = 11
 targetCompatibility = 11
 
-repositories {
-    maven { url "https://repo.maven.apache.org/maven2" }
+java {
+    // A task that packages the output of the javadoc task in JAR with classifier javadoc.
+    withJavadocJar()
+    // A task that packages the Java sources of the main SourceSet in JAR with classifier sources.
+    withSourcesJar()
 }
 
-// This is new, this prepares the project for Gradle 7.0 (currently on 6.3)
-dependencies {
-    testImplementation group: 'junit', name: 'junit', version:'4.12'
-    testImplementation group: 'org.hamcrest', name: 'hamcrest-library', version:'1.3'
-}
-
-// `classifier = 'sources'` is a deprecated feature--removed!
-task sourcesJar(type: Jar, dependsOn: classes) {
-    from sourceSets.main.allSource
-}
-
-// `classifier = 'javadoc'` is a deprecated feature--removed!
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    from javadoc.destinationDir
-}
-
+// TODO(sherwin): add comments explaining why this was necessary
 task testUTF32(type: Test) {
-    jvmArgs "-Dfile.encoding=UTF-32"
+  jvmArgs "-Dfile.encoding=UTF-32"
 }
 
-artifacts {
-    archives sourcesJar, javadocJar
-}
+publishing {
+  publications {
+    release(MavenPublication) {
+      groupId "com.imgix" // sonatype JIRA groupId
+      artifactId "imgix-java" // the name of the library
+      version "2.3.0" // add SNAPSHOT if staging
+      from(components["java"]) // this is a dependency of MavenPublication
 
-signing {
-    if (project.hasProperty('signing.keyId') &&
-        project.hasProperty('signing.password') &&
-        project.hasProperty('signing.secretKeyRingFile')) {
-        sign configurations.archives
+      // provide all the metadata for the library
+      pom {
+        artifactId = "imgix-java"
+        name = 'imgix-java'
+        packaging = 'jar'
+        description = 'imgix-java is a client library for generating image URLs with imgix.'
+        url = 'https://github.com/imgix/imgix-java'
 
-        /* Uncomment this if you use shadow in your build process */
-        // sign configurations.shadow
-    }
-}
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            pom.project {
-                name 'imgix-java'
-                packaging 'jar'
-                // optionally artifactId can be defined here
-                description 'imgix-java is a client library for generating image URLs with imgix.'
-                url 'https://github.com/imgix/imgix-java'
-
-                scm {
-                    connection 'https://github.com/imgix/imgix-java.git'
-                    developerConnection 'https://github.com/imgix/imgix-java.git'
-                    url 'https://github.com/imgix/imgix-java'
-                }
-
-                licenses {
-                    license {
-                        name 'BSD-2-Clause License'
-                        url 'https://github.com/imgix/imgix-java/blob/main/LICENSE'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id 'imgix'
-                        name 'imgix'
-                        email 'sdk@imgix.com'
-                    }
-                }
-            }
+        scm {
+          connection = 'https://github.com/imgix/imgix-java.git'
+          developerConnection = 'https://github.com/imgix/imgix-java.git'
+          url = 'https://github.com/imgix/imgix-java'
         }
+
+        licenses {
+          license {
+            name = 'BSD-2-Clause License'
+            url = 'https://github.com/imgix/imgix-java/blob/main/LICENSE'
+          }
+        }
+
+        developers {
+          developer {
+            id = 'imgix'
+            name = 'imgix'
+            email = 'sdk@imgix.com'
+          }
+        }
+      }
+    }
+  }
+  // TODO(luis): remove reposiories field, it's not needed when using nexusPublishing
+  repositories {
+    maven {
+      name = "sonatype"
+      url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+  
+      credentials {
+        username ossrhUsername
+        password ossrhPassword
+      }
+    }
+  }
+}
+
+// sign all the files with the local gpg key, key must have been previously deployed online
+signing {
+    sign publishing.publications
+}
+
+// plugin assumes ossrhUsername, ossrhPassword present in either env or gradle.properties
+nexusPublishing {
+    repositories {
+        sonatype()
     }
 }
