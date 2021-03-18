@@ -8,8 +8,19 @@ plugins {
 group = 'com.imgix' // sonatype groupId
 version = '2.3.0' // add SNAPSHOT if deploying to staging
 
+// declare expected JDK versions
 sourceCompatibility = 11
 targetCompatibility = 11
+
+// Delcare the maven repo ans the source for the junit and hamcrest repository and dependencies
+repositories {
+    maven { url "https://repo.maven.apache.org/maven2" }
+}
+
+dependencies {
+    testImplementation group: 'junit', name: 'junit', version:'4.12'
+    testImplementation group: 'org.hamcrest', name: 'hamcrest-library', version:'1.3'
+}
 
 java {
     // A task that packages the output of the javadoc task in JAR with classifier javadoc.
@@ -62,18 +73,6 @@ publishing {
       }
     }
   }
-  // TODO(luis): remove reposiories field, it's not needed when using nexusPublishing
-  repositories {
-    maven {
-      name = "sonatype"
-      url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-  
-      credentials {
-        username ossrhUsername
-        password ossrhPassword
-      }
-    }
-  }
 }
 
 // sign all the files with the local gpg key, key must have been previously deployed online
@@ -87,7 +86,12 @@ signing {
 
 // plugin assumes ossrhUsername, ossrhPassword present in either env or gradle.properties
 nexusPublishing {
+    def sonatypeUsername = findProperty("sonatypeUsername")
+    def sonatypePassword = findProperty("sonatypePassword")
     repositories {
-        sonatype()
+        sonatype {
+          username = sonatypeUsername
+          password = sonatypePassword
+        }
     }
 }
