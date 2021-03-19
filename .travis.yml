@@ -6,6 +6,7 @@ before_install:
 language: java
 jdk:
 - openjdk11
+- openjdk8
 script:
 - ./gradlew test
 - ./gradlew testUTF32
