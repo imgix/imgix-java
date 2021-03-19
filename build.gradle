@@ -9,8 +9,8 @@ group = 'com.imgix' // sonatype groupId
 version = '2.3.0' // add SNAPSHOT if deploying to staging
 
 // declare expected JDK versions
-sourceCompatibility = 11
-targetCompatibility = 11
+sourceCompatibility = 8
+targetCompatibility = 8
 
 // Delcare the maven repo ans the source for the junit and hamcrest repository and dependencies
 repositories {
