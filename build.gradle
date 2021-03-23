@@ -23,6 +23,12 @@ dependencies {
     testImplementation group: 'org.hamcrest', name: 'hamcrest-library', version:'1.3'
 }
 
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
 java {
     // A task that packages the output of the javadoc task in JAR with classifier javadoc.
     withJavadocJar()
