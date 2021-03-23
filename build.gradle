@@ -3,10 +3,11 @@ plugins {
   id 'maven-publish'
   id 'signing'
   id("io.github.gradle-nexus.publish-plugin") version "1.0.0"
+  id "io.freefair.maven-central.validate-poms" version "5.3.0"
 }
 
 group = 'com.imgix' // sonatype groupId
-version = '2.3.0' // add SNAPSHOT if deploying to staging
+version = '2.3.0-SNAPSHOT' // add SNAPSHOT if deploying to staging repo
 
 // declare expected JDK versions
 sourceCompatibility = 8
@@ -39,7 +40,7 @@ publishing {
     release(MavenPublication) {
       groupId "com.imgix" // sonatype JIRA groupId
       artifactId "imgix-java" // the name of the library
-      version "2.3.0" // add SNAPSHOT if staging
+      version '2.3.0-SNAPSHOT' // add SNAPSHOT if staging
       from(components["java"]) // this is a dependency of MavenPublication
 
       // provide all the metadata for the library
@@ -84,14 +85,31 @@ signing {
   sign publishing.publications
 }
 
-// plugin assumes ossrhUsername, ossrhPassword present in either env or gradle.properties
+
+// validate the pom.xml has all the attributes required by MacenCentral
+task validateMavenPom(type: io.freefair.gradle.plugins.maven.central.ValidateMavenPom) {
+    System.out.println("validating pom.xml...")
+    pomFile = file("build/publications/release/pom-default.xml")
+    ignoreFailures = false
+    dependsOn('publishToSonatype')
+}
+
 nexusPublishing {
+    // assumes sonatype credentials present in either env or gradle.properties
     def sonatypeUsername = findProperty("sonatypeUsername")
     def sonatypePassword = findProperty("sonatypePassword")
     repositories {
         sonatype {
           username = sonatypeUsername
           password = sonatypePassword
+          useStaging = true // force all deploys to use staging repos
         }
+    }
+    // sets timout & retry options to avoid hangups when nexus API is acting up
+    clientTimeout = Duration.ofSeconds(300)
+    connectTimeout = Duration.ofSeconds(60)
+    transitionCheckOptions {
+        maxRetries.set(40)
+        delayBetween.set(java.time.Duration.ofMillis(3000))
     }
 }
