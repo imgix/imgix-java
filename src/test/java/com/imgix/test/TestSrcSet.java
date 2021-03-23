@@ -4,6 +4,7 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -104,8 +105,8 @@ public class TestSrcSet {
         int minWidthInt = Integer.parseInt(minWidth.substring(0,minWidth.length()-1));
         int maxWidthInt = Integer.parseInt(maxWidth.substring(0,maxWidth.length()-1));
 
-        assert(minWidthInt >= 100);
-        assert(maxWidthInt <= 8192);
+        assertTrue(minWidthInt >= 100);
+        assertTrue(maxWidthInt <= 8192);
     }
 
     // a 17% testing threshold is used to account for rounding
@@ -123,7 +124,7 @@ public class TestSrcSet {
             width = src.split(" ")[1];
             widthInt = Integer.parseInt(width.substring(0,width.length()-1));
 
-            assert((widthInt / prev) < (1 + INCREMENT_ALLOWED));
+            assertTrue((widthInt / prev) < (1 + INCREMENT_ALLOWED));
             prev = widthInt;
         }
     }
@@ -135,7 +136,7 @@ public class TestSrcSet {
         for (String srcLine : srcsetSplit) {
 
             src = srcLine.split(" ")[0];
-            assert(src.contains("s="));
+            assertThat(src, containsString("s="));
             generatedSignature = src.substring(src.indexOf("s=")+2);
 
             parameters = src.substring(src.indexOf("?"), src.indexOf("s=")-1);
@@ -162,11 +163,11 @@ public class TestSrcSet {
     public void testWidthInDPRForm() {
         String generatedRatio;
         int expectedRatio = 1;
-        assert(srcsetWidthSplit.length == 5);
+        assertThat(srcsetWidthSplit.length, is(5));
 
         for (String src: srcsetWidthSplit) {
             generatedRatio = src.split(" ")[1];
-            assertEquals(expectedRatio + "x", generatedRatio);
+            assertThat(expectedRatio + "x", is(generatedRatio));
             expectedRatio++;
         }
     }
@@ -178,7 +179,7 @@ public class TestSrcSet {
         for (String srcLine : srcsetWidthSplit) {
 
             src = srcLine.split(" ")[0];
-            assert(src.contains("s="));
+            assertThat(src, containsString("s="));
             generatedSignature = src.substring(src.indexOf("s=")+2);
 
             parameters = src.substring(src.indexOf("?"), src.indexOf("s=")-1);
@@ -207,13 +208,13 @@ public class TestSrcSet {
 
         for (int i = 0; i < srcsetWidthSplit.length; i++) {
             src = srcsetWidthSplit[i].split(" ")[0];
-            assert(src.contains(String.format("dpr=%s", i+1)));
+            assertThat(src, containsString(String.format("dpr=%s", i+1)));
         }
     }
 
     @Test
     public void testGivenHeightSRCSETGeneratePairs() {
-        assertEquals(srcsetHeightSplit.length, 5);
+        assertThat(srcsetHeightSplit.length, is(5));
     }
 
     @Test
@@ -222,7 +223,7 @@ public class TestSrcSet {
 
         for (int i = 0; i < srcsetHeightSplit.length; i++) {
             src = srcsetHeightSplit[i].split(" ")[0];
-            assert(src.contains(String.format("dpr=%s", i+1)));
+            assertThat(src, containsString(String.format("dpr=%s", i+1)));
         }
     }
 
@@ -230,7 +231,7 @@ public class TestSrcSet {
     public void testHeightBasedSrcsetHasDprValues() {
         String generatedRatio;
         int expectedRatio = 1;
-        assert(srcsetHeightSplit.length == 5);
+        assertThat(srcsetHeightSplit.length, is(5));
 
         for (String src: srcsetHeightSplit) {
             generatedRatio = src.split(" ")[1];
@@ -245,7 +246,7 @@ public class TestSrcSet {
 
         for (String src: srcsetHeightSplit) {
             url = src.split(" ")[0];
-            assert(url.contains("h=300"));
+            assertThat(url, containsString("h=300"));
         }
     }
 
@@ -262,7 +263,7 @@ public class TestSrcSet {
         for (String srcLine : srcsetHeightSplit) {
 
             src = srcLine.split(" ")[0];
-            assert(src.contains("s="));
+            assertThat(src, containsString("s="));
             generatedSignature = src.substring(src.indexOf("s=")+2);
 
             parameters = src.substring(src.indexOf("?"), src.indexOf("s=")-1);
@@ -289,7 +290,7 @@ public class TestSrcSet {
     public void testWidthAndHeightInDPRForm() {
         String generatedRatio;
         int expectedRatio = 1;
-        assert(srcsetWidthAndHeightSplit.length == 5);
+        assertThat(srcsetWidthAndHeightSplit.length,  is(5));
 
         for (String src: srcsetWidthAndHeightSplit) {
             generatedRatio = src.split(" ")[1];
@@ -305,7 +306,7 @@ public class TestSrcSet {
         for (String srcLine : srcsetWidthAndHeightSplit) {
 
             src = srcLine.split(" ")[0];
-            assert(src.contains("s="));
+            assertThat(src, containsString("s="));
             generatedSignature = src.substring(src.indexOf("s=")+2);
 
             parameters = src.substring(src.indexOf("?"), src.indexOf("s=")-1);
@@ -334,7 +335,7 @@ public class TestSrcSet {
 
         for (int i = 0; i < srcsetWidthAndHeightSplit.length; i++) {
             src = srcsetWidthAndHeightSplit[i].split(" ")[0];
-            assert(src.contains(String.format("dpr=%s", i+1)));
+            assertThat(src, containsString(String.format("dpr=%s", i+1)));
         }
     }
 
@@ -363,7 +364,7 @@ public class TestSrcSet {
 
         for (String src: srcsetAspectRatioSplit) {
             url = src.split(" ")[0];
-            assert(url.contains("ar="));
+            assertThat(url, containsString("ar="));
         }
     }
 
@@ -381,8 +382,8 @@ public class TestSrcSet {
         int minWidthInt = Integer.parseInt(minWidth.substring(0,minWidth.length()-1));
         int maxWidthInt = Integer.parseInt(maxWidth.substring(0,maxWidth.length()-1));
 
-        assert(minWidthInt >= 100);
-        assert(maxWidthInt <= 8192);
+        assertTrue(minWidthInt >= 100);
+        assertTrue(maxWidthInt <= 8192);
     }
 
     // a 17% testing threshold is used to account for rounding
@@ -400,7 +401,7 @@ public class TestSrcSet {
             width = src.split(" ")[1];
             widthInt = Integer.parseInt(width.substring(0,width.length()-1));
 
-            assert((widthInt / prev) < (1 + INCREMENT_ALLOWED));
+            assertTrue((widthInt / prev) < (1 + INCREMENT_ALLOWED));
             prev = widthInt;
         }
     }
@@ -412,7 +413,7 @@ public class TestSrcSet {
         for (String srcLine : srcsetAspectRatioSplit) {
 
             src = srcLine.split(" ")[0];
-            assert(src.contains("s="));
+            assertThat(src, containsString("s="));
             generatedSignature = src.substring(src.indexOf("s=")+2);
 
             parameters = src.substring(src.indexOf("?"), src.indexOf("s=")-1);
@@ -439,7 +440,7 @@ public class TestSrcSet {
     public void testWidthAndAspectRatioInDPRForm() {
         String generatedRatio;
         int expectedRatio = 1;
-        assert(srcsetWidthAndAspectRatioSplit.length == 5);
+        assertThat(srcsetWidthAndAspectRatioSplit.length,  is(5));
 
         for (String src: srcsetWidthAndAspectRatioSplit) {
             generatedRatio = src.split(" ")[1];
@@ -455,7 +456,7 @@ public class TestSrcSet {
         for (String srcLine : srcsetWidthAndAspectRatioSplit) {
 
             src = srcLine.split(" ")[0];
-            assert(src.contains("s="));
+            assertThat(src, containsString("s="));
             generatedSignature = src.substring(src.indexOf("s=")+2);
 
             parameters = src.substring(src.indexOf("?"), src.indexOf("s=")-1);
@@ -484,7 +485,7 @@ public class TestSrcSet {
 
         for (int i = 0; i < srcsetWidthAndAspectRatioSplit.length; i++) {
             src = srcsetWidthAndAspectRatioSplit[i].split(" ")[0];
-            assert(src.contains(String.format("dpr=%s", i+1)));
+            assertThat(src, containsString(String.format("dpr=%s", i+1)));
         }
     }
 
@@ -492,7 +493,7 @@ public class TestSrcSet {
     public void testHeightAndAspectRatioInDPRForm() {
         String generatedRatio;
         int expectedRatio = 1;
-        assert(srcsetHeightAndAspectRatioSplit.length == 5);
+        assertThat(srcsetHeightAndAspectRatioSplit.length, is(5));
 
         for (String src: srcsetHeightAndAspectRatioSplit) {
             generatedRatio = src.split(" ")[1];
@@ -508,7 +509,7 @@ public class TestSrcSet {
         for (String srcLine : srcsetHeightAndAspectRatioSplit) {
 
             src = srcLine.split(" ")[0];
-            assert(src.contains("s="));
+            assertThat(src, containsString("s="));
             generatedSignature = src.substring(src.indexOf("s=")+2);
 
             parameters = src.substring(src.indexOf("?"), src.indexOf("s=")-1);
@@ -537,7 +538,7 @@ public class TestSrcSet {
 
         for (int i = 0; i < srcsetHeightAndAspectRatioSplit.length; i++) {
             src = srcsetHeightAndAspectRatioSplit[i].split(" ")[0];
-            assert(src.contains(String.format("dpr=%s", i+1)));
+            assertThat(src, containsString(String.format("dpr=%s", i+1)));
         }
     }
 
