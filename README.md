@@ -42,16 +42,16 @@ To add Imgix-Java to your project, include the following in your project's build
 
 ```
 dependencies {
-   compile "com.imgix:imgix-java:2.3.0"
+   compile "com.imgix:imgix-java:2.3.1"
 }
 ```
 
-And if this is your first external JCenter dependency you'll need to add, again to your project level build.gradle, the following:
+And if this is your first external MavenCentral dependency you'll need to add, again to your project level build.gradle, the following:
 
 ```
 buildscript {
    repositories {
-      jcenter()
+        mavenCentral()
    }
 }
 ```

@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+### Version 2.3.1 (_March 24, 2021_)
+* docs: add maven badge to README.md ([#65](https://github.com/imgix/imgix-java/pull/65))
+* docs: update fixed-widths section ([#63](https://github.com/imgix/imgix-java/pull/63))
+* fix: create dpr srcset when only h passed in as param ([#62](https://github.com/imgix/imgix-java/pull/62))
+* docs: update travis badge to travis-ci.com ([#60](https://github.com/imgix/imgix-java/pull/60))
+* fix(gradle-build): include maven plugin ([#55](https://github.com/imgix/imgix-java/pull/55))
+* docs(readme): correct percentage typos ([#53](https://github.com/imgix/imgix-java/pull/53))
+
 ### Version 2.3.0 (_June 05, 2020_)
 * feat: custom srcsets ([#44](https://github.com/imgix/imgix-java/pull/44))
 * fix: convert tol to float ([#49](https://github.com/imgix/imgix-java/pull/49))
