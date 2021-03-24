@@ -30,7 +30,9 @@ java {
     withSourcesJar()
 }
 
-// TODO(sherwin): add comments explaining why this was necessary
+// A task that runs tests with a non-UTF-8 encoding scheme.
+// This ensures that the library behavior does not change
+// even when the default charset of the calling system does.
 task testUTF32(type: Test) {
   jvmArgs "-Dfile.encoding=UTF-32"
 }
