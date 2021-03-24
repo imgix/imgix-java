@@ -87,7 +87,7 @@ public class TestAll {
     }
 
     @RunWith(Parameterized.class)
-    public static class testHelperBuildPathWithParams {
+    public static class TestHelperBuildPathWithParams {
         @Parameters(name = "''{0}' URL generated correctly'")
         public static Iterable<Object[]> data() {
             return Arrays.asList(new Object[][] { { "Nested Path With Params",
@@ -256,7 +256,7 @@ public class TestAll {
     }
 
     @RunWith(Parameterized.class)
-    public static class testInvalidDomain {
+    public static class TestInvalidDomain {
         @Parameters(name = "'domain with '{0}' throws exception'")
         public static Iterable<Object[]> data() {
             return Arrays.asList(new Object[][] { { "Slash", "test.imgix.net/" },
