@@ -6,13 +6,13 @@
     {
       "label": "gradle check",
       "type": "shell",
-      "command": "gradle check --info",
+      "command": "gradle clean check --info",
       "group": "test",
     },
     {
       "label": "gradle test",
       "type": "shell",
-      "command": "gradle test --info",
+      "command": "gradle clean test --info",
       "group":{
         "kind": "test",
         "isDefault": true
