@@ -14,6 +14,7 @@ import java.util.TreeMap;
 
 public class URLHelper {
 
+  private static final String UTF_8 = "UTF-8";
   private String domain;
   private String path;
   private String scheme;
@@ -23,10 +24,7 @@ public class URLHelper {
   public URLHelper(
       String domain, String path, String scheme, String signKey, Map<String, String> parameters) {
     this.domain = domain;
-    if (!path.startsWith("/")) {
-      path = "/" + path;
-    }
-    this.path = path;
+    this.path = sanatizePath(path);
     this.scheme = scheme;
     this.signKey = signKey;
     this.parameters = new TreeMap<String, String>(parameters);
@@ -64,8 +62,8 @@ public class URLHelper {
     String b64EncodedString = null;
 
     try {
-      byte[] stringBytes = str.getBytes("UTF-8");
-      b64EncodedString = new String(Base64.getEncoder().encode(stringBytes), "UTF-8");
+      byte[] stringBytes = str.getBytes(UTF_8);
+      b64EncodedString = new String(Base64.getEncoder().encode(stringBytes), UTF_8);
     } catch (UnsupportedEncodingException e) {
       throw new IllegalArgumentException(e);
     }
@@ -96,11 +94,6 @@ public class URLHelper {
 
     String query = joinList(queryPairs, "&");
 
-    String decodedPath = URLHelper.decodeURIComponent(path.substring(1));
-    if (decodedPath.startsWith("http://") || decodedPath.startsWith("https://")) {
-      path = "/" + URLHelper.encodeURIComponent(decodedPath);
-    }
-
     if (signKey != null && signKey.length() > 0) {
       String delim = query.equals("") ? "" : "?";
       String toSign = signKey + path + delim + query;
@@ -126,8 +119,8 @@ public class URLHelper {
   ///////////// Static
 
   private static String buildURL(String scheme, String host, String path, String query) {
-    // do not use URI to build URL since it will do auto-encoding which can break our previous
-    // signing
+    // do not use URI to build URL since it will do auto-encoding which can break
+    // our previous signing
     String url = String.format("%s://%s%s?%s", scheme, host, path, query);
     if (url.endsWith("#")) {
       url = url.substring(0, url.length() - 1);
@@ -143,7 +136,7 @@ public class URLHelper {
   private static String MD5(String md5) {
     try {
       MessageDigest md = MessageDigest.getInstance("MD5");
-      byte[] array = md.digest(md5.getBytes("UTF-8"));
+      byte[] array = md.digest(md5.getBytes(UTF_8));
       StringBuffer sb = new StringBuffer();
       for (int i = 0; i < array.length; ++i) {
         sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
@@ -170,7 +163,7 @@ public class URLHelper {
 
     try {
       result =
-          URLEncoder.encode(s, "UTF-8")
+          URLEncoder.encode(s, UTF_8)
               .replaceAll("\\+", "%20")
               .replaceAll("\\%21", "!")
               .replaceAll("\\%27", "'")
@@ -184,6 +177,22 @@ public class URLHelper {
     return result;
   }
 
+  public static String encodeURI(String s) {
+    String result =
+        s.replaceAll("\\+", "%2B")
+            .replaceAll("\\:", "%3A")
+            .replaceAll("\\?", "%3F")
+            .replaceAll("\\#", "%23")
+            .replaceAll(" ", "%20")
+            .replaceAll("\\%21", "!")
+            .replaceAll("\\%27", "'")
+            .replaceAll("\\%28", "(")
+            .replaceAll("\\%29", ")")
+            .replaceAll("\\%7E", "~");
+
+    return result.replace("\\", "");
+  }
+
   public static String decodeURIComponent(String s) {
     if (s == null) {
       return null;
@@ -192,11 +201,29 @@ public class URLHelper {
     String result = null;
 
     try {
-      result = URLDecoder.decode(s, "UTF-8");
+      result = URLDecoder.decode(s, UTF_8);
     } catch (UnsupportedEncodingException e) {
       result = s;
     }
 
     return result;
+  }
+
+  public static String sanatizePath(String path) {
+    // Strip leading slash first (we'll re-add after encoding)
+    path = path.replaceAll("^/", "");
+
+    if (path.startsWith("http://") || path.startsWith("https://")) {
+      // Use encodeURIComponent to ensure *all* characters are handled,
+      // since it's being used as a path
+      return "/" + URLHelper.encodeURIComponent(path);
+    } else if (path.startsWith("http%3A") || path.startsWith("https%3A")) {
+      // To nothing to the URL being used as path since already encoded
+      return "/" + path;
+    } else {
+      // Use encodeURI if we think the path is just a path,
+      // so it leaves legal characters like '/' and '@' alone
+      return "/" + encodeURI(path);
+    }
   }
 }
