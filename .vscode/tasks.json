@@ -12,7 +12,7 @@
     {
       "label": "gradle test",
       "type": "shell",
-      "command": "gradle clean test --info",
+      "command": "gradle clean test",
       "group":{
         "kind": "test",
         "isDefault": true
