@@ -7,6 +7,4 @@
   "[java]": {
     "editor.defaultFormatter": "ilkka.google-java-format",
   }
-
-
 }
