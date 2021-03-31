@@ -1,0 +1,12 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnType": true,
+  "google-java-format.executable": "/usr/local/bin/google-java-format",
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": false,
+  "[java]": {
+    "editor.defaultFormatter": "ilkka.google-java-format",
+  }
+
+
+}
