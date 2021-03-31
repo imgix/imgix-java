@@ -101,6 +101,31 @@ public class TestAll {
               "http://securejackangers.imgix.net/example/chester.png?w=500"
             },
             {
+              "Relative Path With Unencoded Space",
+              "example/chester 1.png",
+              "http://securejackangers.imgix.net/example/chester%201.png?w=500"
+            },
+            {
+              "Relative Path With Unencoded Plus",
+              "example/chester" + "+1" + ".png",
+              "http://securejackangers.imgix.net/example/chester%2B1.png?w=500"
+            },
+            {
+              "Relative Path With Unencoded Colon",
+              "example/chester" + ":1" + ".png",
+              "http://securejackangers.imgix.net/example/chester%3A1.png?w=500"
+            },
+            {
+              "Relative Path With Unencoded Question Mark",
+              "example/chester" + "?1" + ".png",
+              "http://securejackangers.imgix.net/example/chester%3F1.png?w=500"
+            },
+            {
+              "Relative Path With Unencoded Hash",
+              "example/chester" + "#1" + ".png",
+              "http://securejackangers.imgix.net/example/chester%231.png?w=500"
+            },
+            {
               "Absolute Path With Params",
               "/example/chester.png",
               "http://securejackangers.imgix.net/example/chester.png?w=500"
