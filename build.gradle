@@ -122,10 +122,7 @@ nexusPublishing {
     }
 }
 
-/**
-* ---- Linting ----
-*/
-
+// Use spotless plugin to lint and (opt.) auto format using googleJavaFormat standard
 spotless {
   // optional: limit format enforcement to just the files changed by this feature branch
   ratchetFrom 'origin/main'
