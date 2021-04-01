@@ -130,6 +130,16 @@ public class TestAll {
               "/example/chester.png",
               "http://securejackangers.imgix.net/example/chester.png?w=500"
             },
+            {
+              "Absolute Path With Encoded Unicode Characters",
+              "/example/I%20cann%C3%B8t%20bel%C3%AE%C3%A9v%E2%88%91%20it%20wor%EF%A3%BFs!%20%F0%9F%98%B1",
+              "http://securejackangers.imgix.net/example/I%20cann%C3%B8t%20bel%C3%AE%C3%A9v%E2%88%91%20it%20wor%EF%A3%BFs!%20%F0%9F%98%B1?w=500"
+            },
+            {
+              "Absolute Path With Unencoded Unicode Characters",
+              "/example/I cannøt belîév∑ it wors! 😱",
+              "http://securejackangers.imgix.net/example/I%20cann%C3%B8t%20bel%C3%AE%C3%A9v%E2%88%91%20it%20wor%EF%A3%BFs!%20%F0%9F%98%B1?w=500"
+            },
           });
     }
 
