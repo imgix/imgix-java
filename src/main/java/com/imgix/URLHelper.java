@@ -13,6 +13,8 @@ import java.util.TreeMap;
 
 public class URLHelper {
 
+  private static final String IS_ENCODED = "isEncoded";
+  private static final String IS_PROXY = "isProxy";
   private static final String UTF_8 = "UTF-8";
   private String domain;
   private String path;
@@ -158,6 +160,49 @@ public class URLHelper {
     return sb.toString();
   }
 
+  // checkProxyStatus checks if the path has one of the four possible
+  // acceptable proxy prefixes. First we check if the path has the
+  // correct ascii prefix. If it does then we know that it is a proxy,
+  // but it's not percent encoded. Second, we check if the path is
+  // prefixed by a percent-encoded prefix. If it is, we know that it's
+  // a proxy and that it's percent-encoded. Finally, if the path isn't
+  // prefixed by any of these four prefixes, it is not a valid proxy.
+  // This might be "just enough validation," but if we run into issues
+  // we can make this check smarter/more-robust.
+  public static Map checkProxyStatus(String p) {
+    String path = p;
+    path.replaceAll("^/", "");
+
+    String asciiHTTP = "http://";
+    String asciiHTTPS = "https://";
+    if (path.startsWith(asciiHTTP) || path.startsWith(asciiHTTPS)) {
+      return Map.of(IS_PROXY, true, IS_ENCODED, false);
+    }
+
+    String encodedHTTP = "http%3A%2F%2F";
+    String encodedHTTPS = "https%3A%2F%2F";
+    if (path.startsWith(encodedHTTP) || path.startsWith(encodedHTTPS)) {
+      return Map.of(IS_PROXY, true, IS_ENCODED, true);
+    }
+
+    String encodedHTTPLower = "http%3a%2f%2f";
+    String encodedHTTPSLower = "https%3a%ff%2f";
+    if (path.startsWith(encodedHTTPLower) || path.startsWith(encodedHTTPSLower)) {
+      return Map.of(IS_PROXY, true, IS_ENCODED, true);
+    }
+
+    return Map.of(IS_PROXY, false, IS_ENCODED, false);
+  }
+
+  /**
+   * isASCIIEncoded ensures that the string, p, only contains characters in the range x00-x7F and
+   * not in the list ` ?$:+#`. This is a combination of typical ASCII regex validation with some
+   * custom character replacement we do at imgix.
+   */
+  public static Boolean isASCIIEncoded(String p) {
+    return p.matches("[\\x00-\\x7F]+") && p.matches("[^\\ ?$:+#]+");
+  }
+
   public static String encodeURIComponent(String s) {
     String result = null;
 
@@ -177,24 +222,59 @@ public class URLHelper {
     return result;
   }
 
+  /**
+   * Accepts a path and encodes it using UTF8 scheme. Also encodes `+$:? ` and decodes `!'()~`. This
+   * method splits the s, or path, on "/" to avoid encoding them. It then encodes each character.
+   * Finally, the method joins the encoded characters on "/" to restore the delimiter.
+   */
   public static String encodeURI(String s) {
-    return s.replaceAll("\\+", "%2B")
-        .replaceAll("\\:", "%3A")
-        .replaceAll("\\?", "%3F")
-        .replaceAll("\\#", "%23")
-        .replaceAll(" ", "%20")
-        .replaceAll("\\%21", "!")
-        .replaceAll("\\%27", "'")
-        .replaceAll("\\%28", "(")
-        .replaceAll("\\%29", ")")
-        .replaceAll("\\%7E", "~");
+    String[] splitString = s.split("/");
+    for (int i = 0; i < splitString.length; i++) {
+      String str = splitString[i];
+      try {
+        splitString[i] =
+            URLEncoder.encode(str, UTF_8)
+                .replaceAll("\\+", "%20")
+                .replaceAll("\\:", "%3A")
+                .replaceAll("\\?", "%3F")
+                .replaceAll("\\#", "%23")
+                .replaceAll(" ", "%20")
+                .replaceAll("\\%21", "!")
+                .replaceAll("\\%27", "'")
+                .replaceAll("\\%28", "(")
+                .replaceAll("\\%29", ")")
+                .replaceAll("\\%7E", "~");
+      } catch (UnsupportedEncodingException e) {
+      }
+    }
+    return String.join("/", splitString);
   }
 
-  public static String sanitizePath(String path) {
+  public static String decodeURIComponent(String s) {
+    if (s == null) {
+      return null;
+    }
+
+    String result = null;
+
+    try {
+      result = URLDecoder.decode(s, UTF_8);
+    } catch (UnsupportedEncodingException e) {
+      result = s;
+    }
+
+    return result;
+  }
+
+  public static String sanatizePath(String path) {
     // Strip leading slash first (we'll re-add after encoding)
     path = path.replaceAll("^/", "");
+    // Check if path is a proxy path and store type of proxy
+    Map proxyStatus = checkProxyStatus(path);
+    Object pathIsProxy = proxyStatus.get(IS_PROXY);
+    Object proxyIsEncoded = proxyStatus.get(IS_ENCODED);
 
-    if (path.startsWith("http://") || path.startsWith("https://")) {
+    if (pathIsProxy.equals(true) && proxyIsEncoded.equals(false)) {
       // Use encodeURIComponent to ensure *all* characters are handled,
       // since it's being used as a path
       return "/" + URLHelper.encodeURIComponent(path);
