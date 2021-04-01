@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -169,29 +170,38 @@ public class URLHelper {
   // prefixed by any of these four prefixes, it is not a valid proxy.
   // This might be "just enough validation," but if we run into issues
   // we can make this check smarter/more-robust.
-  public static Map checkProxyStatus(String p) {
+  public static Map<String, Boolean> checkProxyStatus(String p) {
+    Map<String, Boolean> status = new HashMap<String, Boolean>();
     String path = p;
     path.replaceAll("^/", "");
 
     String asciiHTTP = "http://";
     String asciiHTTPS = "https://";
-    if (path.startsWith(asciiHTTP) || path.startsWith(asciiHTTPS)) {
-      return Map.of(IS_PROXY, true, IS_ENCODED, false);
-    }
 
     String encodedHTTP = "http%3A%2F%2F";
     String encodedHTTPS = "https%3A%2F%2F";
-    if (path.startsWith(encodedHTTP) || path.startsWith(encodedHTTPS)) {
-      return Map.of(IS_PROXY, true, IS_ENCODED, true);
-    }
 
     String encodedHTTPLower = "http%3a%2f%2f";
     String encodedHTTPSLower = "https%3a%ff%2f";
-    if (path.startsWith(encodedHTTPLower) || path.startsWith(encodedHTTPSLower)) {
-      return Map.of(IS_PROXY, true, IS_ENCODED, true);
+
+    if (path.startsWith(asciiHTTP) || path.startsWith(asciiHTTPS)) {
+      status.put(IS_PROXY, true);
+      status.put(IS_ENCODED, false);
+
+    } else if (path.startsWith(encodedHTTP) || path.startsWith(encodedHTTPS)) {
+      status.put(IS_PROXY, true);
+      status.put(IS_ENCODED, true);
+
+    } else if (path.startsWith(encodedHTTPLower) || path.startsWith(encodedHTTPSLower)) {
+      status.put(IS_PROXY, true);
+      status.put(IS_ENCODED, true);
+
+    } else {
+      status.put(IS_PROXY, false);
+      status.put(IS_ENCODED, false);
     }
 
-    return Map.of(IS_PROXY, false, IS_ENCODED, false);
+    return status;
   }
 
   /**
