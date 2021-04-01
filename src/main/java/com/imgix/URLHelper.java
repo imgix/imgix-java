@@ -276,7 +276,7 @@ public class URLHelper {
     return result;
   }
 
-  public static String sanatizePath(String path) {
+  public static String sanitizePath(String path) {
     // Strip leading slash first (we'll re-add after encoding)
     path = path.replaceAll("^/", "");
     // Check if path is a proxy path and store type of proxy
