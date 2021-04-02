@@ -178,22 +178,9 @@ public class URLHelper {
     String asciiHTTP = "http://";
     String asciiHTTPS = "https://";
 
-    String encodedHTTP = "http%3A%2F%2F";
-    String encodedHTTPS = "https%3A%2F%2F";
-
-    String encodedHTTPLower = "http%3a%2f%2f";
-    String encodedHTTPSLower = "https%3a%ff%2f";
-
     if (path.startsWith(asciiHTTP) || path.startsWith(asciiHTTPS)) {
       isProxy = true;
       isEncoded = false;
-
-    } else if (path.startsWith(encodedHTTP)
-        || path.startsWith(encodedHTTPS)
-        || path.startsWith(encodedHTTPLower)
-        || path.startsWith(encodedHTTPSLower)) {
-      isProxy = true;
-      isEncoded = true;
 
     } else {
       isProxy = false;
