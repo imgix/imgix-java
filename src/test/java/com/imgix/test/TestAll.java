@@ -126,6 +126,21 @@ public class TestAll {
               "http://securejackangers.imgix.net/example/chester%231.png?w=500"
             },
             {
+              "Relative Path With Unencoded Reserved Characters",
+              "example/chester" + "/&$+,:;=?@#.jpg",
+              "http://securejackangers.imgix.net/example/chester/%26%24%2B%2C%3A%3B%3D%3F%40%23.jpg?w=500"
+            },
+            {
+              "Relative Path With Unencoded Reserved Delimiters",
+              "example/chester" + "/ <>[]{}|\\^%.jpg",
+              "http://securejackangers.imgix.net/example/chester/%20%3C%3E%5B%5D%7B%7D%7C%5C%5E%25.jpg?w=500"
+            },
+            {
+              "Relative Path With Unencoded Unicode Characters",
+              "example/chester" + "/ساندویچ.jpg",
+              "http://securejackangers.imgix.net/example/chester/%D8%B3%D8%A7%D9%86%D8%AF%D9%88%DB%8C%DA%86.jpg?w=500"
+            },
+            {
               "Absolute Path With Params",
               "/example/chester.png",
               "http://securejackangers.imgix.net/example/chester.png?w=500"
