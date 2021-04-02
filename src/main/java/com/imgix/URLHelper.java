@@ -260,22 +260,6 @@ public class URLHelper {
     return String.join("/", splitString);
   }
 
-  public static String decodeURIComponent(String s) {
-    if (s == null) {
-      return null;
-    }
-
-    String result = null;
-
-    try {
-      result = URLDecoder.decode(s, UTF_8);
-    } catch (UnsupportedEncodingException e) {
-      result = s;
-    }
-
-    return result;
-  }
-
   public static String sanitizePath(String path) {
     // Strip leading slash first (we'll re-add after encoding)
     path = path.replaceAll("^/", "");
