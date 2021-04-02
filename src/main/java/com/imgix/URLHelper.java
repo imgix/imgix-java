@@ -14,8 +14,8 @@ import java.util.TreeMap;
 
 public class URLHelper {
 
-  private static final String IS_ENCODED = "isEncoded";
-  private static final String IS_PROXY = "isProxy";
+  private static Boolean isEncoded = false;
+  private static Boolean isProxy = false;
   private static final String UTF_8 = "UTF-8";
   private String domain;
   private String path;
@@ -185,21 +185,23 @@ public class URLHelper {
     String encodedHTTPSLower = "https%3a%ff%2f";
 
     if (path.startsWith(asciiHTTP) || path.startsWith(asciiHTTPS)) {
-      status.put(IS_PROXY, true);
-      status.put(IS_ENCODED, false);
+      isProxy = true;
+      isEncoded = false;
 
-    } else if (path.startsWith(encodedHTTP) || path.startsWith(encodedHTTPS)) {
-      status.put(IS_PROXY, true);
-      status.put(IS_ENCODED, true);
-
-    } else if (path.startsWith(encodedHTTPLower) || path.startsWith(encodedHTTPSLower)) {
-      status.put(IS_PROXY, true);
-      status.put(IS_ENCODED, true);
+    } else if (path.startsWith(encodedHTTP)
+        || path.startsWith(encodedHTTPS)
+        || path.startsWith(encodedHTTPLower)
+        || path.startsWith(encodedHTTPSLower)) {
+      isProxy = true;
+      isEncoded = true;
 
     } else {
-      status.put(IS_PROXY, false);
-      status.put(IS_ENCODED, false);
+      isProxy = false;
+      isEncoded = false;
     }
+
+    status.put("isProxy", isProxy);
+    status.put("isEncoded", isEncoded);
 
     return status;
   }
@@ -265,8 +267,8 @@ public class URLHelper {
     path = path.replaceAll("^/", "");
     // Check if path is a proxy path and store type of proxy
     Map proxyStatus = checkProxyStatus(path);
-    Object pathIsProxy = proxyStatus.get(IS_PROXY);
-    Object proxyIsEncoded = proxyStatus.get(IS_ENCODED);
+    Object pathIsProxy = proxyStatus.get("isProxy");
+    Object proxyIsEncoded = proxyStatus.get("isEncoded");
 
     if (pathIsProxy.equals(true) && proxyIsEncoded.equals(false)) {
       // Use encodeURIComponent to ensure *all* characters are handled,
