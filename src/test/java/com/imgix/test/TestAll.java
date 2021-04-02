@@ -300,18 +300,6 @@ public class TestAll {
     assertEquals("jackangers.imgix.net", extractDomain(url));
   }
 
-  @Test
-  public void testEncodeDecode() {
-    String url = "http://a.abcnews.com/assets/images/navigation/abc-logo.png?r=20";
-    String encodedUrl =
-        "http%3A%2F%2Fa.abcnews.com%2Fassets%2Fimages%2Fnavigation%2Fabc-logo.png%3Fr%3D20";
-
-    assertEquals(URLHelper.encodeURIComponent(url), encodedUrl);
-    assertEquals(URLHelper.decodeURIComponent(encodedUrl), url);
-    assertEquals(
-        URLHelper.encodeURIComponent(URLHelper.decodeURIComponent(encodedUrl)), encodedUrl);
-  }
-
   @RunWith(Parameterized.class)
   public static class TestInvalidDomain {
     @Parameters(name = "'domain with '{0}' throws exception'")
