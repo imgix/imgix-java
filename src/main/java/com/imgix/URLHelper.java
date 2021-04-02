@@ -24,7 +24,7 @@ public class URLHelper {
   public URLHelper(
       String domain, String path, String scheme, String signKey, Map<String, String> parameters) {
     this.domain = domain;
-    this.path = sanatizePath(path);
+    this.path = sanitizePath(path);
     this.scheme = scheme;
     this.signKey = signKey;
     this.parameters = new TreeMap<String, String>(parameters);
@@ -209,7 +209,7 @@ public class URLHelper {
     return result;
   }
 
-  public static String sanatizePath(String path) {
+  public static String sanitizePath(String path) {
     // Strip leading slash first (we'll re-add after encoding)
     path = path.replaceAll("^/", "");
 
