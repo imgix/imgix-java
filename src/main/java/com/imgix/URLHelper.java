@@ -1,7 +1,6 @@
 package com.imgix;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -178,35 +177,16 @@ public class URLHelper {
   }
 
   public static String encodeURI(String s) {
-    String result =
-        s.replaceAll("\\+", "%2B")
-            .replaceAll("\\:", "%3A")
-            .replaceAll("\\?", "%3F")
-            .replaceAll("\\#", "%23")
-            .replaceAll(" ", "%20")
-            .replaceAll("\\%21", "!")
-            .replaceAll("\\%27", "'")
-            .replaceAll("\\%28", "(")
-            .replaceAll("\\%29", ")")
-            .replaceAll("\\%7E", "~");
-
-    return result.replace("\\", "");
-  }
-
-  public static String decodeURIComponent(String s) {
-    if (s == null) {
-      return null;
-    }
-
-    String result = null;
-
-    try {
-      result = URLDecoder.decode(s, UTF_8);
-    } catch (UnsupportedEncodingException e) {
-      result = s;
-    }
-
-    return result;
+    return s.replaceAll("\\+", "%2B")
+        .replaceAll("\\:", "%3A")
+        .replaceAll("\\?", "%3F")
+        .replaceAll("\\#", "%23")
+        .replaceAll(" ", "%20")
+        .replaceAll("\\%21", "!")
+        .replaceAll("\\%27", "'")
+        .replaceAll("\\%28", "(")
+        .replaceAll("\\%29", ")")
+        .replaceAll("\\%7E", "~");
   }
 
   public static String sanitizePath(String path) {
