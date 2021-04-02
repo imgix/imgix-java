@@ -23,7 +23,7 @@ public class URLHelper {
   public URLHelper(
       String domain, String path, String scheme, String signKey, Map<String, String> parameters) {
     this.domain = domain;
-    this.path = sanitizePath(path);
+    this.path = path;
     this.scheme = scheme;
     this.signKey = signKey;
     this.parameters = new TreeMap<String, String>(parameters);
@@ -75,6 +75,7 @@ public class URLHelper {
   }
 
   public String getURL() {
+    path = sanitizePath(path);
     List<String> queryPairs = new LinkedList<String>();
 
     for (Entry<String, String> entry : parameters.entrySet()) {
