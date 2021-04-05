@@ -198,9 +198,6 @@ public class URLHelper {
       // Use encodeURIComponent to ensure *all* characters are handled,
       // since it's being used as a path
       return "/" + URLHelper.encodeURIComponent(path);
-    } else if (path.startsWith("http%3A") || path.startsWith("https%3A")) {
-      // To nothing to the URL being used as path since already encoded
-      return "/" + path;
     } else {
       // Use encodeURI if we think the path is just a path,
       // so it leaves legal characters like '/' and '@' alone
