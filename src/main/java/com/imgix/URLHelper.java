@@ -182,7 +182,7 @@ public class URLHelper {
     String encodedHTTPS = "https%3A%2F%2F";
 
     String encodedHTTPLower = "http%3a%2f%2f";
-    String encodedHTTPSLower = "https%3a%ff%2f";
+    String encodedHTTPSLower = "https%3a%2f%2f";
 
     if (path.startsWith(asciiHTTP) || path.startsWith(asciiHTTPS)) {
       isProxy = true;
@@ -275,8 +275,6 @@ public class URLHelper {
       // since it's being used as a path
       return "/" + URLHelper.encodeURIComponent(path);
     } else if (pathIsProxy.equals(true) && proxyIsEncoded.equals(true)) {
-      return "/" + path;
-    } else if (isASCIIEncoded(path)) {
       return "/" + path;
     } else {
       // Use encodeURI if we think the path is just a path,
