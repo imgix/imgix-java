@@ -145,7 +145,7 @@ public class TestAll {
               "/example/chester.png",
               "http://securejackangers.imgix.net/example/chester.png?w=500"
             },
-            // TODO(luis): re-enable encoded path suppport at a later date
+            // TODO(luis): enable encoded path suppport at a later date
             // {
             //   "Absolute Path With Encoded Unicode Characters",
             //
