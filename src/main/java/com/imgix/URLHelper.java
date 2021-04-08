@@ -206,15 +206,6 @@ public class URLHelper {
     return status;
   }
 
-  /**
-   * isASCIIEncoded ensures that the string, p, only contains characters in the range x00-x7F and
-   * not in the list ` ?$:+#`. This is a combination of typical ASCII regex validation with some
-   * custom character replacement we do at imgix.
-   */
-  public static Boolean isASCIIEncoded(String p) {
-    return p.matches("[\\x00-\\x7F]+") && p.matches("[^\\ ?$:+#]+");
-  }
-
   public static String encodeURIComponent(String s) {
     String result = null;
 
