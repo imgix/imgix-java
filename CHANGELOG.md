@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### Version 2.3.2 (_April 13, 2021_)
+* fix(sanitizePath): ensure unicode chars encoded ([#70](https://github.com/imgix/imgix-java/pull/70))
+* fix(URLHelper): add sanitizePath method ([#68](https://github.com/imgix/imgix-java/pull/68))
+
 ### Version 2.3.1 (_March 24, 2021_)
 * docs: add maven badge to README.md ([#65](https://github.com/imgix/imgix-java/pull/65))
 * docs: update fixed-widths section ([#63](https://github.com/imgix/imgix-java/pull/63))
