@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.imgix' // sonatype groupId
-version = '2.3.1' // add SNAPSHOT if deploying to staging repo
+version = '2.3.2' // add SNAPSHOT if deploying to staging repo
 
 // declare expected JDK versions
 sourceCompatibility = 8
@@ -49,7 +49,7 @@ publishing {
     release(MavenPublication) {
       groupId "com.imgix" // sonatype JIRA groupId
       artifactId "imgix-java" // the name of the library
-      version '2.3.1' // add SNAPSHOT if staging
+      version '2.3.2' // add SNAPSHOT if staging
       from(components["java"]) // this is a dependency of MavenPublication
 
       // provide all the metadata for the library
