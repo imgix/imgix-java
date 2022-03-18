@@ -9,8 +9,8 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - run: sudo dpkg --purge --force-depends ca-certificates-java
-      - run: sudo apt-get install -qq ca-certificates-java
+      # - run: sudo dpkg --purge --force-depends ca-certificates-java
+      # - run: sudo apt-get install -qq ca-certificates-java
       - gradle/with_cache: 
           steps: 
             - run: ./gradlew clean
