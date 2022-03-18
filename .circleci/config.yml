@@ -5,8 +5,11 @@ orbs:
 
 jobs:
   test:
+    parameters:
+      jdk_version:
+        type: string
     docker:
-      - image: cimg/openjdk:11
+      - image: cimg/openjdk:<<parameters.jdk_version>>
     steps:
       - checkout
       # - run: sudo dpkg --purge --force-depends ca-certificates-java
@@ -20,5 +23,7 @@ jobs:
 workflows:
   test:
     jobs:
-      - test
-        
+      - test:
+          matrix:
+            parameters:
+              jdk_version: ["17.0", "8.0"]
