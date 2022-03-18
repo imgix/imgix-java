@@ -6,7 +6,7 @@ orbs:
 jobs:
   test:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/openjdk:11
     steps:
       - checkout
       # - run: sudo dpkg --purge --force-depends ca-certificates-java
