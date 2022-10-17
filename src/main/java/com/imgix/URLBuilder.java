@@ -201,9 +201,11 @@ public class URLBuilder {
 
     StringBuilder srcset = new StringBuilder();
 
+    Map<String, String> srcsetParams = new HashMap<String, String>(params);
+
     for (Integer width : widths) {
-      params.put("w", width.toString());
-      srcset.append(this.createURL(path, params)).append(" ").append(width).append("w,\n");
+      srcsetParams.put("w", width.toString());
+      srcset.append(this.createURL(path, srcsetParams)).append(" ").append(width).append("w,\n");
     }
 
     return srcset.substring(0, srcset.length() - 2);
