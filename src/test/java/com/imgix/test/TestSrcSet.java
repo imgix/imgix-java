@@ -668,6 +668,17 @@ public class TestSrcSet {
 
     assertEquals(expected, actual);
   }
+  
+  @Test
+  public void testUnmutatedSrcSetParams() {
+    String DOMAIN = "test.imgix.net";
+    String PATH = "image.png";
+    URLBuilder defaultClient = new URLBuilder(DOMAIN, true, "", false);
+    HashMap<String, String> nullParameters = new HashMap<String, String>();
+    String actual = defaultClient.createSrcSet(PATH, nullParameters, 100, 500, 0.1);
+    
+    assertTrue(nullParameters.isEmpty());
+  }
 
   @Test
   public void testCreateSrcSetBeginEqualsEnd() {
