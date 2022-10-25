@@ -1,0 +1,29 @@
+version: 2.1
+
+orbs:
+  gradle: circleci/gradle@3.0.0
+jobs:
+  test:
+    parameters:
+      version:
+        default: "stable"
+        description: JavaSDK version to install
+        type: string
+    docker:
+      - image: cimg/openjdk:<<parameters.version>>-browsers
+    resource_class: large
+    steps:
+      - checkout
+      - run: ./gradlew clean
+      - run: ./gradlew test
+      - run: ./gradlew testUTF32
+
+workflows:
+  test:
+    jobs:
+      - test:
+          matrix:
+            parameters:
+              version:
+                - "11.0"
+                - "8.0"
