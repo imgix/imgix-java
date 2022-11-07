@@ -78,12 +78,12 @@ public class URLBuilder {
 
   public String createURL(String path, Map<String, String> params) {
     String scheme = this.useHttps ? "https" : "http";
-
+    Map<String, String> urlParams = new HashMap<String, String>(params);
     if (this.includeLibraryParam) {
-      params.put("ixlib", "java-" + VERSION);
+      urlParams.put("ixlib", "java-" + VERSION);
     }
 
-    return new URLHelper(domain, path, scheme, signKey, params).getURL();
+    return new URLHelper(domain, path, scheme, signKey, urlParams).getURL();
   }
 
   /**

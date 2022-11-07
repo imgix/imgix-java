@@ -84,6 +84,16 @@ public class TestAll {
         uh.getURL());
   }
 
+  @Test
+  public void testUnmutatedUrlParams() {
+    String domain = "test.imgix.net";
+    String path = "image.png";
+    URLBuilder ub = new URLBuilder(domain, true, "", true);
+    HashMap<String, String> nullParameters = new HashMap<String, String>();
+    ub.createURL(path, nullParameters);
+    assertTrue(nullParameters.isEmpty());
+  }
+
   @RunWith(Parameterized.class)
   public static class TestHelperBuildPathWithParams {
     @Parameters(name = "''{0}' URL generated correctly'")
@@ -320,6 +330,17 @@ public class TestAll {
     assertEquals(
         "https://demo.imgix.net/~text?txt64=SSBjYW5uw7h0IGJlbMOuw6l24oiRIGl0IHdvcu-jv3MhIPCfmLE",
         uh.getURL());
+  }
+
+  @Test
+  public void testUnmutatedCreateUrlParams() {
+    String DOMAIN = "test.imgix.net";
+    String PATH = "image.png";
+    URLBuilder defaultClient = new URLBuilder(DOMAIN, true, "", false);
+    HashMap<String, String> nullParameters = new HashMap<String, String>();
+    String actual = defaultClient.createSrcSet(PATH, nullParameters, 100, 500, 0.1);
+
+    assertTrue(nullParameters.isEmpty());
   }
 
   @Test
